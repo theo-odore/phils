@@ -57,9 +57,6 @@ Every discovery is crafted around the **"Discovery Before Depth"** principle: pr
 - **Recommendation Engine**: Balances curiosity exploration with affinity weighting based on saved cards, reading dwell time, and user interaction history.
 - **Turnkey Deployment**: Preconfigured `docker-compose.yml` for single-command production deployment with PostgreSQL 16.
 
-### 🌐 Web Client & UI Preview
-- **Browser-Based Simulator**: Lightweight React 19 + Vite preview to test card flows and editorial designs without needing an Android emulator running.
-
 ---
 
 ## 📂 Repository Structure
@@ -106,21 +103,10 @@ phils/
 │   ├── package.json                   # Server dependencies
 │   └── tsconfig.json
 │
-├── web/                        # 🌐 Web Client & Interactive Preview
-│   ├── src/
-│   │   ├── components/                # Modular React feed & detail components
-│   │   ├── data/                      # Local fallback discoveries
-│   │   ├── services/                  # API client & haptic vibration service
-│   │   ├── App.tsx                    # Main web container
-│   │   └── index.css                  # Editorial typography & theme tokens
-│   ├── index.html                     # Web entry point
-│   ├── package.json                   # Web dependencies (React 19, Vite, Lucide)
-│   ├── tsconfig.json
-│   └── vite.config.ts                 # Proxy configuration for local server
-│
 ├── docker-compose.yml          # 🐳 Production container orchestration (PostgreSQL + API)
 ├── package.json                # 🛠️ Root workspace helper scripts
 ├── PRD.txt                     # 📄 Full Product Requirements Document (PRD)
+├── LICENSE                     # 📄 MIT License
 └── README.md                   # 📖 Documentation
 ```
 
@@ -131,14 +117,14 @@ phils/
 ### 1. Prerequisites
 
 - **Android App**: Android Studio (Koala / Ladybug or newer), Android SDK 35, JDK 17.
-- **Backend / Web**: Node.js 18+ and npm (or Docker).
+- **Backend Server**: Node.js 18+ and npm (or Docker).
 
 ---
 
 ### 2. Running the Native Android App
 
 1. Open **Android Studio**.
-2. Select **Open** and select the `phils/android` directory (⚠️ *important: open the `android` subfolder, not the project root*).
+2. Select **Open** and choose the `phils/android` directory (⚠️ *important: open the `android` subfolder, not the project root*).
 3. Wait for Gradle to sync.
 4. Click **Run** (`Shift + F10`) to launch on your connected Android device or emulator.
 
@@ -180,26 +166,14 @@ curl http://localhost:3000/health
 
 ---
 
-### 4. Running the Web Preview (Optional)
-```bash
-cd web
-npm install
-npm run dev
-```
-Open [http://localhost:5173](http://localhost:5173) in your browser to interact with the feed simulator.
-
----
-
-### 5. Root Workspace Helper Commands
+### 4. Root Workspace Helper Commands
 
 From the repository root, you can run convenience scripts:
 
 | Command | Action |
 |---|---|
-| `npm run dev:server` | Start backend API in hot-reload mode |
-| `npm run dev:web` | Start web client in hot-reload mode |
+| `npm run dev` | Start backend API in hot-reload mode |
 | `npm run build:server` | Compile backend TypeScript |
-| `npm run build:web` | Build web production bundle |
 | `npm run android:build` | Build Android debug APK |
 | `npm run android:install` | Build and install debug APK onto device |
 | `npm run docker:up` | Launch PostgreSQL + Backend containers |
