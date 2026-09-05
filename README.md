@@ -1,4 +1,4 @@
-# Phils (φ) - Intellectual Discovery Feed
+# Phils - Intellectual Discovery Feed
 
 <div align="center">
 
