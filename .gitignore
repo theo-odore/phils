@@ -1,0 +1,52 @@
+# Node / Web
+node_modules/
+dist/
+.vite/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Android / Gradle
+.gradle/
+build/
+*/build/
+*/*/build/
+*.apk
+*.aab
+*.aar
+*.dex
+*.class
+bin/
+gen/
+out/
+.kotlin/
+*/.kotlin/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+*.log
+*.hprof
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# Databases & Environment
+*.db
+*.sqlite
+*.sqlite3
+.env
+.env.*
+!.env.example
+
+# Temporary
+phil-ui/
+temp/
+tmp/

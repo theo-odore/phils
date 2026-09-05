@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Phils</string>
+    <string name="title_activity_main">Phils</string>
+    <string name="package_name">com.phils.app</string>
+    <string name="custom_url_scheme">com.phils.app</string>
+</resources>
