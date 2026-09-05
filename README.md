@@ -105,7 +105,6 @@ phils/
 │
 ├── docker-compose.yml          # 🐳 Production container orchestration (PostgreSQL + API)
 ├── package.json                # 🛠️ Root workspace helper scripts
-├── PRD.txt                     # 📄 Full Product Requirements Document (PRD)
 ├── LICENSE                     # 📄 MIT License
 └── README.md                   # 📖 Documentation
 ```
