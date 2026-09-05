@@ -1,23 +1,26 @@
 {
   "name": "phils",
   "version": "1.0.0",
-  "type": "module",
-  "description": "Phils — Intellectual Discovery Feed Native Android App & Self-Hosted Backend",
-  "main": "index.js",
+  "description": "Phils — Intellectual Discovery Feed (Native Android App, Self-Hosted Backend & Web Client)",
   "scripts": {
-    "dev": "npm --prefix server run dev",
+    "dev:server": "npm --prefix server run dev",
+    "dev:web": "npm --prefix web run dev",
+    "build:server": "npm --prefix server run build",
+    "build:web": "npm --prefix web run build",
     "android:build": "cd android && .\\gradlew.bat assembleDebug",
     "android:install": "cd android && .\\gradlew.bat installDebug",
-    "build:server": "npm --prefix server run build",
-    "build": "npm --prefix server run build && cd android && .\\gradlew.bat assembleDebug"
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down"
   },
   "keywords": [
     "philosophy",
     "intellectual-feed",
     "android",
     "jetpack-compose",
-    "discovery"
+    "discovery",
+    "self-hosted",
+    "recommendation-engine"
   ],
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }
