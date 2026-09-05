@@ -56,8 +56,8 @@ export const FeedCard: React.FC<FeedCardProps> = ({
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `Phils — ${discovery.title}`,
-          text: `"${discovery.hook}" — Discover ${discovery.title} on Phils`,
+          title: `Phils - ${discovery.title}`,
+          text: `"${discovery.hook}" - Discover ${discovery.title} on Phils`,
           url: window.location.href,
         });
       } catch {

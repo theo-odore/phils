@@ -1,7 +1,7 @@
 {
   "name": "phils",
   "version": "1.0.0",
-  "description": "Phils — Intellectual Discovery Feed (Native Android App, Self-Hosted Backend & Web Client)",
+  "description": "Phils - Intellectual Discovery Feed (Native Android App, Self-Hosted Backend & Web Client)",
   "scripts": {
     "dev:server": "npm --prefix server run dev",
     "dev:web": "npm --prefix web run dev",

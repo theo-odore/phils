@@ -1,4 +1,4 @@
-package com.phils.app.model
+﻿package com.phils.app.model
 
 object SeedData {
     val discoveries: List<Discovery> = listOf(
@@ -15,7 +15,7 @@ object SeedData {
                 origin = "Founded in Athens around 300 BCE by Zeno of Citium, and later shaped into a practical daily guide by Roman writers.",
                 coreIdeas = listOf(
                     "The dichotomy of control: separate what's yours to influence from what isn't.",
-                    "Virtue — wisdom, courage, justice, and temperance — is the only true good.",
+                    "Virtue - wisdom, courage, justice, and temperance - is the only true good.",
                     "Disturbance comes from judgment, not from events themselves."
                 ),
                 keyPeople = listOf(
@@ -24,7 +24,7 @@ object SeedData {
                     KeyPerson(name = "Seneca")
                 ),
                 example = "A delayed flight can't be controlled. How you spend the two-hour wait can.",
-                quote = "The event doesn't disturb you — your verdict on it does."
+                quote = "The event doesn't disturb you - your verdict on it does."
             ),
             related = listOf("dichotomy-of-control", "marcus-aurelius", "epicureanism", "existentialism"),
             contrast = "epicureanism"
@@ -38,10 +38,10 @@ object SeedData {
             short = "The idea that existence comes first, and meaning is something you create rather than discover.",
             tags = listOf("meaning", "freedom", "choice", "identity", "purpose", "authenticity"),
             detail = DiscoveryDetail(
-                whatIsThis = "Existentialism holds that people aren't born with a fixed purpose — we exist first, then define ourselves through the choices we make.",
+                whatIsThis = "Existentialism holds that people aren't born with a fixed purpose - we exist first, then define ourselves through the choices we make.",
                 origin = "Emerged across 19th and 20th century Europe, gaining momentum after two world wars stripped away easy answers.",
                 coreIdeas = listOf(
-                    "Existence precedes essence — you aren't born with a nature to fulfill.",
+                    "Existence precedes essence - you aren't born with a nature to fulfill.",
                     "Freedom is unavoidable, and so is the responsibility that comes with it.",
                     "Authenticity means owning your choices instead of drifting on autopilot."
                 ),
@@ -61,7 +61,7 @@ object SeedData {
             title = "Absurdism",
             type = "PHILOSOPHY",
             mood = "terracotta",
-            hook = "THE UNIVERSE WON'T ANSWER YOU —\nKEEP ASKING ANYWAY.",
+            hook = "THE UNIVERSE WON'T ANSWER YOU -\nKEEP ASKING ANYWAY.",
             short = "A response to a universe with no inherent meaning: not despair, but a defiant kind of freedom.",
             tags = listOf("meaning", "freedom", "universe", "rebellion", "happiness"),
             detail = DiscoveryDetail(
@@ -69,12 +69,12 @@ object SeedData {
                 origin = "Developed by Albert Camus in the mid-20th century as a third path between religious faith and nihilistic despair.",
                 coreIdeas = listOf(
                     "The absurd is the gap between our need for meaning and the universe's silence.",
-                    "You can reject both surrender and false hope — and choose to keep living anyway.",
+                    "You can reject both surrender and false hope - and choose to keep living anyway.",
                     "Revolt, freedom, and passion become the response to meaninglessness."
                 ),
                 keyPeople = listOf(KeyPerson(name = "Albert Camus", linkId = "camus")),
                 example = "Waking up to work on something with no guaranteed payoff, and doing it wholeheartedly regardless.",
-                quote = "The silence doesn't need an answer — it needs a response."
+                quote = "The silence doesn't need an answer - it needs a response."
             ),
             related = listOf("existentialism", "nihilism", "camus"),
             contrast = "nihilism"
@@ -84,16 +84,16 @@ object SeedData {
             title = "Nihilism",
             type = "PHILOSOPHY",
             mood = "cosmic",
-            hook = "WHAT IF NOTHING MEANS ANYTHING —\nAND THAT'S FINE?",
-            short = "The view that life has no inherent meaning, value, or purpose — and an invitation to sit with that.",
+            hook = "WHAT IF NOTHING MEANS ANYTHING -\nAND THAT'S FINE?",
+            short = "The view that life has no inherent meaning, value, or purpose - and an invitation to sit with that.",
             tags = listOf("meaning", "void", "purpose", "despair", "freedom", "values"),
             detail = DiscoveryDetail(
-                whatIsThis = "Nihilism argues that claims about objective meaning, morality, or purpose don't hold up — there's no built-in reason for anything, including us.",
+                whatIsThis = "Nihilism argues that claims about objective meaning, morality, or purpose don't hold up - there's no built-in reason for anything, including us.",
                 origin = "Associated with 19th century thinkers responding to the erosion of traditional religious and moral certainties.",
                 coreIdeas = listOf(
                     "No universal meaning is handed to us by the universe.",
                     "Traditional values may be human inventions rather than discovered truths.",
-                    "This can be read as despair — or as total freedom from imposed rules."
+                    "This can be read as despair - or as total freedom from imposed rules."
                 ),
                 keyPeople = listOf(KeyPerson(name = "Friedrich Nietzsche", linkId = "nietzsche")),
                 example = "Realizing a long-held 'should' in your life was never actually required of you.",
@@ -116,7 +116,7 @@ object SeedData {
                 coreIdeas = listOf(
                     "True pleasure is the absence of pain and disturbance, not intensity.",
                     "Most suffering comes from desires that were never necessary.",
-                    "Simple pleasures — friendship, food, rest — outperform excess."
+                    "Simple pleasures - friendship, food, rest - outperform excess."
                 ),
                 keyPeople = listOf(KeyPerson(name = "Epicurus")),
                 example = "Choosing a quiet dinner with two close friends over a loud party with fifty acquaintances.",
@@ -134,7 +134,7 @@ object SeedData {
             short = "A Roman emperor who used private journaling to practice the Stoic philosophy he ruled by.",
             tags = listOf("stoicism", "leadership", "journaling", "duty", "discipline"),
             detail = DiscoveryDetail(
-                whatIsThis = "Marcus Aurelius ruled the Roman Empire for nearly two decades while keeping a private journal working through Stoic ideas — never intended for publication.",
+                whatIsThis = "Marcus Aurelius ruled the Roman Empire for nearly two decades while keeping a private journal working through Stoic ideas - never intended for publication.",
                 origin = "Written during military campaigns between 161–180 CE, later preserved as Meditations.",
                 coreIdeas = listOf(
                     "Self-discipline over indulgence, even with unlimited power available.",
@@ -166,7 +166,7 @@ object SeedData {
                 ),
                 keyPeople = listOf(KeyPerson(name = "Arthur Schopenhauer")),
                 example = "Asking, before a big decision, whether you'd be proud to repeat it infinitely.",
-                quote = "Not comfort. Amplitude — a life you'd choose again."
+                quote = "Not comfort. Amplitude - a life you'd choose again."
             ),
             related = listOf("nihilism", "absurdism"),
             contrast = null
@@ -189,7 +189,7 @@ object SeedData {
                 ),
                 keyPeople = listOf(KeyPerson(name = "Jean-Paul Sartre")),
                 example = "Fully committing to a passion project with no promise it will 'lead anywhere.'",
-                quote = "No conclusion, and still — fully alive."
+                quote = "No conclusion, and still - fully alive."
             ),
             related = listOf("absurdism", "existentialism"),
             contrast = "nihilism"
@@ -203,7 +203,7 @@ object SeedData {
             short = "The quiet discomfort of holding two conflicting beliefs, and the lengths the mind goes to resolve it.",
             tags = listOf("mind", "psychology", "belief", "bias", "self-justification"),
             detail = DiscoveryDetail(
-                whatIsThis = "When two beliefs — or a belief and an action — contradict each other, it creates mental tension. The mind resolves it fast, often by changing what we believe rather than what we did.",
+                whatIsThis = "When two beliefs - or a belief and an action - contradict each other, it creates mental tension. The mind resolves it fast, often by changing what we believe rather than what we did.",
                 origin = "Coined by psychologist Leon Festinger in 1957 after studying a doomsday cult's failed prophecy.",
                 coreIdeas = listOf(
                     "Contradiction creates real, measurable psychological discomfort.",
@@ -222,11 +222,11 @@ object SeedData {
             title = "Hedonic Adaptation",
             type = "CONCEPT",
             mood = "ochre",
-            hook = "THE RAISE WILL FEEL AMAZING —\nFOR ABOUT THREE WEEKS.",
+            hook = "THE RAISE WILL FEEL AMAZING -\nFOR ABOUT THREE WEEKS.",
             short = "The tendency to quickly return to a stable level of happiness, no matter what changes.",
             tags = listOf("happiness", "psychology", "desire", "pleasure", "adaptation"),
             detail = DiscoveryDetail(
-                whatIsThis = "Humans adjust to new circumstances — good or bad — faster than expected, settling back near an emotional baseline.",
+                whatIsThis = "Humans adjust to new circumstances - good or bad - faster than expected, settling back near an emotional baseline.",
                 origin = "Studied since the 1970s, including well-known research comparing lottery winners and accident survivors over time.",
                 coreIdeas = listOf(
                     "Big wins and losses affect happiness less, and for shorter, than we predict.",
@@ -245,7 +245,7 @@ object SeedData {
             title = "Confirmation Bias",
             type = "CONCEPT",
             mood = "rose",
-            hook = "YOU DON'T SEE THE EVIDENCE —\nYOU SEE WHAT AGREES WITH YOU.",
+            hook = "YOU DON'T SEE THE EVIDENCE -\nYOU SEE WHAT AGREES WITH YOU.",
             short = "The tendency to notice, favor, and remember information that confirms what you already believe.",
             tags = listOf("mind", "psychology", "bias", "belief", "evidence"),
             detail = DiscoveryDetail(
@@ -291,7 +291,7 @@ object SeedData {
             title = "Ship of Theseus",
             type = "PARADOX",
             mood = "ocean",
-            hook = "REPLACE EVERY PLANK OF A SHIP —\nIS IT STILL THE SAME SHIP?",
+            hook = "REPLACE EVERY PLANK OF A SHIP -\nIS IT STILL THE SAME SHIP?",
             short = "An ancient puzzle about identity, asking what actually makes something the same thing over time.",
             tags = listOf("identity", "change", "self", "time", "paradox"),
             detail = DiscoveryDetail(
@@ -303,7 +303,7 @@ object SeedData {
                     "The puzzle applies directly to human bodies and minds over a lifetime."
                 ),
                 keyPeople = listOf(KeyPerson(name = "Plutarch")),
-                example = "You don't have a single cell left from age seven — are you still 'you'?",
+                example = "You don't have a single cell left from age seven - are you still 'you'?",
                 quote = "Nothing stayed. Somehow, it's still the same ship."
             ),
             related = listOf("dichotomy-of-control"),
@@ -314,7 +314,7 @@ object SeedData {
             title = "Fermi Paradox",
             type = "PARADOX",
             mood = "cosmic",
-            hook = "THE UNIVERSE IS UNIMAGINABLY VAST —\nSO WHERE IS EVERYONE?",
+            hook = "THE UNIVERSE IS UNIMAGINABLY VAST -\nSO WHERE IS EVERYONE?",
             short = "A contradiction between the high odds of alien life and our total lack of evidence for it.",
             tags = listOf("universe", "space", "life", "science", "aliens"),
             detail = DiscoveryDetail(
@@ -326,7 +326,7 @@ object SeedData {
                     "Proposed answers range from 'we're early' to 'civilizations self-destruct' to 'they're hiding.'"
                 ),
                 keyPeople = listOf(KeyPerson(name = "Enrico Fermi")),
-                example = "Scanning a packed stadium and hearing complete silence — not one voice.",
+                example = "Scanning a packed stadium and hearing complete silence - not one voice.",
                 quote = "The math says loud. The sky says quiet."
             ),
             related = listOf("simulation-hypothesis"),
@@ -350,7 +350,7 @@ object SeedData {
                 ),
                 keyPeople = listOf(KeyPerson(name = "Philippa Foot")),
                 example = "A self-driving car forced to choose between two unavoidable harms in a split second.",
-                quote = "Same math, different lever — and suddenly it's not the same choice."
+                quote = "Same math, different lever - and suddenly it's not the same choice."
             ),
             related = listOf("experience-machine"),
             contrast = null
@@ -360,7 +360,7 @@ object SeedData {
             title = "The Experience Machine",
             type = "THOUGHT EXPERIMENT",
             mood = "lavender",
-            hook = "A MACHINE COULD GIVE YOU A PERFECT LIFE —\nWOULD YOU PLUG IN?",
+            hook = "A MACHINE COULD GIVE YOU A PERFECT LIFE -\nWOULD YOU PLUG IN?",
             short = "A thought experiment testing whether we truly want pleasure, or something more than pleasure.",
             tags = listOf("pleasure", "happiness", "reality", "meaning", "choice"),
             detail = DiscoveryDetail(
@@ -368,7 +368,7 @@ object SeedData {
                 origin = "Proposed by philosopher Robert Nozick in 1974, arguing against purely pleasure-based theories of the good life.",
                 coreIdeas = listOf(
                     "Most people hesitate to plug in, even knowing it would feel identical to reality.",
-                    "This suggests we value real achievement, connection, and truth — not just the feeling of them.",
+                    "This suggests we value real achievement, connection, and truth - not just the feeling of them.",
                     "Challenges the idea that pleasure alone defines a good life."
                 ),
                 keyPeople = listOf(KeyPerson(name = "Robert Nozick")),
@@ -387,7 +387,7 @@ object SeedData {
             short = "The idea that our entire reality could be a highly advanced computer simulation.",
             tags = listOf("reality", "universe", "simulation", "technology", "philosophy of mind"),
             detail = DiscoveryDetail(
-                whatIsThis = "As computing power grows, some argue advanced civilizations could run enormous numbers of simulated realities — making it statistically plausible we're in one.",
+                whatIsThis = "As computing power grows, some argue advanced civilizations could run enormous numbers of simulated realities - making it statistically plausible we're in one.",
                 origin = "Formalized by philosopher Nick Bostrom in a 2003 paper outlining the probability argument.",
                 coreIdeas = listOf(
                     "If simulations become common, simulated minds could outnumber 'real' ones.",
@@ -406,19 +406,19 @@ object SeedData {
             title = "Quantum Superposition",
             type = "SCIENTIFIC IDEA",
             mood = "indigo",
-            hook = "UNTIL YOU LOOK, IT'S BOTH —\nNOT EITHER.",
+            hook = "UNTIL YOU LOOK, IT'S BOTH -\nNOT EITHER.",
             short = "The strange rule that particles can exist in multiple states at once, until measured.",
             tags = listOf("physics", "reality", "science", "observation", "quantum"),
             detail = DiscoveryDetail(
-                whatIsThis = "At the smallest scales, particles don't settle into one definite state — they exist as a mix of possibilities until an observation forces one outcome.",
+                whatIsThis = "At the smallest scales, particles don't settle into one definite state - they exist as a mix of possibilities until an observation forces one outcome.",
                 origin = "A core principle of quantum mechanics developed in the 1920s, illustrated by Schrödinger's cat.",
                 coreIdeas = listOf(
-                    "Particles can be in multiple states simultaneously — a superposition.",
+                    "Particles can be in multiple states simultaneously - a superposition.",
                     "Measurement appears to 'collapse' that superposition into one outcome.",
                     "The role of the observer remains genuinely debated, not just popular-science myth."
                 ),
                 keyPeople = listOf(KeyPerson(name = "Erwin Schrödinger"), KeyPerson(name = "Werner Heisenberg")),
-                example = "A coin spinning in the air isn't heads or tails — it's both, until it lands.",
+                example = "A coin spinning in the air isn't heads or tails - it's both, until it lands.",
                 quote = "Not undecided. Genuinely both, until it isn't."
             ),
             related = listOf("simulation-hypothesis"),
@@ -463,7 +463,7 @@ object SeedData {
         },
         { "This connects to something you saved earlier." },
         { "A contrasting perspective to an idea you spent time with." },
-        { "Added for a bit of exploration diversity — a different type than your recent picks." },
+        { "Added for a bit of exploration diversity - a different type than your recent picks." },
         { "A quiet classic worth surfacing every so often." }
     )
 

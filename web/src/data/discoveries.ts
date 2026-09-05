@@ -178,7 +178,7 @@ export const fallbackDiscoveries: Discovery[] = [
     type: 'thought_experiment',
     hook: 'WOULD YOU ACTIVELY PULL A LEVER TO SACRIFICE ONE PERSON TO SAVE FIVE?',
     short_description: 'A famous moral thought experiment examining the tension between utilitarian calculation and ethical rules.',
-    detailed_description: 'A runaway trolley is speeding down tracks toward five workers who cannot escape. You stand next to a lever. If you pull it, the trolley diverts to a side track where it will kill one worker. Do you pull the lever? Most people say yes. But if you must physically push a heavy stranger off a bridge to stop the train, most say no—even though the math (1 for 5) is identical.',
+    detailed_description: 'A runaway trolley is speeding down tracks toward five workers who cannot escape. You stand next to a lever. If you pull it, the trolley diverts to a side track where it will kill one worker. Do you pull the lever? Most people say yes. But if you must physically push a heavy stranger off a bridge to stop the train, most say no - even though the math (1 for 5) is identical.',
     origin_context: 'Introduced by British philosopher Philippa Foot in 1967 and expanded by Judith Jarvis Thomson.',
     core_principles: [
       'Consequentialism vs Deontology: Maximizing numbers versus respecting intrinsic moral rights.',

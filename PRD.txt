@@ -1,4 +1,4 @@
-# Phils — Product Requirements Document
+# Phils - Product Requirements Document
 
 **Product:** Phils
 **Platform:** Android
@@ -130,27 +130,27 @@ but intentionally leave the user asking:
 
 The MVP must prove that the core interaction works.
 
-### Goal 1 — Replace passive scrolling with idea discovery
+### Goal 1 - Replace passive scrolling with idea discovery
 
 Users should be able to continuously swipe through interesting content.
 
-### Goal 2 — Create curiosity
+### Goal 2 - Create curiosity
 
 Cards should make users want to investigate certain ideas.
 
-### Goal 3 — Enable deeper exploration
+### Goal 3 - Enable deeper exploration
 
 A user interested in a discovery should be able to tap it and explore a detailed page.
 
-### Goal 4 — Connect ideas
+### Goal 4 - Connect ideas
 
 Users should be able to move from one concept to related or contrasting concepts.
 
-### Goal 5 — Build a personal collection
+### Goal 5 - Build a personal collection
 
 Users should be able to save interesting discoveries.
 
-### Goal 6 — Demonstrate recommendation logic
+### Goal 6 - Demonstrate recommendation logic
 
 The MVP should provide a feed that intelligently selects content rather than simply displaying database records sequentially.
 

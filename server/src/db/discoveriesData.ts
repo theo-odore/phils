@@ -325,7 +325,7 @@ export const curatedDiscoveries: Discovery[] = [
     type: 'thought_experiment',
     hook: 'WOULD YOU ACTIVELY PULL A LEVER TO SACRIFICE ONE PERSON TO SAVE FIVE?',
     short_description: 'A famous moral thought experiment examining the tension between utilitarian calculation and ethical rules.',
-    detailed_description: 'A runaway trolley is speeding down tracks toward five workers who cannot escape. You stand next to a lever. If you pull it, the trolley diverts to a side track where it will kill one worker. Do you pull the lever? Most people say yes. But if you must physically push a heavy stranger off a bridge to stop the train, most say no—even though the math (1 for 5) is identical.',
+    detailed_description: 'A runaway trolley is speeding down tracks toward five workers who cannot escape. You stand next to a lever. If you pull it, the trolley diverts to a side track where it will kill one worker. Do you pull the lever? Most people say yes. But if you must physically push a heavy stranger off a bridge to stop the train, most say no - even though the math (1 for 5) is identical.',
     origin_context: 'Introduced by British philosopher Philippa Foot in 1967 and expanded by Judith Jarvis Thomson.',
     core_principles: [
       'Consequentialism vs Deontology: Maximizing numbers versus respecting intrinsic moral rights.',
@@ -491,7 +491,7 @@ export const curatedDiscoveries: Discovery[] = [
     type: 'philosopher',
     hook: 'HOW DID THE MOST POWERFUL MAN IN THE WORLD STAY HUMBLE AND GROUNDED?',
     short_description: 'The Roman Emperor who governed an empire while secretly writing personal notes on duty, resilience, and mortality.',
-    detailed_description: 'Marcus Aurelius ruled the Roman Empire during the Antonine Plague, foreign invasions, and betrayals. Yet every night by candlelight in his military tent, he wrote private reminders to himself—never meant for publication—on keeping his ego in check, serving humanity, and accepting the brevity of existence. These private writings became "Meditations".',
+    detailed_description: 'Marcus Aurelius ruled the Roman Empire during the Antonine Plague, foreign invasions, and betrayals. Yet every night by candlelight in his military tent, he wrote private reminders to himself - never meant for publication - on keeping his ego in check, serving humanity, and accepting the brevity of existence. These private writings became "Meditations".',
     origin_context: 'Rome, 161–180 AD, the last of the "Five Good Emperors".',
     core_principles: [
       'Duty to the Human Cosmopolis: We are made to cooperate like hands, feet, and rows of the upper and lower teeth.',

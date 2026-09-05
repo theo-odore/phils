@@ -1,4 +1,4 @@
-# Phils (φ) — Intellectual Discovery Feed
+# Phils (φ) - Intellectual Discovery Feed
 
 <div align="center">
 
@@ -266,4 +266,4 @@ Phils combines the timeless authority of classical editorial publishing with the
 
 ## 📄 License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
