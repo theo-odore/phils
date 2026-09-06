@@ -31,6 +31,9 @@ class DiscoveryRepository(
         NetworkClient.moshi.adapter(listType)
     }
 
+    // Shuffled once per app launch so every session starts with a fresh random theory
+    private val initialDeck: List<Discovery> = SeedData.discoveries.shuffled()
+
     // In-memory list of dynamically fetched and locally cached discoveries
     private val _dynamicDiscoveries = MutableStateFlow<List<Discovery>>(emptyList())
     val dynamicDiscoveries: StateFlow<List<Discovery>> = _dynamicDiscoveries.asStateFlow()
@@ -57,14 +60,14 @@ class DiscoveryRepository(
     }
 
     /**
-     * Combined flow of all discoveries (62 Built-in Seed theories + all dynamically cached theories),
+     * Combined flow of all discoveries (Shuffled built-in theories + all dynamically cached theories),
      * with reactive saved status applied.
      */
     val discoveriesWithSavedFlow: Flow<List<Discovery>> = combine(
         _dynamicDiscoveries,
         prefs.savedIdsFlow
     ) { dynamicList, savedIds ->
-        val combined = (SeedData.discoveries + dynamicList).distinctBy { it.id }
+        val combined = (initialDeck + dynamicList).distinctBy { it.id }
         combined.map { d ->
             d.copy(saved = savedIds.contains(d.id))
         }
@@ -74,7 +77,7 @@ class DiscoveryRepository(
         _dynamicDiscoveries,
         prefs.savedIdsFlow
     ) { dynamicList, savedIds ->
-        val all = (SeedData.discoveries + dynamicList).distinctBy { it.id }
+        val all = (initialDeck + dynamicList).distinctBy { it.id }
         all.filter { savedIds.contains(it.id) }.map { it.copy(saved = true) }
     }
 
@@ -82,7 +85,7 @@ class DiscoveryRepository(
         _dynamicDiscoveries,
         prefs.historyFlow
     ) { dynamicList, historyIds ->
-        val allMap = (SeedData.discoveries + dynamicList).associateBy { it.id }
+        val allMap = (initialDeck + dynamicList).associateBy { it.id }
         historyIds.mapNotNull { allMap[it] }.reversed()
     }
 
@@ -101,7 +104,7 @@ class DiscoveryRepository(
 
     fun search(query: String): List<Discovery> {
         if (query.isBlank()) return emptyList()
-        val all = (SeedData.discoveries + _dynamicDiscoveries.value).distinctBy { it.id }
+        val all = (initialDeck + _dynamicDiscoveries.value).distinctBy { it.id }
         val q = query.lowercase().trim()
         return all.filter { d ->
             d.title.lowercase().contains(q) ||
@@ -127,8 +130,8 @@ class DiscoveryRepository(
             if (response.success && response.data != null) {
                 val incoming = response.data.discoveries.map { it.toDomain() }
                 if (incoming.isNotEmpty()) {
-                    val currentIds = (SeedData.discoveries.map { it.id } + _dynamicDiscoveries.value.map { it.id }).toSet()
-                    val currentTitles = (SeedData.discoveries.map { it.title.lowercase() } + _dynamicDiscoveries.value.map { it.title.lowercase() }).toSet()
+                    val currentIds = (initialDeck.map { it.id } + _dynamicDiscoveries.value.map { it.id }).toSet()
+                    val currentTitles = (initialDeck.map { it.title.lowercase() } + _dynamicDiscoveries.value.map { it.title.lowercase() }).toSet()
                     
                     val newUnique = incoming.filter { 
                         !currentIds.contains(it.id) && !currentTitles.contains(it.title.lowercase()) 

@@ -31,13 +31,14 @@ import com.phils.app.ui.components.WhySheet
 @Composable
 fun DiscoverScreen(
     discoveries: List<Discovery>,
+    currentIndex: Int,
+    onIndexChange: (Int) -> Unit,
     onExplore: (Discovery) -> Unit,
     onToggleSave: (Discovery) -> Unit,
     onLoadMore: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val theme = PhilsTheme.colors
-    var currentIndex by remember { mutableIntStateOf(0) }
     var whyDiscovery by remember { mutableStateOf<Discovery?>(null) }
 
     Column(
@@ -84,7 +85,7 @@ fun DiscoverScreen(
             CardStack(
                 discoveries = discoveries,
                 currentIndex = currentIndex,
-                onIndexChange = { currentIndex = it },
+                onIndexChange = onIndexChange,
                 onExplore = onExplore,
                 onToggleSave = onToggleSave,
                 onShowWhy = { whyDiscovery = it },

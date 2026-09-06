@@ -16,11 +16,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,6 +57,7 @@ fun MainScreen(
 
     var currentTab by remember { mutableStateOf(NavTab.DISCOVER) }
     val detailStack = remember { mutableStateListOf<String>() }
+    var currentDiscoverIndex by rememberSaveable { mutableIntStateOf(0) }
 
     val allDiscoveries by repository.discoveriesWithSavedFlow.collectAsState(initial = SeedData.discoveries)
     val savedDiscoveries by repository.savedDiscoveriesFlow.collectAsState(initial = emptyList())
@@ -114,6 +117,8 @@ fun MainScreen(
             NavTab.DISCOVER -> {
                 DiscoverScreen(
                     discoveries = allDiscoveries,
+                    currentIndex = currentDiscoverIndex,
+                    onIndexChange = { newIndex -> currentDiscoverIndex = newIndex },
                     onExplore = { disc -> handleOpenDiscovery(disc.id) },
                     onToggleSave = handleToggleSave,
                     onLoadMore = {
