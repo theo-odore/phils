@@ -41,6 +41,20 @@ app.get('/api/v1/feed', async (req: Request, res: Response) => {
 });
 
 // ----------------------------------------------------
+// POST /api/v1/feed/generate (On-demand NVIDIA NIM synthesis)
+// ----------------------------------------------------
+app.post('/api/v1/feed/generate', async (req: Request, res: Response) => {
+  try {
+    const count = parseInt(req.body.count as string) || 3;
+    const items = await store.generateMore(count);
+    res.json({ success: true, data: items });
+  } catch (err: any) {
+    console.error('Error generating infinite discoveries:', err);
+    res.status(500).json({ success: false, error: 'Failed to generate discoveries' });
+  }
+});
+
+// ----------------------------------------------------
 // GET /api/v1/discoveries/:id
 // ----------------------------------------------------
 app.get('/api/v1/discoveries/:id', async (req: Request, res: Response) => {

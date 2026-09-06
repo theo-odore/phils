@@ -99,6 +99,11 @@ fun MainScreen(
         detailStack.removeAt(detailStack.lastIndex)
     }
 
+    // Background prefetch from server on launch if connected
+    LaunchedEffect(Unit) {
+        repository.fetchMoreFeed(limit = 6)
+    }
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -110,13 +115,19 @@ fun MainScreen(
                 DiscoverScreen(
                     discoveries = allDiscoveries,
                     onExplore = { disc -> handleOpenDiscovery(disc.id) },
-                    onToggleSave = handleToggleSave
+                    onToggleSave = handleToggleSave,
+                    onLoadMore = {
+                        coroutineScope.launch {
+                            repository.fetchMoreFeed(limit = 10)
+                        }
+                    }
                 )
             }
             NavTab.SEARCH -> {
                 SearchScreen(
                     onOpenDiscovery = handleOpenDiscovery,
-                    onToggleSave = handleToggleSaveById
+                    onToggleSave = handleToggleSaveById,
+                    onSearch = { query -> repository.search(query) }
                 )
             }
             NavTab.SAVED -> {
@@ -148,7 +159,7 @@ fun MainScreen(
 
         // Active Detail Screen Overlay (from the top of the stack)
         detailStack.lastOrNull()?.let { topId ->
-            val disc = SeedData.discoveryMap[topId]
+            val disc = repository.getDiscoveryById(topId)
             if (disc != null) {
                 val isSaved = savedDiscoveries.any { it.id == topId }
                 DetailScreen(

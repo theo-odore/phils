@@ -37,9 +37,16 @@ fun CardStack(
     onExplore: (Discovery) -> Unit,
     onToggleSave: (Discovery) -> Unit,
     onShowWhy: (Discovery) -> Unit,
+    onLoadMore: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     if (discoveries.isEmpty()) return
+
+    androidx.compose.runtime.LaunchedEffect(currentIndex, discoveries.size) {
+        if (discoveries.isNotEmpty() && currentIndex >= discoveries.size - 4) {
+            onLoadMore()
+        }
+    }
 
     val coroutineScope = rememberCoroutineScope()
     val dragOffsetX = remember { Animatable(0f) }

@@ -53,11 +53,12 @@ import com.phils.app.ui.components.MiniCard
 fun SearchScreen(
     onOpenDiscovery: (String) -> Unit,
     onToggleSave: (String) -> Unit,
+    onSearch: (String) -> List<Discovery> = { SeedData.search(it) },
     modifier: Modifier = Modifier
 ) {
     val theme = PhilsTheme.colors
     var query by remember { mutableStateOf("") }
-    val results = remember(query) { SeedData.search(query) }
+    val results = remember(query) { onSearch(query) }
 
     Column(
         modifier = modifier

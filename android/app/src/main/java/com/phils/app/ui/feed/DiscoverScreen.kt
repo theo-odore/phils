@@ -33,6 +33,7 @@ fun DiscoverScreen(
     discoveries: List<Discovery>,
     onExplore: (Discovery) -> Unit,
     onToggleSave: (Discovery) -> Unit,
+    onLoadMore: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     val theme = PhilsTheme.colors
@@ -86,7 +87,8 @@ fun DiscoverScreen(
                 onIndexChange = { currentIndex = it },
                 onExplore = onExplore,
                 onToggleSave = onToggleSave,
-                onShowWhy = { whyDiscovery = it }
+                onShowWhy = { whyDiscovery = it },
+                onLoadMore = onLoadMore
             )
         }
 

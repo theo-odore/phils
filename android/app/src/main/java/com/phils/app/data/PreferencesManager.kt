@@ -16,6 +16,11 @@ class PreferencesManager(private val context: Context) {
         val KEY_SAVED_IDS = stringSetPreferencesKey("saved_ids")
         val KEY_HISTORY = stringPreferencesKey("history_csv")
         val KEY_DARK_THEME = booleanPreferencesKey("is_dark_theme")
+        val KEY_DYNAMIC_DISCOVERIES = stringPreferencesKey("dynamic_discoveries_json")
+    }
+
+    val dynamicDiscoveriesJsonFlow: Flow<String> = context.dataStore.data.map { prefs ->
+        prefs[KEY_DYNAMIC_DISCOVERIES] ?: ""
     }
 
     val savedIdsFlow: Flow<Set<String>> = context.dataStore.data.map { prefs ->
@@ -62,6 +67,12 @@ class PreferencesManager(private val context: Context) {
     suspend fun setDarkTheme(isDark: Boolean) {
         context.dataStore.edit { prefs ->
             prefs[KEY_DARK_THEME] = isDark
+        }
+    }
+
+    suspend fun saveDynamicDiscoveriesJson(json: String) {
+        context.dataStore.edit { prefs ->
+            prefs[KEY_DYNAMIC_DISCOVERIES] = json
         }
     }
 }
