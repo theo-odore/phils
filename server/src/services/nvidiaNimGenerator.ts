@@ -27,13 +27,13 @@ const PROCEDURAL_CONCEPTS: Array<{
     core_principles: [
       'The Illusion of Senses: Physical sensations can deceive us into mistaking appearances for reality.',
       'The Pain of Awakening: True education and philosophical insight require painful disillusionment.',
-      'The Philosopher’s Burden: Those who see the truth have an ethical obligation to return and enlighten others.'
+      'The Philosopher\'s Burden: Those who see the truth have an ethical obligation to return and enlighten others.'
     ],
     everyday_example: 'Living in an echo chamber on social media where outrage and memes form your entire view of the world, until you step outside and discover that reality is vastly more nuanced.',
     background_style: 'indigo_void',
     key_people: [
-      { name: 'Plato', role: 'Classical Greek Philosopher', era: '428–348 BC', quote: 'We can easily forgive a child who is afraid of the dark; the real tragedy of life is when men are afraid of the light.' },
-      { name: 'Socrates', role: 'Teacher & Protagonist', era: '470–399 BC', quote: 'The unexamined life is not worth living.' }
+      { name: 'Plato', role: 'Classical Greek Philosopher', era: '428-348 BC', quote: 'We can easily forgive a child who is afraid of the dark; the real tragedy of life is when men are afraid of the light.' },
+      { name: 'Socrates', role: 'Teacher & Protagonist', era: '470-399 BC', quote: 'The unexamined life is not worth living.' }
     ]
   },
   {
@@ -41,7 +41,7 @@ const PROCEDURAL_CONCEPTS: Array<{
     title: 'The Chinese Room Argument',
     type: 'thought_experiment',
     hook: 'CAN A COMPUTER THAT SPEAKS PERFECTLY EVER ACTUALLY UNDERSTAND WHAT IT SAYS?',
-    short_description: 'John Searle’s classic thought experiment distinguishing syntax (rule-following) from semantics (true understanding).',
+    short_description: 'John Searle\'s classic thought experiment distinguishing syntax (rule-following) from semantics (true understanding).',
     detailed_description: 'Imagine an English speaker locked in a room with an exhaustive rulebook for translating Chinese characters. Chinese questions slide under the door; the person follows the rulebook, matches characters, and outputs perfect Chinese answers. To people outside, the room appears fluent in Chinese. Yet the person inside does not understand a single word. Searle argues that computers operate the same way: manipulating symbols without conscious comprehension.',
     origin_context: 'Formulated by philosopher John Searle in 1980 to refute strong Artificial Intelligence claims.',
     core_principles: [
@@ -52,7 +52,7 @@ const PROCEDURAL_CONCEPTS: Array<{
     everyday_example: 'Copy-pasting phrases from a foreign translation app into an email: the recipient receives fluent text, but your brain remains completely oblivious to the meaning of the characters.',
     background_style: 'sage_paper',
     key_people: [
-      { name: 'John Searle', role: 'American Philosopher of Mind', era: '1932–present', quote: 'You cannot get semantics from syntax alone.' }
+      { name: 'John Searle', role: 'American Philosopher of Mind', era: '1932-present', quote: 'You cannot get semantics from syntax alone.' }
     ]
   },
   {
@@ -68,10 +68,10 @@ const PROCEDURAL_CONCEPTS: Array<{
       'The Difference Principle: Social inequalities are only permissible if they work to the maximum benefit of the least advantaged.',
       'Universal Equal Liberty: Every individual has an irrevocable right to the broadest system of equal basic liberties.'
     ],
-    everyday_example: 'When two siblings split the last slice of cake: one cuts the slice, and the other gets first pick. The cutter is forced to make both halves exactly equal because they don’t know which piece they will receive.',
+    everyday_example: 'When two siblings split the last slice of cake: one cuts the slice, and the other gets first pick. The cutter is forced to make both halves exactly equal because they don\'t know which piece they will receive.',
     background_style: 'terracotta_sun',
     key_people: [
-      { name: 'John Rawls', role: 'Political Philosopher', era: '1921–2002', quote: 'Justice is the first virtue of social institutions, as truth is of systems of thought.' }
+      { name: 'John Rawls', role: 'Political Philosopher', era: '1921-2002', quote: 'Justice is the first virtue of social institutions, as truth is of systems of thought.' }
     ]
   },
   {
@@ -90,7 +90,7 @@ const PROCEDURAL_CONCEPTS: Array<{
     everyday_example: 'Spending 45 minutes scrolling through streaming movies unable to pick between two great films, until you end up too exhausted to watch anything at all and go to sleep.',
     background_style: 'amber_parchment',
     key_people: [
-      { name: 'Jean Buridan', role: 'French Scholastic Philosopher', era: '1300–1358', quote: 'Should a rational agent hesitate indefinitely when two goods are equal?' }
+      { name: 'Jean Buridan', role: 'French Scholastic Philosopher', era: '1300-1358', quote: 'Should a rational agent hesitate indefinitely when two goods are equal?' }
     ]
   },
   {
@@ -158,7 +158,7 @@ const PROCEDURAL_CONCEPTS: Array<{
     type: 'concept',
     hook: 'WHEN MULTIPLE EXPLANATIONS EXIST, WHY IS THE SIMPLEST USUALLY RIGHT?',
     short_description: 'The fundamental philosophical rule that unnecessary assumptions should be shaved away.',
-    detailed_description: 'Also known as the principle of parsimony, Occam’s Razor states that entities should not be multiplied beyond necessity (non sunt multiplicanda entia sine necessitate). When faced with competing hypotheses that explain the observed data equally well, we should favor the one that makes the fewest assumptions and introduces the least complexity.',
+    detailed_description: 'Also known as the principle of parsimony, Occam\'s Razor states that entities should not be multiplied beyond necessity (non sunt multiplicanda entia sine necessitate). When faced with competing hypotheses that explain the observed data equally well, we should favor the one that makes the fewest assumptions and introduces the least complexity.',
     origin_context: 'Formulated by 14th-century English Franciscan friar and philosopher William of Ockham.',
     core_principles: [
       'Parsimony as a Guide: Simpler theories are easier to test, falsify, and build upon.',
@@ -168,7 +168,7 @@ const PROCEDURAL_CONCEPTS: Array<{
     everyday_example: 'If you hear hoofbeats in Central Park, assuming horses is vastly more rational than assuming an escaped herd of invisible zebras.',
     background_style: 'amber_parchment',
     key_people: [
-      { name: 'William of Ockham', role: 'English Theologian & Logician', era: '1287–1347', quote: 'It is futile to do with more things that which can be done with fewer.' }
+      { name: 'William of Ockham', role: 'English Theologian & Logician', era: '1287-1347', quote: 'It is futile to do with more things that which can be done with fewer.' }
     ]
   }
 ];
@@ -185,9 +185,9 @@ export class NvidiaNimGenerator {
   }
 
   /**
-   * Generates a batch of unique, editorial-grade discoveries
+   * Generates a batch of unique, canonical editorial discoveries
    */
-  async generateBatch(count = 3, existingTitles: string[] = []): Promise<Discovery[]> {
+  async generateBatch(count = 2, existingTitles: string[] = []): Promise<Discovery[]> {
     const apiKey = this.getApiKey();
     if (!apiKey) {
       console.log('NVIDIA NIM: No API key found in environment. Using procedural synthesis engine.');
@@ -195,7 +195,14 @@ export class NvidiaNimGenerator {
     }
 
     try {
-      return await this.callNvidiaNim(count, existingTitles);
+      const results: Discovery[] = [];
+      const needed = Math.min(count, 3);
+      for (let i = 0; i < needed; i++) {
+        const currentTitles = [...existingTitles, ...results.map(r => r.title)];
+        const batch = await this.callNvidiaNim(1, currentTitles);
+        results.push(...batch);
+      }
+      return results.length > 0 ? results : this.generateProceduralBatch(count, existingTitles);
     } catch (err: any) {
       console.error('NVIDIA NIM generation error, falling back to procedural synthesis:', err?.message || err);
       return this.generateProceduralBatch(count, existingTitles);
@@ -203,28 +210,36 @@ export class NvidiaNimGenerator {
   }
 
   private async callNvidiaNim(count: number, existingTitles: string[]): Promise<Discovery[]> {
-    const existingListStr = existingTitles.slice(-25).join(', ');
+    const existingListStr = existingTitles.slice(-30).join(', ');
 
     const prompt = `You are the editorial intelligence behind "Phils", a mobile app replacing mindless scrolling with curiosity-driven intellectual discoveries.
-Generate ${count} brand-new, unique philosophical or intellectual discovery cards.
+Select and format ${count} canonical, historically established philosophical or intellectual discoveries.
+
+ABSOLUTE STRICT RULE - NO INVENTED OR FICTIONAL THEORIES:
+- You must NEVER invent, fabricate, hallucinate, or make up your own theories, concepts, or thought experiments.
+- Every single theory MUST be a real, documented, and established concept from human intellectual history (e.g. from the Stanford Encyclopedia of Philosophy, academic philosophy, or established history of science/ethics).
+- Every theory MUST have an authentic historical origin context, real publication or emergence timeframe, and real historical thinkers who formulated it.
 
 DO NOT repeat any of these already covered topics: [${existingListStr}].
 
-Choose from:
-- Classical philosophies (e.g. Taoism, Cynicism, Deontology, Pragmatism, Solipsism, Virtue Ethics)
-- Thought experiments & paradoxes (e.g. Grandfather Paradox, Zeno, Newcomb's Problem, Ticking Time Bomb, Sorites Paradox)
-- Famous historical thinkers (e.g. Spinoza, Kant, Kierkegaard, Diogenes, Lao Tzu, Hannah Arendt)
-- Philosophy of mind, science, ethics, and epistemology.
+Curate strictly from real human intellectual history, such as:
+- Canonical Philosophies: Hermeneutics, Epiphenomenalism, Idealism, Nominalism, Panpsychism, Physicalism, Dualism, Dialectical Materialism, Communitarianism, Intuitionism, Logicism, Coherentism, Fallibilism, Historicism, Moral Relativism, Divine Command Theory, Virtue Ethics, Falsificationism, Structuralism.
+- Canonical Thought Experiments: Maxwell's Demon, Einstein's Elevator, Wigner's Friend, Thomson's Violinist, Parfit's Split Brain, The Lotus Eaters, Meno's Slave, The Inverted Spectrum, Frankfurt Cases, Lucretius' Spear, Ring of Gyges, Beetle in a Box.
+- Canonical Paradoxes: The Raven Paradox (Hempel), The Crocodile Paradox, The Monty Hall Problem, Zeno's Arrow Paradox, The St. Petersburg Paradox, The Grandfather Paradox, The Barber Paradox, The Two Envelopes Problem.
+- Canonical Thinkers: Ludwig Wittgenstein, Baruch Spinoza, John Locke, David Hume, Thomas Hobbes, Jean-Jacques Rousseau, Michel Foucault, Arthur Schopenhauer, Edmund Husserl, Martin Heidegger, Simone de Beauvoir, John Stuart Mill, Gottfried Wilhelm Leibniz, Bertrand Russell, Karl Popper, Thomas Nagel.
 
 CRITICAL EDITORIAL RULES:
-1. "hook": MUST be an all-caps provocative dilemma or question (under 80 chars). No hyphens or em-dashes.
-2. "short_description": EXACTLY 1 crisp sentence explaining the core idea.
-3. "detailed_description": 2-3 engaging paragraphs explaining the concept without academic jargon.
-4. "everyday_example": A relatable, modern scenario showing how this idea applies to daily life.
-5. "core_principles": 3-4 bullet points with bold short titles.
-6. "key_people": 1-2 key historical thinkers with name, role, era, and memorable quote.
-7. "background_style": one of: "amber_parchment", "terracotta_sun", "sage_paper", "indigo_void", "crimson_existential", "obsidian_dark", "forest_mist", "slate_stone".
-8. "type": one of: "philosophy", "philosopher", "concept", "paradox", "thought_experiment", "scientific_idea".
+1. "title": MUST be the real, recognized name of the historical concept or thinker (e.g. "Maxwell's Demon", "The Raven Paradox", "Hermeneutics").
+2. "hook": MUST be an all-caps provocative dilemma or question (under 80 chars). No hyphens or em-dashes.
+3. "short_description": EXACTLY 1 crisp sentence explaining the core idea.
+4. "detailed_description": 2-3 engaging paragraphs explaining the authentic concept without academic jargon.
+5. "origin_context": The authentic historical context (e.g. "Formulated by Scottish physicist James Clerk Maxwell in 1867...").
+6. "everyday_example": A relatable, modern scenario showing how this real idea applies to daily life.
+7. "core_principles": 3-4 bullet points with bold short titles explaining its established pillars.
+8. "key_people": 1-2 actual historical thinkers with their real name, role, era, and famous quote.
+9. "background_style": one of: "amber_parchment", "terracotta_sun", "sage_paper", "indigo_void", "crimson_existential", "obsidian_dark", "forest_mist", "slate_stone".
+10. "type": one of: "philosophy", "philosopher", "concept", "paradox", "thought_experiment", "scientific_idea".
+11. NO EM-DASHES: Do NOT use em-dashes (—) or en-dashes (–) anywhere. Use standard hyphens (-) only.
 
 Respond with ONLY a valid JSON object matching this schema:
 {
@@ -237,11 +252,11 @@ Respond with ONLY a valid JSON object matching this schema:
       "hook": "PROVOCATIVE QUESTION HERE?",
       "short_description": "Single sentence explanation.",
       "detailed_description": "Full explanation...",
-      "origin_context": "When and where it emerged.",
+      "origin_context": "Real historical emergence.",
       "core_principles": ["Principle 1", "Principle 2", "Principle 3"],
       "everyday_example": "Everyday scenario...",
       "background_style": "amber_parchment",
-      "why_reason": "Curated for deep philosophical inquiry",
+      "why_reason": "Curated from established human thought",
       "key_people": [
         { "name": "Name", "role": "Role", "era": "Era", "quote": "Quote" }
       ],
@@ -261,19 +276,19 @@ Respond with ONLY a valid JSON object matching this schema:
       messages: [
         {
           role: 'system',
-          content: 'You are the chief editorial director for Phils. Output only raw, valid JSON.'
+          content: 'You are the chief editorial director for Phils. You only document authentic, historically verified human philosophy, recognized thought experiments, classical paradoxes, and canonical thinkers. You NEVER invent or fabricate fictional theories. Output only raw, valid JSON.'
         },
         {
           role: 'user',
           content: prompt
         }
       ],
-      temperature: 0.7,
+      temperature: 0.25,
       max_tokens: 2500
     };
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 20000);
+    const timeoutId = setTimeout(() => controller.abort(), 45000);
 
     let response: Response;
     try {
