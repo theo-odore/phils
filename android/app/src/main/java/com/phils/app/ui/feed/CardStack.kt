@@ -6,28 +6,24 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.phils.app.model.Discovery
 import kotlinx.coroutines.launch
-import kotlin.math.roundToInt
+import kotlin.math.abs
 
 @Composable
 fun CardStack(
@@ -42,15 +38,23 @@ fun CardStack(
 ) {
     if (discoveries.isEmpty()) return
 
-    androidx.compose.runtime.LaunchedEffect(currentIndex, discoveries.size) {
+    LaunchedEffect(currentIndex, discoveries.size) {
         if (discoveries.isNotEmpty() && currentIndex >= discoveries.size - 4) {
             onLoadMore()
         }
     }
 
     val coroutineScope = rememberCoroutineScope()
-    val dragOffsetX = remember { Animatable(0f) }
-    var isDragging by remember { mutableStateOf(false) }
+    val density = LocalDensity.current
+
+    // Direct primitive float tracking during drag.
+    // Reading values inside graphicsLayer lambda ensures zero recomposition and zero layout recalculation.
+    var dragOffsetX by remember { mutableFloatStateOf(0f) }
+    val animOffsetX = remember { Animatable(0f) }
+    var isAnimating by remember { mutableStateOf(false) }
+
+    val thresholdPx = with(density) { 95.dp.toPx() }
+    val throwDistancePx = with(density) { 460.dp.toPx() }
 
     val currentCard = discoveries[currentIndex % discoveries.size]
     val nextCard = discoveries[(currentIndex + 1) % discoveries.size]
@@ -65,86 +69,146 @@ fun CardStack(
         // Slot 2: Background third card
         Box(
             modifier = Modifier
-                .fillMaxSize(0.88f)
-                .offset(x = (-30).dp, y = 48.dp)
-                .rotate(-5.5f)
-                .zIndex(1f)
-                .graphicsLayer(alpha = 0.85f)
+                .fillMaxSize()
+                .graphicsLayer {
+                    val currentX = if (isAnimating) animOffsetX.value else dragOffsetX
+                    val progress = (abs(currentX) / throwDistancePx).coerceIn(0f, 1f)
+
+                    // Interpolate scale from 0.88 towards 0.94
+                    val currentScale = 0.88f + (0.94f - 0.88f) * progress
+                    scaleX = currentScale
+                    scaleY = currentScale
+
+                    // Interpolate translation towards Slot 1 position
+                    val startX = -30.dp.toPx()
+                    val targetX = 34.dp.toPx()
+                    translationX = startX + (targetX - startX) * progress
+
+                    val startY = 48.dp.toPx()
+                    val targetY = 24.dp.toPx()
+                    translationY = startY + (targetY - startY) * progress
+
+                    // Interpolate rotation and alpha towards Slot 1
+                    rotationZ = -5.5f + (4.5f - (-5.5f)) * progress
+                    alpha = 0.85f + (0.95f - 0.85f) * progress
+                }
         ) {
             DiscoveryCard(
                 discovery = thirdCard,
                 onExplore = {},
                 onToggleSave = {},
-                onShowWhy = {}
+                onShowWhy = {},
+                interactive = false
             )
         }
 
         // Slot 1: Middle second card
         Box(
             modifier = Modifier
-                .fillMaxSize(0.94f)
-                .offset(x = 34.dp, y = 24.dp)
-                .rotate(4.5f)
-                .zIndex(2f)
-                .graphicsLayer(alpha = 0.95f)
+                .fillMaxSize()
+                .graphicsLayer {
+                    val currentX = if (isAnimating) animOffsetX.value else dragOffsetX
+                    val progress = (abs(currentX) / throwDistancePx).coerceIn(0f, 1f)
+
+                    // Interpolate scale from 0.94 towards 1.0 (Slot 0 size)
+                    val currentScale = 0.94f + (1.0f - 0.94f) * progress
+                    scaleX = currentScale
+                    scaleY = currentScale
+
+                    // Interpolate translation towards Slot 0 center
+                    val startX = 34.dp.toPx()
+                    translationX = startX * (1f - progress)
+
+                    val startY = 24.dp.toPx()
+                    translationY = startY * (1f - progress)
+
+                    // Interpolate rotation towards Slot 0 resting angle (-2.5f)
+                    rotationZ = 4.5f + (-2.5f - 4.5f) * progress
+                    alpha = 0.95f + (1.0f - 0.95f) * progress
+                }
         ) {
             DiscoveryCard(
                 discovery = nextCard,
                 onExplore = {},
                 onToggleSave = {},
-                onShowWhy = {}
+                onShowWhy = {},
+                interactive = false
             )
         }
 
         // Slot 0: Front interactive card
-        val currentTilt = -2.5f + (dragOffsetX.value / 25f)
-
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .offset { IntOffset(dragOffsetX.value.roundToInt(), 0) }
-                .rotate(currentTilt)
-                .zIndex(3f)
-                .pointerInput(currentIndex) {
+                .graphicsLayer {
+                    val currentX = if (isAnimating) animOffsetX.value else dragOffsetX
+                    translationX = currentX
+                    rotationZ = -2.5f + (currentX / 26f)
+                    val dismissProgress = (abs(currentX) / throwDistancePx).coerceIn(0f, 1f)
+                    alpha = 1f - (dismissProgress * 0.35f)
+                }
+                .pointerInput(currentIndex, discoveries.size) {
                     detectHorizontalDragGestures(
-                        onDragStart = { isDragging = true },
+                        onDragStart = {
+                            if (isAnimating) return@detectHorizontalDragGestures
+                        },
                         onDragEnd = {
-                            isDragging = false
-                            val currentX = dragOffsetX.value
-                            val threshold = 180f
-                            coroutineScope.launch {
-                                if (currentX > threshold) {
-                                    // Swiped Right -> Throw off and advance
-                                    dragOffsetX.animateTo(
-                                        targetValue = 1200f,
-                                        animationSpec = spring(dampingRatio = 0.8f, stiffness = Spring.StiffnessMedium)
+                            if (isAnimating) return@detectHorizontalDragGestures
+                            val currentX = dragOffsetX
+                            if (abs(currentX) > thresholdPx) {
+                                val targetX = if (currentX > 0) throwDistancePx else -throwDistancePx
+                                coroutineScope.launch {
+                                    isAnimating = true
+                                    animOffsetX.snapTo(currentX)
+                                    animOffsetX.animateTo(
+                                        targetValue = targetX,
+                                        animationSpec = spring(
+                                            dampingRatio = 0.82f,
+                                            stiffness = Spring.StiffnessMedium
+                                        )
                                     )
                                     onIndexChange((currentIndex + 1) % discoveries.size)
-                                    dragOffsetX.snapTo(0f)
-                                } else if (currentX < -threshold) {
-                                    // Swiped Left -> Throw off and advance
-                                    dragOffsetX.animateTo(
-                                        targetValue = -1200f,
-                                        animationSpec = spring(dampingRatio = 0.8f, stiffness = Spring.StiffnessMedium)
-                                    )
-                                    onIndexChange((currentIndex + 1) % discoveries.size)
-                                    dragOffsetX.snapTo(0f)
-                                } else {
-                                    // Snap back to center
-                                    dragOffsetX.animateTo(
+                                    dragOffsetX = 0f
+                                    animOffsetX.snapTo(0f)
+                                    isAnimating = false
+                                }
+                            } else {
+                                coroutineScope.launch {
+                                    isAnimating = true
+                                    animOffsetX.snapTo(currentX)
+                                    animOffsetX.animateTo(
                                         targetValue = 0f,
-                                        animationSpec = spring(dampingRatio = 0.7f, stiffness = Spring.StiffnessLow)
+                                        animationSpec = spring(
+                                            dampingRatio = 0.72f,
+                                            stiffness = Spring.StiffnessLow
+                                        )
                                     )
+                                    dragOffsetX = 0f
+                                    isAnimating = false
                                 }
                             }
                         },
                         onDragCancel = {
-                            isDragging = false
-                            coroutineScope.launch { dragOffsetX.animateTo(0f) }
-                        },
-                        onHorizontalDrag = { _, dragAmount ->
+                            if (isAnimating) return@detectHorizontalDragGestures
+                            val currentX = dragOffsetX
                             coroutineScope.launch {
-                                dragOffsetX.snapTo(dragOffsetX.value + dragAmount)
+                                isAnimating = true
+                                animOffsetX.snapTo(currentX)
+                                animOffsetX.animateTo(
+                                    targetValue = 0f,
+                                    animationSpec = spring(
+                                        dampingRatio = 0.72f,
+                                        stiffness = Spring.StiffnessLow
+                                    )
+                                )
+                                dragOffsetX = 0f
+                                isAnimating = false
+                            }
+                        },
+                        onHorizontalDrag = { change, dragAmount ->
+                            if (!isAnimating) {
+                                change.consume()
+                                dragOffsetX += dragAmount
                             }
                         }
                     )
@@ -154,7 +218,8 @@ fun CardStack(
                 discovery = currentCard,
                 onExplore = onExplore,
                 onToggleSave = onToggleSave,
-                onShowWhy = onShowWhy
+                onShowWhy = onShowWhy,
+                interactive = true
             )
         }
     }

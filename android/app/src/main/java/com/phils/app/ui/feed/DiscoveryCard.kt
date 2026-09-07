@@ -45,7 +45,8 @@ fun DiscoveryCard(
     onToggleSave: (Discovery) -> Unit,
     onShowWhy: (Discovery) -> Unit,
     modifier: Modifier = Modifier,
-    isSaved: Boolean = discovery.saved
+    isSaved: Boolean = discovery.saved,
+    interactive: Boolean = true
 ) {
     val theme = PhilsTheme.colors
     val moodTone = getMoodTone(discovery.mood, theme.isDark)
@@ -60,7 +61,9 @@ fun DiscoveryCard(
                 if (!theme.isDark) Color(0x12000000) else Color(0x24FFFFFF),
                 RoundedCornerShape(22.dp)
             )
-            .clickable { onExplore(discovery) }
+            .then(
+                if (interactive) Modifier.clickable { onExplore(discovery) } else Modifier
+            )
     ) {
         // Top right catalog fold corner
         CatalogCorner(
@@ -87,6 +90,7 @@ fun DiscoveryCard(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     IconButton(
                         onClick = { onShowWhy(discovery) },
+                        enabled = interactive,
                         modifier = Modifier.size(34.dp)
                     ) {
                         Icon(
@@ -101,6 +105,7 @@ fun DiscoveryCard(
 
                     IconButton(
                         onClick = { onToggleSave(discovery) },
+                        enabled = interactive,
                         modifier = Modifier.size(34.dp)
                     ) {
                         Icon(
@@ -154,6 +159,9 @@ fun DiscoveryCard(
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(999.dp))
                     .background(moodTone.soft.copy(alpha = 0.7f))
+                    .then(
+                        if (interactive) Modifier.clickable { onExplore(discovery) } else Modifier
+                    )
                     .padding(horizontal = 18.dp, vertical = 12.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
