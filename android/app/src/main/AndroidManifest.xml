@@ -23,6 +23,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <!-- Deep link intent filter for custom scheme: phils://discovery/{id} -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="phils" android:host="discovery" />
+            </intent-filter>
+
+            <!-- Deep link intent filter for web URLs: /d/{id} -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" android:host="10.0.2.2" android:port="3000" android:pathPrefix="/d/" />
+                <data android:scheme="http" android:host="localhost" android:port="3000" android:pathPrefix="/d/" />
+                <data android:scheme="https" android:host="phils.app" android:pathPrefix="/d/" />
+            </intent-filter>
+
         </activity>
 
         <provider

@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { store } from './db/store';
+import { renderWebReaderHtml } from './services/webReader';
 
 dotenv.config();
 
@@ -167,6 +168,49 @@ app.get('/api/v1/profile', async (req: Request, res: Response) => {
   } catch (err: any) {
     console.error('Error fetching user profile:', err);
     res.status(500).json({ success: false, error: 'Failed to fetch user profile' });
+  }
+});
+
+// ----------------------------------------------------
+// Public Web Reader: GET /d/:id or /discovery/:id
+// Enables recipients without the app to read full cards in their browser
+// ----------------------------------------------------
+app.get(['/d/:id', '/discovery/:id'], async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const discovery = await store.getDiscoveryById(id);
+    if (!discovery) {
+      return res.status(404).send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Idea Not Found - Phils</title>
+          <style>
+            body { background: #0B0E14; color: #F0F4F8; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; }
+            h1 { font-family: Georgia, serif; font-style: italic; color: #E5A93C; margin-bottom: 12px; }
+            p { color: #94A3B8; margin-bottom: 24px; }
+            a { color: #0B0E14; background: #E5A93C; padding: 10px 20px; border-radius: 999px; text-decoration: none; font-weight: 600; }
+          </style>
+        </head>
+        <body>
+          <div>
+            <h1>Idea Not Found</h1>
+            <p>The shared philosophy or paradox could not be found.</p>
+            <a href="/api/v1/feed">Explore Phils Feed</a>
+          </div>
+        </body>
+        </html>
+      `);
+    }
+
+    const html = renderWebReaderHtml(discovery);
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.send(html);
+  } catch (err: any) {
+    console.error('Error rendering web reader:', err);
+    res.status(500).send('Internal Server Error');
   }
 });
 

@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.phils.app.data.api.NetworkClient
 import com.phils.app.model.Discovery
 import com.phils.app.model.SeedData
 import com.phils.app.theme.PhilsTheme
@@ -87,9 +88,12 @@ fun DetailScreen(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = {
+                    val shareUrl = NetworkClient.getShareUrl(discovery.id)
+                    val shareText = "\"${discovery.hook}\"\n\nRead \"${discovery.title}\" on Phils:\n$shareUrl"
                     val sendIntent = Intent().apply {
                         action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, "\"${discovery.hook}\"\n\nDiscover ${discovery.title} on Phils")
+                        putExtra(Intent.EXTRA_SUBJECT, discovery.title)
+                        putExtra(Intent.EXTRA_TEXT, shareText)
                         type = "text/plain"
                     }
                     context.startActivity(Intent.createChooser(sendIntent, "Share ${discovery.title}"))

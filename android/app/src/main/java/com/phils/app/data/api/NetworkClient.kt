@@ -38,4 +38,9 @@ object NetworkClient {
             .build()
             .create(PhilsApiService::class.java)
     }
+
+    fun getShareUrl(discoveryId: String): String {
+        val base = baseUrl.trimEnd('/')
+        return "$base/d/$discoveryId"
+    }
 }

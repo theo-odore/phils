@@ -50,7 +50,9 @@ fun MainScreen(
     repository: DiscoveryRepository,
     isDarkTheme: Boolean,
     onToggleTheme: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    deepLinkDiscoveryId: String? = null,
+    onClearDeepLink: () -> Unit = {}
 ) {
     val theme = PhilsTheme.colors
     val coroutineScope = rememberCoroutineScope()
@@ -58,6 +60,17 @@ fun MainScreen(
     var currentTab by remember { mutableStateOf(NavTab.DISCOVER) }
     val detailStack = remember { mutableStateListOf<String>() }
     var currentDiscoverIndex by rememberSaveable { mutableIntStateOf(0) }
+
+    // Handle deep link opened card
+    LaunchedEffect(deepLinkDiscoveryId) {
+        if (!deepLinkDiscoveryId.isNullOrBlank()) {
+            if (!detailStack.contains(deepLinkDiscoveryId)) {
+                repository.recordDiscovery(deepLinkDiscoveryId)
+                detailStack.add(deepLinkDiscoveryId)
+            }
+            onClearDeepLink()
+        }
+    }
 
     val allDiscoveries by repository.discoveriesWithSavedFlow.collectAsState(initial = SeedData.discoveries)
     val savedDiscoveries by repository.savedDiscoveriesFlow.collectAsState(initial = emptyList())
