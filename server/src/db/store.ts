@@ -2,36 +2,16 @@ import { Discovery, UserProfile, DiscoveryType } from '../types';
 import { curatedDiscoveries } from './discoveriesData';
 import { RecommendationEngine } from '../services/recommendationEngine';
 import { nvidiaNimGenerator } from '../services/nvidiaNimGenerator';
-import { Pool } from 'pg';
 
 export class DataStore {
   private discoveries: Map<string, Discovery> = new Map();
   private userSaved: Map<string, Set<string>> = new Map();
   private userViews: Map<string, Array<{ discoveryId: string; viewedAt: Date; durationMs?: number }>> = new Map();
-  private pgPool: Pool | null = null;
 
   constructor() {
     // Populate in-memory map from curated data
     for (const item of curatedDiscoveries) {
       this.discoveries.set(item.id, { ...item, status: 'published' });
-    }
-
-    // Initialize PostgreSQL pool if DATABASE_URL or POSTGRES_HOST is configured
-    if (process.env.DATABASE_URL || process.env.POSTGRES_HOST) {
-      try {
-        this.pgPool = new Pool({
-          connectionString: process.env.DATABASE_URL,
-          host: process.env.POSTGRES_HOST || 'localhost',
-          port: parseInt(process.env.POSTGRES_PORT || '5432'),
-          user: process.env.POSTGRES_USER || 'phils',
-          password: process.env.POSTGRES_PASSWORD || 'phils_secret',
-          database: process.env.POSTGRES_DB || 'phils_db',
-        });
-        console.log('[DataStore] Connected to PostgreSQL');
-      } catch (err) {
-        console.warn('[DataStore] PostgreSQL connection failed, using fast embedded data store:', err);
-        this.pgPool = null;
-      }
     }
   }
 
