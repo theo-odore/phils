@@ -304,6 +304,7 @@ fun DetailScreen(
                     moodToneAccent = moodTone.accent,
                     moodToneSoft = moodTone.soft,
                     onOpenDiscovery = onOpenDiscovery,
+                    onLookupDiscovery = onLookupDiscovery,
                     onSwitchToDeepDive = { depthMode = ReadingDepthMode.DEEP_DIVE }
                 )
             } else {
@@ -325,89 +326,97 @@ fun DetailScreen(
 }
 
 // -----------------------------------------------------------------------------
-// Quick Overview Presentation Component
+// Quick Overview Presentation Component (Classic Canonical Layout)
 // -----------------------------------------------------------------------------
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun QuickOverviewContent(
     discovery: Discovery,
     moodToneAccent: Color,
     moodToneSoft: Color,
     onOpenDiscovery: (String) -> Unit,
+    onLookupDiscovery: (String) -> Discovery?,
     onSwitchToDeepDive: () -> Unit
 ) {
     val theme = PhilsTheme.colors
     val detail = discovery.detail
-    val richWhat = detail.richWhatIsThis
 
-    // Central Question Highlight
-    richWhat?.centralQuestion?.let { question ->
-        CalloutBox(
-            title = "Central Question",
-            text = question,
-            accentColor = moodToneAccent,
-            backgroundColor = moodToneSoft.copy(alpha = 0.35f)
-        )
-        Spacer(modifier = Modifier.height(22.dp))
-    }
-
-    SectionTitle(title = "The Core Idea")
+    // What is this?
+    SectionTitle(title = "What is this?")
     Spacer(modifier = Modifier.height(8.dp))
     Text(
-        text = richWhat?.summary ?: detail.whatIsThis,
+        text = detail.whatIsThis.ifBlank { detail.richWhatIsThis?.summary ?: "" },
         fontFamily = FontFamily.SansSerif,
         fontSize = 15.sp,
-        lineHeight = 24.sp,
+        lineHeight = 23.sp,
         color = theme.textSecondary
     )
 
-    richWhat?.introductoryExample?.let { eg ->
-        Spacer(modifier = Modifier.height(16.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(14.dp))
-                .background(theme.surface)
-                .border(1.dp, theme.line, RoundedCornerShape(14.dp))
-                .padding(16.dp)
-        ) {
-            Column {
-                Text(
-                    text = "INTRODUCTORY EXAMPLE",
-                    fontFamily = FontFamily.Monospace,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = moodToneAccent,
-                    letterSpacing = 1.2.sp
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                Text(
-                    text = eg,
-                    fontFamily = FontFamily.SansSerif,
-                    fontSize = 14.sp,
-                    lineHeight = 22.sp,
-                    color = theme.textPrimary
-                )
-            }
-        }
+    Spacer(modifier = Modifier.height(24.dp))
+
+    // Origin context
+    val originText = detail.origin.ifBlank { detail.richOriginContext?.summary ?: "" }
+    if (originText.isNotBlank()) {
+        SectionTitle(title = "Origin context")
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = originText,
+            fontFamily = FontFamily.SansSerif,
+            fontSize = 15.sp,
+            lineHeight = 23.sp,
+            color = theme.textSecondary
+        )
+        Spacer(modifier = Modifier.height(24.dp))
     }
 
-    Spacer(modifier = Modifier.height(28.dp))
+    // Core principles
+    val coreIdeas = if (detail.coreIdeas.isNotEmpty()) {
+        detail.coreIdeas
+    } else {
+        detail.corePrinciplesRich.map { "${it.name}: ${it.explanation}" }
+    }
+    if (coreIdeas.isNotEmpty()) {
+        SectionTitle(title = "Core principles")
+        Spacer(modifier = Modifier.height(10.dp))
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            coreIdeas.forEach { idea ->
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Box(
+                        modifier = Modifier
+                            .padding(top = 8.dp)
+                            .size(6.dp)
+                            .clip(CircleShape)
+                            .background(moodToneAccent)
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Text(
+                        text = idea,
+                        fontFamily = FontFamily.SansSerif,
+                        fontSize = 14.5.sp,
+                        lineHeight = 22.sp,
+                        color = theme.textSecondary
+                    )
+                }
+            }
+        }
+        Spacer(modifier = Modifier.height(24.dp))
+    }
 
-    // Key Thinkers Preview
-    if (detail.keyThinkersRich.isNotEmpty() || detail.keyPeople.isNotEmpty()) {
-        SectionTitle(title = "Key Thinkers")
-        Spacer(modifier = Modifier.height(12.dp))
-        Row(
+    // Key thinkers
+    val thinkers = if (detail.keyPeople.isNotEmpty()) {
+        detail.keyPeople.map { it.name to it.linkId }
+    } else {
+        detail.keyThinkersRich.map { it.name to it.linkId }
+    }
+    if (thinkers.isNotEmpty()) {
+        SectionTitle(title = "Key thinkers")
+        Spacer(modifier = Modifier.height(10.dp))
+        FlowRow(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
-            val names = if (detail.keyThinkersRich.isNotEmpty()) {
-                detail.keyThinkersRich.map { it.name to it.linkId }
-            } else {
-                detail.keyPeople.map { it.name to it.linkId }
-            }
-
-            names.take(3).forEach { (name, linkId) ->
+            thinkers.forEach { (name, linkId) ->
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(999.dp))
@@ -423,28 +432,50 @@ private fun QuickOverviewContent(
                         fontFamily = FontFamily.SansSerif,
                         fontWeight = if (linkId != null) FontWeight.SemiBold else FontWeight.Normal,
                         fontSize = 13.sp,
-                        color = theme.textPrimary
+                        color = theme.textPrimary,
+                        maxLines = 1,
+                        softWrap = false
                     )
                 }
             }
         }
+        Spacer(modifier = Modifier.height(24.dp))
     }
 
-    Spacer(modifier = Modifier.height(28.dp))
-
-    // Practical Takeaway
-    val firstScenario = detail.everydayLifeRich?.scenarios?.firstOrNull()
-    if (firstScenario != null) {
-        SectionTitle(title = "In Everyday Practice")
-        Spacer(modifier = Modifier.height(10.dp))
-        PracticalScenarioCard(
-            scenario = firstScenario,
-            accentColor = moodToneAccent,
-            backgroundColor = theme.surface
+    // In everyday life
+    val exampleText = detail.example.ifBlank { detail.everydayLifeRich?.summary ?: "" }
+    if (exampleText.isNotBlank()) {
+        SectionTitle(title = "In everyday life")
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = exampleText,
+            fontFamily = FontFamily.SansSerif,
+            fontSize = 15.sp,
+            lineHeight = 23.sp,
+            color = theme.textSecondary
         )
+        Spacer(modifier = Modifier.height(24.dp))
     }
 
-    Spacer(modifier = Modifier.height(32.dp))
+    // Connected ideas
+    if (discovery.related.isNotEmpty()) {
+        val relatedItems = discovery.related.mapNotNull { onLookupDiscovery(it) }
+        if (relatedItems.isNotEmpty()) {
+            SectionTitle(title = "Connected ideas")
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                relatedItems.forEach { rel ->
+                    MiniCard(
+                        discovery = rel,
+                        onOpen = onOpenDiscovery,
+                        showSave = false
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(28.dp))
+        }
+    }
 
     // Deep Dive Prompt CTA Button
     Row(
@@ -486,6 +517,7 @@ private fun QuickOverviewContent(
 // -----------------------------------------------------------------------------
 // Deep Dive Full Article Content Component
 // -----------------------------------------------------------------------------
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun DeepDiveContent(
     discovery: Discovery,
@@ -993,8 +1025,9 @@ private fun DeepDiveContent(
         }
     } else {
         // Fallback for simple thinker chips
-        Row(
+        FlowRow(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
             detail.keyPeople.forEach { person ->
@@ -1014,7 +1047,9 @@ private fun DeepDiveContent(
                         fontFamily = FontFamily.SansSerif,
                         fontWeight = if (linkId != null) FontWeight.SemiBold else FontWeight.Normal,
                         fontSize = 13.sp,
-                        color = theme.textPrimary
+                        color = theme.textPrimary,
+                        maxLines = 1,
+                        softWrap = false
                     )
                 }
             }
