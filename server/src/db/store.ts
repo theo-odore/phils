@@ -1,7 +1,6 @@
 import { Discovery, UserProfile, DiscoveryType } from '../types';
 import { curatedDiscoveries } from './discoveriesData';
 import { RecommendationEngine } from '../services/recommendationEngine';
-import { nvidiaNimGenerator } from '../services/nvidiaNimGenerator';
 
 export class DataStore {
   private discoveries: Map<string, Discovery> = new Map();
@@ -42,36 +41,11 @@ export class DataStore {
       allDiscoveries: all,
     }, limit);
 
-    // If feed has few unseen items remaining, dynamically synthesize additional theories
-    if (feed.length < limit) {
-      try {
-        const existingTitles = all.map(d => d.title);
-        const needed = Math.max(3, limit - feed.length);
-        const generated = await nvidiaNimGenerator.generateBatch(needed, existingTitles);
-        for (const item of generated) {
-          this.discoveries.set(item.id, item);
-          feed.push(item);
-        }
-      } catch (err) {
-        console.error('[DataStore] Infinite synthesis fallback triggered:', err);
-      }
-    }
-
     return {
       discoveries: feed,
       next_cursor: feed.length > 0 ? feed[feed.length - 1].id : null,
       has_more: true,
     };
-  }
-
-  public async generateMore(count = 5): Promise<Discovery[]> {
-    const all = Array.from(this.discoveries.values());
-    const existingTitles = all.map(d => d.title);
-    const newItems = await nvidiaNimGenerator.generateBatch(count, existingTitles);
-    for (const item of newItems) {
-      this.discoveries.set(item.id, item);
-    }
-    return newItems;
   }
 
   public async search(query: string, limit: number = 20): Promise<Discovery[]> {

@@ -1,5 +1,7 @@
 package com.phils.app
 
+import com.phils.app.data.api.ServerDiscoveryDto
+import com.phils.app.data.api.toDomain
 import com.phils.app.model.Discovery
 import com.phils.app.model.DiscoveryDetail
 import com.phils.app.model.KeyPerson
@@ -142,5 +144,35 @@ class ApiFirstArchitectureTest {
         val hookMatch = testDeck.filter { it.hook.lowercase().contains("plank") }
         assertEquals(1, hookMatch.size)
         assertEquals("ship-of-theseus", hookMatch.first().id)
+    }
+
+    @Test
+    fun testServerDiscoveryDtoToDomain_handlesNullsAndEmptySectionsGracefully() {
+        val dto = com.phils.app.data.api.ServerDiscoveryDto(
+            id = "sparse-id",
+            title = "Sparse Title"
+        )
+        val domain = dto.toDomain()
+        assertEquals("sparse-id", domain.id)
+        assertEquals("Sparse Title", domain.title)
+        assertEquals("PHILOSOPHY", domain.type)
+        assertEquals("stone", domain.mood)
+        assertEquals("Wisdom begins in wonder.", domain.detail.quote)
+        assertTrue(domain.detail.corePrinciplesRich.isEmpty())
+        assertTrue(domain.detail.keyThinkersRich.isEmpty())
+        assertEquals(null, domain.detail.richWhatIsThis)
+    }
+
+    @Test
+    fun testPartialJsonDeserialization_withDefaults() {
+        val adapter = moshi.adapter(Discovery::class.java)
+        // Missing almost all fields, should not throw JsonDataException
+        val minimalJson = """{"id":"min-1","title":"Minimal"}"""
+        val parsed = adapter.fromJson(minimalJson)
+        assertNotNull(parsed)
+        assertEquals("min-1", parsed?.id)
+        assertEquals("Minimal", parsed?.title)
+        assertEquals("stone", parsed?.mood)
+        assertEquals("PHILOSOPHY", parsed?.type)
     }
 }
