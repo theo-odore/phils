@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phils — Intellectual Discovery Feed</title>
+  <meta name="description" content="Replace the scroll. Phils couples the feel of a vertical feed with the timeless depth of a library. Every card a paradox, a principle, a way of seeing.">
+  
+  <!-- Open Graph & Twitter Cards -->
+  <meta property="og:title" content="Phils — Intellectual Discovery Feed">
+  <meta property="og:description" content="Replace addictive doomscrolling with curiosity-driven intellectual discovery.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Phils">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Phils — Intellectual Discovery Feed">
+  <meta name="twitter:description" content="Replace addictive doomscrolling with curiosity-driven intellectual discovery.">
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── Design Tokens ─────────────────────────────────────────────── */
+    :root {
+      /* Máni (Dark / Default) */
+      --bg:             #0B1120;
+      --bg-soft:        #151E2E;
+      --surface:        #1E293B;
+      --surface-up:     #283548;
+      --line:           rgba(255, 255, 255, 0.08);
+      --line-strong:    rgba(255, 255, 255, 0.16);
+
+      --text-primary:   #F1F5F9;
+      --text-secondary: #94A3B8;
+      --text-faint:     #64748B;
+
+      --amber:          #E5A93C;
+      --amber-soft:     rgba(229, 169, 60, 0.14);
+      --amber-glow:     rgba(229, 169, 60, 0.08);
+
+      --serif:          'Instrument Serif', Georgia, serif;
+      --sans:           'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --mono:           'JetBrains Mono', monospace;
+
+      --radius-sm:      8px;
+      --radius-md:      14px;
+      --radius-lg:      22px;
+      --radius-pill:    9999px;
+
+      --shadow-ambient: 0 32px 64px -16px rgba(0, 0, 0, 0.5);
+      --ease-spring:    cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-smooth:    cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Sól (Light Theme Mode) */
+    [data-theme="light"] {
+      --bg:             #FDF8F5;
+      --bg-soft:        #F4EBE1;
+      --surface:        #FFFFFF;
+      --surface-up:     #F9F4EE;
+      --line:           #EAD5C5;
+      --line-strong:    #D5BCAB;
+
+      --text-primary:   #342416;
+      --text-secondary: #70543B;
+      --text-faint:     #9A806D;
+
+      --amber:          #C27E1A;
+      --amber-soft:     rgba(194, 126, 26, 0.12);
+      --amber-glow:     rgba(194, 126, 26, 0.06);
+
+      --shadow-ambient: 0 24px 48px -12px rgba(74, 51, 32, 0.12);
+    }
+
+    /* ─── Base Reset ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg);
+      color: var(--text-primary);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      transition: background-color 0.3s var(--ease-smooth), color 0.3s var(--ease-smooth);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; color: inherit; }
+
+    .container { width: min(1140px, 100% - 48px); margin-inline: auto; }
+    .section { padding-block: clamp(72px, 10vw, 130px); }
+
+    /* ─── Navigation Bar ─────────────────────────────────────────────── */
+    .nav {
+      position: fixed; inset-inline: 0; top: 0; z-index: 100;
+      padding: 16px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid transparent;
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .nav.scrolled {
+      background-color: rgba(11, 17, 32, 0.85);
+      border-color: var(--line);
+    }
+    [data-theme="light"] .nav.scrolled {
+      background-color: rgba(253, 248, 245, 0.88);
+    }
+
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--serif); font-size: 26px; font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+    .brand-mark {
+      width: 32px; height: 32px; border-radius: 9px;
+      background: linear-gradient(135deg, var(--amber) 0%, #D4891E 100%);
+      display: grid; place-items: center;
+      font-family: var(--serif); font-size: 18px; font-weight: 600; color: #0B1120;
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 32px; list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px; font-weight: 500; color: var(--text-secondary);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+
+    .theme-toggle {
+      width: 36px; height: 36px; border-radius: var(--radius-pill);
+      border: 1px solid var(--line); display: grid; place-items: center;
+      color: var(--text-secondary); transition: all 0.2s;
+    }
+    .theme-toggle:hover { color: var(--text-primary); border-color: var(--line-strong); }
+
+    .btn-nav {
+      padding: 8px 18px; border-radius: var(--radius-pill);
+      background: var(--amber); color: #0B1120;
+      font-size: 14px; font-weight: 600;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .btn-nav:hover { opacity: 0.92; transform: translateY(-1px); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+
+    /* ─── Hero Section ───────────────────────────────────────────────── */
+    .hero {
+      min-height: 94svh; display: grid; grid-template-columns: 1.1fr 0.9fr;
+      align-items: center; gap: 48px; padding-top: 100px;
+    }
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; text-align: center; padding-top: 120px; }
+      .hero-visual { order: -1; }
+    }
+
+    .pill-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: var(--radius-pill);
+      background: var(--amber-soft); border: 1px solid rgba(229, 169, 60, 0.25);
+      font-family: var(--mono); font-size: 11px; font-weight: 600;
+      color: var(--amber); letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .pill-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--amber);
+      animation: pulse 2s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(48px, 6.2vw, 84px);
+      font-weight: 400; line-height: 1.02;
+      letter-spacing: -0.025em;
+      margin-bottom: 24px;
+    }
+    .hero-title em {
+      font-style: italic; color: var(--amber);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(17px, 2vw, 20px);
+      line-height: 1.65; color: var(--text-secondary);
+      max-width: 520px; margin-bottom: 38px;
+    }
+    @media (max-width: 960px) {
+      .hero-subtitle { margin-inline: auto; }
+    }
+
+    .hero-cta-group {
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    }
+    @media (max-width: 960px) {
+      .hero-cta-group { justify-content: center; }
+    }
+
+    .btn-main {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 28px; border-radius: var(--radius-pill);
+      background: linear-gradient(135deg, var(--amber) 0%, #D4891E 100%);
+      color: #0B1120; font-size: 15px; font-weight: 600;
+      box-shadow: 0 8px 24px -4px rgba(229, 169, 60, 0.4);
+      transition: transform 0.2s var(--ease-spring), box-shadow 0.2s;
+    }
+    .btn-main:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px -4px rgba(229, 169, 60, 0.5);
+    }
+
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 24px; border-radius: var(--radius-pill);
+      border: 1px solid var(--line-strong);
+      background: var(--bg-soft); color: var(--text-primary);
+      font-size: 15px; font-weight: 500;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-secondary:hover {
+      background: var(--surface);
+      border-color: var(--amber);
+    }
+
+    /* ─── Interactive Phone Stage ─────────────────────────────────────── */
+    .hero-visual {
+      display: flex; justify-content: center; align-items: center;
+      position: relative;
+    }
+    .phone-stage {
+      width: min(320px, 85vw); height: 580px;
+      background: var(--bg); border: 2px solid var(--line-strong);
+      border-radius: 46px; padding: 12px;
+      box-shadow: var(--shadow-ambient), 0 0 0 8px var(--bg-soft);
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .phone-island {
+      width: 86px; height: 22px; background: #000;
+      border-radius: var(--radius-pill); margin: 6px auto 14px auto;
+      z-index: 20;
+    }
+
+    .card-stack-deck {
+      flex: 1; position: relative;
+      perspective: 1000px;
+    }
+
+    .preview-card {
+      position: absolute; inset: 0;
+      border-radius: 26px; padding: 26px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      color: #FFFFFF;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+      cursor: grab; user-select: none;
+      transition: transform 0.45s var(--ease-spring), opacity 0.45s;
+    }
+
+    .preview-card.card-metaphysics {
+      background: linear-gradient(145deg, #1C1724 0%, #3B2B50 100%);
+      border: 1px solid rgba(172, 155, 232, 0.3);
+      z-index: 3;
+    }
+    .preview-card.card-logic {
+      background: linear-gradient(145deg, #172220 0%, #2A4843 100%);
+      border: 1px solid rgba(127, 188, 207, 0.25);
+      z-index: 2;
+      transform: translateY(18px) scale(0.93) rotate(2.5deg);
+      opacity: 0.75;
+    }
+    .preview-card.card-ethics {
+      background: linear-gradient(145deg, #271B13 0%, #4D3321 100%);
+      border: 1px solid rgba(238, 178, 133, 0.2);
+      z-index: 1;
+      transform: translateY(32px) scale(0.86) rotate(-2deg);
+      opacity: 0.5;
+    }
+
+    .card-domain-badge {
+      font-family: var(--mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: var(--radius-pill);
+      background: rgba(255, 255, 255, 0.12);
+      display: inline-block; width: fit-content;
+    }
+
+    .card-headline {
+      font-family: var(--serif); font-size: 28px;
+      font-weight: 500; line-height: 1.1; margin-top: 14px;
+    }
+    .card-hook {
+      font-size: 13.5px; line-height: 1.55;
+      color: rgba(255, 255, 255, 0.8); margin-top: 10px;
+    }
+
+    .card-footer-info {
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.12); padding-top: 14px;
+    }
+    .card-thinker {
+      font-size: 12px; font-weight: 500; opacity: 0.85;
+    }
+    .card-swipe-hint {
+      font-family: var(--mono); font-size: 9.5px;
+      opacity: 0.6; text-transform: uppercase;
+    }
+
+    /* ─── Metric Pillars ─────────────────────────────────────────────── */
+    .metrics-bar {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding-block: 40px;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px;
+    }
+    @media (max-width: 768px) {
+      .metrics-bar { grid-template-columns: repeat(2, 1fr); }
+    }
+    .metric-col { text-align: center; }
+    .metric-number {
+      font-family: var(--serif); font-size: clamp(34px, 4.5vw, 52px);
+      font-weight: 400; color: var(--amber); line-height: 1;
+      margin-bottom: 8px;
+    }
+    .metric-title {
+      font-size: 13.5px; font-weight: 500; color: var(--text-secondary);
+    }
+
+    /* ─── Philosophy & Core Mechanics ────────────────────────────────── */
+    .section-eyebrow {
+      font-family: var(--mono); font-size: 11px; font-weight: 600;
+      color: var(--amber); letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-heading {
+      font-family: var(--serif); font-size: clamp(32px, 4.2vw, 56px);
+      font-weight: 400; line-height: 1.08; letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .section-desc {
+      font-size: 17px; line-height: 1.65; color: var(--text-secondary);
+      max-width: 580px; margin-bottom: 56px;
+    }
+
+    .features-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    @media (max-width: 860px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+    .feature-card {
+      background: var(--bg-soft); border: 1px solid var(--line);
+      border-radius: var(--radius-lg); padding: 36px 30px;
+      transition: transform 0.3s var(--ease-spring), border-color 0.3s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--line-strong);
+    }
+    .feature-icon-bubble {
+      width: 48px; height: 48px; border-radius: var(--radius-md);
+      background: var(--surface); border: 1px solid var(--line);
+      display: grid; place-items: center; font-size: 22px;
+      margin-bottom: 22px;
+    }
+    .feature-title {
+      font-family: var(--serif); font-size: 24px; font-weight: 400;
+      margin-bottom: 10px;
+    }
+    .feature-text {
+      font-size: 14.5px; line-height: 1.6; color: var(--text-secondary);
+    }
+
+    /* ─── Interactive Mood Spectrum ──────────────────────────────────── */
+    .palette-spectrum {
+      background: var(--bg-soft); border: 1px solid var(--line);
+      border-radius: var(--radius-lg); padding: 48px 36px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+    }
+    @media (max-width: 900px) {
+      .palette-spectrum { grid-template-columns: 1fr; }
+    }
+
+    .palette-swatches-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+    }
+    .swatch-btn {
+      aspect-ratio: 1; border-radius: var(--radius-md);
+      border: 2px solid transparent; transition: transform 0.2s, border-color 0.2s;
+      position: relative;
+    }
+    .swatch-btn:hover, .swatch-btn.active {
+      transform: scale(1.08);
+      border-color: #FFFFFF;
+    }
+    .swatch-label {
+      font-family: var(--mono); font-size: 9.5px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      position: absolute; bottom: 6px; left: 0; right: 0;
+      text-align: center; color: rgba(255, 255, 255, 0.85);
+    }
+
+    .mood-preview-box {
+      border-radius: var(--radius-lg); padding: 32px;
+      color: #FFFFFF; min-height: 280px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      transition: background 0.4s var(--ease-smooth);
+    }
+
+    /* ─── Dialectic Recommendation Engine ────────────────────────────── */
+    .engine-section {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center;
+    }
+    @media (max-width: 900px) {
+      .engine-section { grid-template-columns: 1fr; }
+    }
+
+    .engine-telemetry-box {
+      background: var(--bg-soft); border: 1px solid var(--line);
+      border-radius: var(--radius-lg); padding: 32px;
+    }
+    .telemetry-row {
+      display: flex; align-items: center; gap: 16px;
+      padding: 14px 18px; border-radius: var(--radius-md);
+      background: var(--surface); border: 1px solid var(--line);
+      margin-bottom: 10px;
+    }
+    .telemetry-val {
+      font-family: var(--mono); font-size: 13px; font-weight: 600;
+      color: var(--amber); width: 32px;
+    }
+    .telemetry-track {
+      flex: 1; height: 6px; background: rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-pill); overflow: hidden;
+    }
+    .telemetry-fill {
+      height: 100%; border-radius: var(--radius-pill);
+      background: linear-gradient(90deg, var(--amber) 0%, #ECAEC8 100%);
+    }
+    .telemetry-name {
+      font-size: 13px; font-weight: 500; color: var(--text-secondary); width: 140px;
+    }
+
+    .engine-rationale {
+      margin-top: 18px; padding: 14px 18px; border-radius: var(--radius-md);
+      background: var(--amber-glow); border: 1px solid rgba(229, 169, 60, 0.2);
+      font-size: 13px; line-height: 1.5; color: var(--amber);
+    }
+
+    /* ─── The Manifesto Block ────────────────────────────────────────── */
+    .manifesto-panel {
+      text-align: center; padding-block: clamp(80px, 12vw, 140px);
+      position: relative;
+    }
+    .manifesto-quote {
+      font-family: var(--serif); font-size: clamp(30px, 4.5vw, 62px);
+      font-weight: 400; line-height: 1.15; max-width: 840px; margin-inline: auto;
+      margin-bottom: 24px;
+    }
+    .manifesto-quote span { color: var(--amber); font-style: italic; }
+    .manifesto-author {
+      font-family: var(--mono); font-size: 12px; font-weight: 600;
+      color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    /* ─── Final Call to Action ───────────────────────────────────────── */
+    .cta-card {
+      background: linear-gradient(180deg, var(--bg-soft) 0%, var(--surface) 100%);
+      border: 1px solid var(--line-strong); border-radius: 36px;
+      padding: clamp(56px, 9vw, 96px) 32px;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-card h2 {
+      font-family: var(--serif); font-size: clamp(38px, 5.5vw, 68px);
+      font-weight: 400; margin-bottom: 20px;
+    }
+    .cta-card p {
+      font-size: 18px; color: var(--text-secondary); max-width: 540px;
+      margin-inline: auto; margin-bottom: 36px;
+    }
+
+    .badges-row {
+      display: flex; justify-content: center; align-items: center; gap: 14px; flex-wrap: wrap;
+    }
+    .badge-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 12px 22px; border-radius: var(--radius-pill);
+      background: var(--bg); border: 1px solid var(--line-strong);
+      font-size: 14px; font-weight: 500; color: var(--text-primary);
+      transition: all 0.2s;
+    }
+    .badge-link:hover {
+      border-color: var(--amber);
+      transform: translateY(-2px);
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────────────── */
+    .footer {
+      border-top: 1px solid var(--line);
+      padding-block: 40px; display: flex; align-items: center;
+      justify-content: space-between; font-size: 13.5px;
+      color: var(--text-faint); flex-wrap: wrap; gap: 20px;
+    }
+    .footer-nav { display: flex; gap: 28px; list-style: none; }
+    .footer-nav a:hover { color: var(--text-primary); }
+
+    /* ─── Entrance Animations ────────────────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s var(--ease-spring), transform 0.7s var(--ease-spring);
+    }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="mainNav">
+    <a href="#" class="brand">
+      <div class="brand-mark">φ</div>
+      Phils
+    </a>
+    <ul class="nav-links">
+      <li><a href="#mechanics">Experience</a></li>
+      <li><a href="#palettes">Palettes</a></li>
+      <li><a href="#engine">Dialectics</a></li>
+      <li><a href="#manifesto">Manifesto</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle Sol / Mani theme">
+        <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
+      <a href="http://localhost:5173" class="btn-nav" id="launchWebAppBtn">Launch App</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <main class="container">
+    <section class="hero">
+      <div class="hero-content">
+        <div class="pill-eyebrow reveal">
+          <span class="pill-dot"></span>
+          Now Available on Android & Web PWA
+        </div>
+        <h1 class="hero-title reveal">
+          Replace the scroll.<br>
+          <em>Keep the wonder.</em>
+        </h1>
+        <p class="hero-subtitle reveal">
+          Phils reimagines vertical swipe mechanics into a sanctuary for ideas. 
+          Encounter thought experiments, cognitive paradoxes, and 2,500 years of philosophy—one card at a time.
+        </p>
+        <div class="hero-cta-group reveal">
+          <a href="http://localhost:5173" class="btn-main" id="heroTryBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            Open Web Reader
+          </a>
+          <a href="#mechanics" class="btn-secondary">
+            Explore Mechanics ↓
+          </a>
+        </div>
+      </div>
+
+      <!-- Phone Visual Simulation -->
+      <div class="hero-visual reveal">
+        <div class="phone-stage">
+          <div class="phone-island"></div>
+          <div class="card-stack-deck" id="cardDeck">
+            <!-- Card 3 -->
+            <div class="preview-card card-ethics" id="card3">
+              <span class="card-domain-badge">Ethics</span>
+              <div>
+                <h3 class="card-headline">The Trolley Dilemma</h3>
+                <p class="card-hook">Should you pull the lever to save five people if it takes one life? Intuition vs. Utilitarian calculation.</p>
+              </div>
+              <div class="card-footer-info">
+                <span class="card-thinker">Philippa Foot</span>
+                <span class="card-swipe-hint">Tap to Rotate</span>
+              </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="preview-card card-logic" id="card2">
+              <span class="card-domain-badge">Logic</span>
+              <div>
+                <h3 class="card-headline">Russell's Paradox</h3>
+                <p class="card-hook">Does the set of all sets that do not contain themselves contain itself? The question that shattered set theory.</p>
+              </div>
+              <div class="card-footer-info">
+                <span class="card-thinker">Bertrand Russell</span>
+                <span class="card-swipe-hint">Tap to Rotate</span>
+              </div>
+            </div>
+            <!-- Card 1 (Active) -->
+            <div class="preview-card card-metaphysics" id="card1">
+              <span class="card-domain-badge">Metaphysics</span>
+              <div>
+                <h3 class="card-headline">Ship of Theseus</h3>
+                <p class="card-hook">If every wooden plank is replaced over time, does it remain the same ship? Where does identity reside?</p>
+              </div>
+              <div class="card-footer-info">
+                <span class="card-thinker">Plutarch</span>
+                <span class="card-swipe-hint">Tap to Rotate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Metrics Bar -->
+    <div class="metrics-bar reveal">
+      <div class="metric-col">
+        <div class="metric-number">62+</div>
+        <div class="metric-title">Curated Canonical Discoveries</div>
+      </div>
+      <div class="metric-col">
+        <div class="metric-number">10</div>
+        <div class="metric-title">Sensory Mood Palettes</div>
+      </div>
+      <div class="metric-col">
+        <div class="metric-number">120 FPS</div>
+        <div class="metric-title">Hardware Zero-Recomposition</div>
+      </div>
+      <div class="metric-col">
+        <div class="metric-number">100%</div>
+        <div class="metric-title">Offline & Tracker-Free</div>
+      </div>
+    </div>
+
+    <!-- Core Mechanics -->
+    <section class="section" id="mechanics">
+      <div class="section-eyebrow reveal">Interaction Architecture</div>
+      <h2 class="section-heading reveal">Built to honor your attention</h2>
+      <p class="section-desc reveal">
+        Every interaction was designed to counteract the hyper-stimulating dopamine traps of modern feeds, replacing anxiety with contemplative clarity.
+      </p>
+
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon-bubble">🃏</div>
+          <h3 class="feature-title">Asymmetric 3D Physics</h3>
+          <p class="feature-text">
+            Gestures map directly to graphics hardware layers. Cards scale, tilt on the Z-axis, and spring smoothly without re-evaluating layout hierarchies.
+          </p>
+        </div>
+
+        <div class="feature-card reveal">
+          <div class="feature-icon-bubble">⚖️</div>
+          <h3 class="feature-title">Dual-Depth Reader</h3>
+          <p class="feature-text">
+            Start with a 200-word Quick Read digest or expand into seven structured canonical chapters: historical context, core tenets, counter-critiques, and everyday decision rules.
+          </p>
+        </div>
+
+        <div class="feature-card reveal">
+          <div class="feature-icon-bubble">🌐</div>
+          <h3 class="feature-title">Native SSR Web Links</h3>
+          <p class="feature-text">
+            Every card generates clean, open-graph share links. Anyone clicking your shared discovery reads the full article instantly in their browser with zero app installation required.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mood Spectrum -->
+    <section class="section" id="palettes">
+      <div class="section-eyebrow reveal">Chromatic Identity</div>
+      <h2 class="section-heading reveal">10 editorial domain moods</h2>
+      <p class="section-desc reveal">
+        Ideas possess temperature. Phils tints each discovery card to match its intellectual realm—from cool oceanic epistemology to deep cosmic metaphysics.
+      </p>
+
+      <div class="palette-spectrum reveal">
+        <div>
+          <h4 style="font-family: var(--serif); font-size: 24px; margin-bottom: 12px;" id="currentMoodTitle">Cosmic Metaphysics</h4>
+          <p style="font-size: 14.5px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px;" id="currentMoodDesc">
+            Violet and twilight hues evoking the nature of existence, time, and ontology beyond physical observation.
+          </p>
+          <div class="palette-swatches-grid" id="swatchGrid">
+            <!-- Swatches populated dynamically -->
+          </div>
+        </div>
+
+        <div class="mood-preview-box" id="moodPreviewBox" style="background: linear-gradient(135deg, #1C1724 0%, #3B2B50 100%);">
+          <span class="card-domain-badge" id="previewMoodBadge" style="background: rgba(255,255,255,0.18);">Cosmic</span>
+          <div>
+            <h3 style="font-family: var(--serif); font-size: 26px; line-height: 1.15; margin-bottom: 10px;" id="previewMoodTitle">The Allegory of the Cave</h3>
+            <p style="font-size: 13.5px; opacity: 0.85; line-height: 1.55;" id="previewMoodHook">What if our perceived reality is only shadows cast upon the wall of an underground chamber?</p>
+          </div>
+          <div style="font-size: 11px; font-family: var(--mono); opacity: 0.7;">DOMAIN PALETTE PREVIEW</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recommendation Engine -->
+    <section class="section" id="engine">
+      <div class="engine-section">
+        <div>
+          <div class="section-eyebrow reveal">Recommendation Engine</div>
+          <h2 class="section-heading reveal">Dialectics over echo chambers</h2>
+          <p class="section-desc reveal">
+            Conventional algorithms maximize engagement by affirming your existing biases. Phils does the opposite: it surfaces contrasting perspectives to broaden your horizons.
+          </p>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 14px; font-size: 15px; color: var(--text-secondary);">
+            <li class="reveal">✦ <strong>Dialectical Tension (Score 95):</strong> High priority awarded to philosophies directly critiquing what you just read.</li>
+            <li class="reveal">✦ <strong>Novelty Injection (Score 70):</strong> Injects unexpected domains to prevent intellectual clustering.</li>
+            <li class="reveal">✦ <strong>Algorithmic Transparency:</strong> Every card provides a transparent "Why this card?" explainer.</li>
+          </ul>
+        </div>
+
+        <div class="engine-telemetry-box reveal">
+          <div style="font-family: var(--mono); font-size: 11px; color: var(--text-faint); margin-bottom: 18px; text-transform: uppercase;">Real-Time Scoring Telemetry</div>
+          <div class="telemetry-row">
+            <span class="telemetry-val">95</span>
+            <span class="telemetry-name">Dialectic Counter</span>
+            <div class="telemetry-track"><div class="telemetry-fill" style="width: 95%;"></div></div>
+          </div>
+          <div class="telemetry-row">
+            <span class="telemetry-val">85</span>
+            <span class="telemetry-name">Concept Proximity</span>
+            <div class="telemetry-track"><div class="telemetry-fill" style="width: 85%;"></div></div>
+          </div>
+          <div class="telemetry-row">
+            <span class="telemetry-val">70</span>
+            <span class="telemetry-name">Novelty Injection</span>
+            <div class="telemetry-track"><div class="telemetry-fill" style="width: 70%;"></div></div>
+          </div>
+          <div class="engine-rationale">
+            "Next card queued: Nietzsche's Critique of Morality — prioritized because you just explored Kant's Categorical Imperative."
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Manifesto Block -->
+    <section class="manifesto-panel" id="manifesto">
+      <blockquote class="manifesto-quote reveal">
+        "Don't make people <span>stop scrolling</span>.<br>
+        Make the scrolling <span>worth doing</span>."
+      </blockquote>
+      <div class="manifesto-author reveal">— The Phils Manifesto</div>
+    </section>
+
+    <!-- Final Call to Action -->
+    <section class="section" style="padding-bottom: 80px;">
+      <div class="cta-card reveal">
+        <h2>Begin your discovery</h2>
+        <p>
+          Available as an open-source native Android app, a responsive PWA, and a self-hosted Docker stack.
+        </p>
+        <div class="badges-row">
+          <a href="http://localhost:5173" class="badge-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            Launch Web PWA
+          </a>
+          <a href="https://github.com" class="badge-link" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            GitHub Repository
+          </a>
+          <a href="#" class="badge-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993 0 .5511-.4483.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 7.893 13.854 7.375 12 7.375s-3.5902.518-5.1368 1.5747L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/></svg>
+            Android APK
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="brand-mark" style="width: 22px; height: 22px; font-size: 13px;">φ</span>
+        <strong style="color: var(--text-primary);">Phils</strong>
+        <span>· Curious Minds Foundation © 2026</span>
+      </div>
+      <ul class="footer-nav">
+        <li><a href="#mechanics">Mechanics</a></li>
+        <li><a href="#palettes">Palettes</a></li>
+        <li><a href="#engine">Engine</a></li>
+        <li><a href="http://localhost:5173">Web App</a></li>
+      </ul>
+    </footer>
+  </main>
+
+  <script>
+    // ─── Theme Toggle (Sól / Máni) ──────────────────────────────────
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    let isLight = localStorage.getItem('phils_theme') === 'light';
+
+    function applyTheme() {
+      if (isLight) {
+        document.documentElement.setAttribute('data-theme', 'light');
+        themeIcon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+      }
+    }
+    applyTheme();
+
+    themeToggle.addEventListener('click', () => {
+      isLight = !isLight;
+      localStorage.setItem('phils_theme', isLight ? 'light' : 'dark');
+      applyTheme();
+    });
+
+    // ─── Sticky Nav Blur ───────────────────────────────────────────
+    const mainNav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      mainNav.classList.toggle('scrolled', window.scrollY > 30);
+    }, { passive: true });
+
+    // ─── Interactive Card Stack Rotation ───────────────────────────
+    const cards = [
+      document.getElementById('card1'),
+      document.getElementById('card2'),
+      document.getElementById('card3')
+    ];
+    let cardOrder = [0, 1, 2];
+
+    function rotateCards() {
+      cardOrder.unshift(cardOrder.pop());
+      const styles = [
+        { z: 3, transform: 'translateY(0) scale(1) rotate(0deg)', opacity: 1 },
+        { z: 2, transform: 'translateY(18px) scale(0.93) rotate(2.5deg)', opacity: 0.75 },
+        { z: 1, transform: 'translateY(32px) scale(0.86) rotate(-2deg)', opacity: 0.5 }
+      ];
+      cardOrder.forEach((cardIdx, slotIdx) => {
+        const el = cards[cardIdx];
+        el.style.zIndex = styles[slotIdx].z;
+        el.style.transform = styles[slotIdx].transform;
+        el.style.opacity = styles[slotIdx].opacity;
+      });
+    }
+
+    document.getElementById('cardDeck').addEventListener('click', rotateCards);
+
+    // ─── Mood Palettes Interactive Spectrum ─────────────────────────
+    const MOODS = [
+      { key: 'cosmic', name: 'Cosmic Metaphysics', bg: 'linear-gradient(135deg, #1C1724 0%, #3B2B50 100%)', swatch: '#4A3A80', desc: 'Deep violet and twilight hues evoking the nature of existence, ontology, and reality.' },
+      { key: 'ocean', name: 'Ocean Epistemology', bg: 'linear-gradient(135deg, #172220 0%, #2A5A5C 100%)', swatch: '#2A5A5C', desc: 'Aquatic teals for theories of knowledge, justified belief, and sensory perception.' },
+      { key: 'terracotta', name: 'Terracotta Ethics', bg: 'linear-gradient(135deg, #271B13 0%, #4D3321 100%)', swatch: '#964F2D', desc: 'Warm earth tones for moral philosophy, duty, justice, and human conduct.' },
+      { key: 'sage', name: 'Sage Natural Philosophy', bg: 'linear-gradient(135deg, #1D2319 0%, #334824 100%)', swatch: '#4A6134', desc: 'Muted olive and moss for environmental ethics, evolutionary thought, and biology.' },
+      { key: 'stone', name: 'Stone Stoicism', bg: 'linear-gradient(135deg, #2A2520 0%, #4A3E2F 100%)', swatch: '#6B5A3E', desc: 'Weathered limestone for fortitude, emotional resilience, and the inner citadel.' },
+      { key: 'burgundy', name: 'Burgundy Existentialism', bg: 'linear-gradient(135deg, #2B1615 0%, #52221F 100%)', swatch: '#8A332C', desc: 'Rich crimson for radical freedom, anxiety, authenticity, and the absurd.' },
+      { key: 'indigo', name: 'Indigo Philosophy of Mind', bg: 'linear-gradient(135deg, #141728 0%, #262E5A 100%)', swatch: '#323E75', desc: 'Electrified midnight for consciousness, qualia, dualism, and artificial intelligence.' },
+      { key: 'rose', name: 'Rose Aesthetics', bg: 'linear-gradient(135deg, #261319 0%, #4A2030 100%)', swatch: '#843458', desc: 'Dusty rose for beauty, artistic sublime, tragedy, and artistic critique.' },
+      { key: 'ochre', name: 'Ochre Pragmatism', bg: 'linear-gradient(135deg, #261F12 0%, #4A3A1C 100%)', swatch: '#85601E', desc: 'Golden harvest for truth verified through practical consequences and action.' },
+      { key: 'lavender', name: 'Lavender Language & Logic', bg: 'linear-gradient(135deg, #1D1826 0%, #3B2E4F 100%)', swatch: '#604787', desc: 'Ethereal purple for semiotics, formal logic, linguistic turn, and symbols.' }
+    ];
+
+    const swatchGrid = document.getElementById('swatchGrid');
+    const moodBox = document.getElementById('moodPreviewBox');
+    const moodTitle = document.getElementById('currentMoodTitle');
+    const moodDesc = document.getElementById('currentMoodDesc');
+    const previewBadge = document.getElementById('previewMoodBadge');
+
+    MOODS.forEach((m, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'swatch-btn' + (idx === 0 ? ' active' : '');
+      btn.style.background = m.swatch;
+      btn.setAttribute('aria-label', m.name);
+      btn.innerHTML = `<span class="swatch-label">${m.key.slice(0, 3)}</span>`;
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.swatch-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        moodBox.style.background = m.bg;
+        moodTitle.textContent = m.name;
+        moodDesc.textContent = m.desc;
+        previewBadge.textContent = m.name.split(' ')[0];
+      });
+      swatchGrid.appendChild(btn);
+    });
+
+    // ─── Scroll Reveal Observer ─────────────────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

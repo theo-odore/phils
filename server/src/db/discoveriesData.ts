@@ -20,9 +20,9 @@ export const curatedDiscoveries: Discovery[] = [
     everyday_example: 'When you get stuck in a massive traffic jam before an important meeting, getting furious changes nothing about the road. The Stoic takes a breath, accepts the delay, and uses the time to listen to an audiobook or mentally prepare.',
     background_style: 'stoic_stone',
     key_people: [
-      { name: 'Marcus Aurelius', role: 'Roman Emperor & Philosopher', era: '121–180 AD', quote: 'You have power over your mind - not outside events. Realize this, and you will find strength.' },
-      { name: 'Epictetus', role: 'Greek Stoic & Former Slave', era: '50–135 AD', quote: 'It is not what happens to you, but how you react to it that matters.' },
-      { name: 'Seneca', role: 'Roman Statesman & Essayist', era: '4 BC–65 AD', quote: 'We suffer more often in imagination than in reality.' }
+      { name: 'Marcus Aurelius', role: 'Roman Emperor & Philosopher', era: '121-180 AD', quote: 'You have power over your mind - not outside events. Realize this, and you will find strength.' },
+      { name: 'Epictetus', role: 'Greek Stoic & Former Slave', era: '50-135 AD', quote: 'It is not what happens to you, but how you react to it that matters.' },
+      { name: 'Seneca', role: 'Roman Statesman & Essayist', era: '4 BC-65 AD', quote: 'We suffer more often in imagination than in reality.' }
     ],
     related_discoveries: [
       { id: 'dichotomy-of-control', title: 'Dichotomy of Control', type: 'concept', reason: 'The foundational mental model of Stoic practice' },
@@ -32,6 +32,230 @@ export const curatedDiscoveries: Discovery[] = [
     contrasting_discoveries: [
       { id: 'epicureanism', title: 'Epicureanism', type: 'philosophy', reason: 'While Stoics endure public duty and fate, Epicureans withdraw to peaceful gardens and prioritize the elimination of physical/mental pain.' },
       { id: 'hedonism', title: 'Hedonism', type: 'philosophy', reason: 'Hedonism seeks maximizing immediate pleasure, whereas Stoicism insists pleasure is indifferent and virtue is the only good.' }
+    ],
+
+    // =========================================================================
+    // ENRICHED DEEP-DIVE SECTIONS (Multi-Level Reading Experience)
+    // =========================================================================
+    reading_depth: {
+      quick_intro_word_count: 210,
+      deep_dive_word_count: 1450,
+      reading_time_minutes: 6
+    },
+
+    section_what_is_this: {
+      summary: 'Stoicism is an ancient Greek and Roman philosophical tradition that places virtue and rational judgment at the center of a flourishing human life.',
+      central_question: 'How can we live well when we cannot control everything that happens to us?',
+      main_argument: 'True flourishing (eudaimonia) and tranquility (ataraxia) depend exclusively on the quality of our character and judgments, not on external circumstances beyond our command.',
+      how_it_works: 'Stoics separate the world into two domains: things within our control (our judgments, intentions, desires, impulses, and virtues) and things outside our control (external events, other people\'s actions, reputation, health, and mortality). By anchoring self-worth and desires solely in our own virtuous choices, we become immune to external misfortune.',
+      introductory_example: 'Imagine preparing exhaustively for an important job interview, but the company hires the CEO\'s nephew instead. You cannot control their nepotism. A Stoic recognizes this distinction, refuses to judge themselves as a failure, extracts the learning, and moves forward with dignity intact.',
+      importance: 'Stoicism bridges theoretical ethics and practical psychological resilience. It provided the intellectual foundation for modern Cognitive Behavioral Therapy (CBT) and rational emotive therapy.',
+      misconceptions: [
+        'Emotional suppression: Stoicism is not about repressing or hiding feelings; it is about examining the judgments that cause destructive passions.',
+        'Robotic apathy: Stoics are not indifferent to others; they actively practice cosmopolitanism and public duty.',
+        'Fatalistic passivity: Recognizing what you cannot control does not mean refusing to take action to change preventable injustice.'
+      ],
+      questions_to_consider: [
+        'How much of your daily mental energy is consumed by events, people, or outcomes you cannot actually guarantee?',
+        'If external fortune took away your current social status or possessions tomorrow, what internal character traits would remain unshaken?'
+      ]
+    },
+
+    section_origin_context: {
+      summary: 'Stoicism emerged in Athens around 300 BCE and evolved over half a millennium into a dominant philosophical system across the Hellenistic world and Roman Empire.',
+      era_and_location: 'Early 3rd Century BCE, Athens, Greece -> 1st-2nd Century CE, Rome',
+      historical_circumstances: 'Following the conquests of Alexander the Great and the disintegration of classical Greek city-states, individuals felt vulnerable and powerless against massive geopolitical shifts, sparking intense demand for personal philosophies of inner resilience.',
+      motivating_problem: 'How can an individual achieve unshakable peace of mind and live an ethical life in an unstable, unpredictable, and often hostile world?',
+      earlier_influences: [
+        'Socrates: The doctrine that virtue is knowledge and that a good person cannot be harmed by an inferior one.',
+        'Cynicism: Diogenes\' radical rejection of external luxury, wealth, and conventional social status in favor of moral self-sufficiency.',
+        'Heraclitus: The cosmological concept of the Logos, an interconnected, rational principle animating the cosmos.'
+      ],
+      evolution_and_development: 'Early Stoa (Zeno, Cleanthes, Chrysippus) focused on comprehensive logic, physics, and cosmological theory. Middle Stoa (Panaetius, Posidonius) softened strict doctrines for broader Hellenistic culture. Late Roman Stoa (Seneca, Musonius Rufus, Epictetus, Marcus Aurelius) stripped away scholastic logic and concentrated almost exclusively on daily moral psychology, adversity, and civic duty.',
+      historical_legacy: 'Heavily shaped Christian monastic ethics, modern cognitive psychotherapy (Albert Ellis and Aaron Beck), and existentialist themes of personal responsibility.'
+    },
+
+    section_core_principles: [
+      {
+        name: 'Virtue as the Sole Good',
+        explanation: 'Wisdom, Courage, Justice, and Moderation are the only things that possess inherent value and are sufficient for human flourishing.',
+        why_it_matters: 'Shifts evaluation from worldly outcomes to the integrity of one\'s choices.',
+        reasoning: 'External goods like wealth, fame, or physical health can be lost through bad luck and can be used for evil; only virtue is unassailable and universally good.',
+        example: 'A person who loses their job for refusing to participate in corporate fraud retains their moral flourishing, while the wealthy fraudster suffers true self-inflicted spiritual harm.',
+        counter_case: 'The Aristotelian objection: Can a genuinely virtuous person truly flourish if subjected to horrific torture or the tragedy of losing all their children?',
+        common_misunderstanding: 'Thinking Stoics reject wealth or health entirely; Stoics classify them as "preferred indifferents" (proegmena)—pleasant to have, but unnecessary for happiness.',
+        relation_to_other_principles: 'Acts as the moral rudder for applying the Dichotomy of Control.'
+      },
+      {
+        name: 'The Dichotomy of Control',
+        explanation: 'A fundamental distinction between what depends on us (our thoughts, impulses, desires) and what does not (external outcomes, other people\'s opinions, fate).',
+        why_it_matters: 'Prevents frustration over events we cannot command and focuses effort where it actually makes a difference.',
+        reasoning: 'Suffering occurs when we attach our well-being to things governed by chance or external wills.',
+        example: 'An archer can train rigorously, align their aim, and release the arrow cleanly (what depends on them); once released, a gust of wind or the target\'s movement is outside their power. The Stoic takes pride in the shot, not the prize.',
+        counter_case: 'The boundary problem: In modern psychology, subconscious biases, biochemical depression, and systemic social conditions show our internal state is not always completely under voluntary control.',
+        common_misunderstanding: 'Mistaking acceptance of limits for resignation; Stoics make maximal effort while detaching from guaranteed outcomes.',
+        relation_to_other_principles: 'Operationalizes virtue in every minute of daily life.'
+      },
+      {
+        name: 'Cognitive Theory of Emotion',
+        explanation: 'We are disturbed not by things that happen, but by the opinions and judgments we form about those things.',
+        why_it_matters: 'Empowers individuals to question automatic emotional reactions rather than being ruled by them.',
+        reasoning: 'Passions (pathe) are not irrational demons, but false cognitive judgments that an indifferent external event represents a catastrophe or supreme triumph.',
+        example: 'A sudden flight cancellation has no intrinsic hostility; only your interpretation ("my vacation is ruined, the universe is against me") generates rage.',
+        counter_case: 'Proto-passions (propatheia): involuntary physiological shock responses (gasping, flinching, pounding heart) that cannot be immediately reasoned away.',
+        common_misunderstanding: 'Believing Stoicism requires eliminating all emotion; Stoics celebrate joy (chara), caution (eulabeia), and goodwill (boulesis), while dissolving destructive passions.',
+        relation_to_other_principles: 'Provides the psychological mechanism for living according to reason.'
+      },
+      {
+        name: 'Cosmopolitanism and Living According to Nature',
+        explanation: 'Living in alignment with human reason and recognizing all human beings as equal citizens of a shared global city (cosmopolis).',
+        why_it_matters: 'Prevents Stoicism from degenerating into selfish isolation or callous detachment.',
+        reasoning: 'Nature endowed humans with two distinctive faculties: rational thought and social sociability. To live according to nature is to use reason in service of community.',
+        example: 'Marcus Aurelius, despite ruling the world\'s largest empire, constantly reminded himself that his subjects were limbs of the same body, bound together by a shared spark of reason.',
+        counter_case: 'The metaphysical dispute: Modern secular thinkers reject the ancient Stoic claim that nature has a conscious, providential, benevolent design.',
+        common_misunderstanding: 'Assuming "living according to nature" means primitive survivalism or giving in to primal impulses.',
+        relation_to_other_principles: 'Provides the ethical motivation for justice and civic responsibility.'
+      }
+    ],
+
+    section_key_thinkers: [
+      {
+        name: 'Zeno of Citium',
+        link_id: 'stoicism',
+        era: 'c. 334-262 BCE',
+        role: 'Founder of the Stoic School',
+        biographical_context: 'A Phoenician merchant who survived a catastrophic shipwreck near Athens, walked into a bookseller, read Socrates, and began studying philosophy under the Cynics.',
+        specific_contribution: 'Established the school around 300 BCE at the Stoa Poikile (Painted Porch) in Athens, giving the movement its name.',
+        major_works_or_arguments: 'Republic (early utopian work advocating a society based on universal reason rather than legal coercion).',
+        distinct_perspective: 'Combined Cynic moral rigor with dialectical logic and Heraclitean cosmology.',
+        quote: 'Happiness is a good flow of life.'
+      },
+      {
+        name: 'Chrysippus of Soli',
+        link_id: 'stoicism',
+        era: 'c. 279-206 BCE',
+        role: 'Systematizer of Stoic Logic and Ethics',
+        biographical_context: 'A legendary long-distance runner who turned to philosophy and wrote over 700 treatises, consolidating early Stoicism against skeptical critics.',
+        specific_contribution: 'Created propositional logic and formulated the definitive arguments that saved Stoicism from rival philosophical schools.',
+        major_works_or_arguments: 'Formulated the definitive doctrine on moral determinism and compatibilism (the rolling cylinder analogy).',
+        distinct_perspective: 'More intellectualist and rigorous than Zeno, insisting that passions are direct errors in judgment.',
+        quote: 'If Chrysippus had not existed, the Stoa would not have existed.'
+      },
+      {
+        name: 'Lucius Annaeus Seneca',
+        link_id: 'stoicism',
+        era: 'c. 4 BCE-65 CE',
+        role: 'Roman Statesman, Dramatist & Essayist',
+        biographical_context: 'A brilliant rhetorician who served as advisor to Emperor Nero before being forced by the tyrant to commit suicide.',
+        specific_contribution: 'Brought Stoicism alive through vivid, introspective moral essays and letters on anger, grief, time management, and wealth.',
+        major_works_or_arguments: 'Letters from a Stoic (Epistulae Morales ad Lucilium), On the Shortness of Life, On Anger.',
+        distinct_perspective: 'Deeply aware of human fragility, self-delusion, and the difficulty of living up to strict philosophical ideals.',
+        quote: 'We suffer more often in imagination than in reality.'
+      },
+      {
+        name: 'Epictetus',
+        link_id: 'stoicism',
+        era: 'c. 50-135 CE',
+        role: 'Freed Slave & Master Teacher',
+        biographical_context: 'Born into slavery in Roman Asia Minor, suffered a crippled leg from an abusive master, was later freed, and founded an influential philosophical academy in Greece.',
+        specific_contribution: 'Distilled the Dichotomy of Control into an urgent, uncompromising curriculum for personal freedom.',
+        major_works_or_arguments: 'Discourses and the Handbook (Enchiridion), transcribed by his devoted student Arrian.',
+        distinct_perspective: 'Fiercely practical, direct, and unsparing; emphasized that philosophical study is useless if it does not cure human distress.',
+        quote: 'Freedom is the only worthy goal in life. It is won by disregarding things that lie beyond our control.'
+      },
+      {
+        name: 'Marcus Aurelius',
+        link_id: 'marcus-aurelius',
+        era: '121-180 CE',
+        role: 'Roman Emperor & Philosopher',
+        biographical_context: 'The most powerful man in the Western world, who governed during a devastating plague, economic crises, and grueling frontier warfare.',
+        specific_contribution: 'Demonstrated how Stoic principles operate in the crucible of immense supreme political power and personal grief.',
+        major_works_or_arguments: 'Meditations (his private, unpublishable personal journal written in military tents on the Danube frontier).',
+        distinct_perspective: 'Deeply humble, introspective, and focused on duty, mortality, and resisting the corrupting influence of absolute power.',
+        quote: 'You have power over your mind - not outside events. Realize this, and you will find strength.'
+      }
+    ],
+
+    section_everyday_life: {
+      summary: 'Stoicism is designed not for academic lecture halls, but for high-stress decision-making, workplace friction, and personal loss.',
+      scenarios: [
+        {
+          title: 'Receiving Harsh Workplace Criticism',
+          context: 'During an all-hands presentation, a peer aggressively criticizes your initiative in front of executives.',
+          application_steps: [
+            'Separate the external event from your internal interpretation: The peer spoke words (fact); feeling humiliated is your interpretation.',
+            'Filter for truth: Ask objectively, "Does their criticism contain any valid flaw I can fix to improve the work?" If yes, thank them for the insight.',
+            'Recognize what is outside your control: You cannot control the colleague\'s jealousy, malice, or lack of tact. Their behavior reflects their character, not yours.',
+            'Respond with virtue: Refuse to lash back in anger. Deliver a calm, factual, and dignified clarification.'
+          ],
+          reflection: 'By disarming the ego, you turn a hostile attack into an opportunity to demonstrate superior poise and professionalism.'
+        },
+        {
+          title: 'Facing an Uncertain High-Stakes Result',
+          context: 'You took a critical professional certification exam or medical test, and must wait two weeks for the outcome.',
+          application_steps: [
+            'Acknowledge completed agency: The preparation and testing phase is finished. The papers are submitted. Effort is done.',
+            'Notice the cognitive trap: Spending 14 days worrying changes zero percentages on the exam paper, but burns vital health and joy right now.',
+            'Practice Amor Fati: Decide in advance that whatever the result, you possess the character and resilience to turn the outcome into fuel for virtue.'
+          ],
+          reflection: 'Peace does not require a guaranteed victory; peace comes from knowing you will handle whatever arrives.'
+        }
+      ],
+      common_mistakes: [
+        'Using Stoicism as an excuse for emotional numbness and avoiding intimacy.',
+        'Lecturing others to "be stoic" when they are experiencing genuine grief or trauma.',
+        'Equating Stoic acceptance with tolerating domestic abuse, political tyranny, or preventable injustice.'
+      ],
+      limitations: 'Stoicism does not substitute for clinical mental health therapy in cases of severe chemical imbalance or trauma. Furthermore, in situations where collective outrage is necessary to overthrow systemic oppression, extreme individual emotional detachment can inadvertently foster political acquiescence.'
+    },
+
+    section_critical_perspectives: {
+      proponent_arguments: 'Proponents argue Stoicism provides the most robust, self-reliant ethical framework in human history—insulating individuals from anxiety, material addiction, and social pressure.',
+      critic_arguments: 'Friedrich Nietzsche attacked Stoicism as life-denying, arguing that attempting to extinguish passion and accept all fate sterilizes human creativity and greatness. Modern feminists critique classical Stoicism for celebrating stereotypically hyper-rational traits and downplaying relational empathy.',
+      limitations_and_objections: [
+        'The "Stone Man" critique: If external goods and relationships are merely "indifferent", does Stoicism risk coldness toward those we love?',
+        'Cosmic teleology: Stoicism originally depended on belief in a providential Logos; can it truly stand without that ancient cosmological foundation?'
+      ],
+      response_to_objections: 'Stoics respond that love and grief are natural (Marcus wept for his children and Seneca comforted friends), but love should be grounded in virtue rather than codependent possession. Modern Stoics (like Massimo Pigliucci) demonstrate that the ethics stand completely on secular evolutionary psychology without requiring ancient cosmic theology.',
+      unresolved_debates: 'The ongoing debate between "Traditional Stoics" (who insist cosmic providential belief is indispensable) and "Modern Stoics" (who treat Stoicism as a purely secular psychological framework).'
+    },
+
+    section_connected_ideas: [
+      {
+        id: 'epicureanism',
+        title: 'Epicureanism',
+        type: 'philosophy',
+        relationship_type: 'Contrasting Sister School',
+        explanation: 'Both schools sought tranquility (ataraxia) in Hellenistic Greece. But while Stoics insisted virtue is the sole good and public duty must be embraced, Epicureans identified tranquility with the absence of pain and advised withdrawing from stressful politics into peaceful friendships.'
+      },
+      {
+        id: 'existentialism',
+        title: 'Existentialism',
+        type: 'philosophy',
+        relationship_type: 'Modern Successor in Agency',
+        explanation: 'Both confront a world where external guarantees do not exist and individuals must forge their own meaning. But whereas Stoics believe in an objective rational human nature, Existentialists insist existence precedes essence—you have no pre-set nature to fulfill.'
+      },
+      {
+        id: 'amor-fati',
+        title: 'Amor Fati',
+        type: 'concept',
+        relationship_type: 'Core Mindset',
+        explanation: 'Nietzsche popularized the term, but the underlying attitude originates with Epictetus: do not merely tolerate what happens, but enthusiastically embrace every obstacle as fuel for virtue.'
+      },
+      {
+        id: 'dichotomy-of-control',
+        title: 'Dichotomy of Control',
+        type: 'concept',
+        relationship_type: 'Foundational Mental Model',
+        explanation: 'The operational engine of Stoic thought. Can be explored as its own distinct mental model with applications in decision theory and stress reduction.'
+      },
+      {
+        id: 'marcus-aurelius',
+        title: 'Marcus Aurelius',
+        type: 'philosopher',
+        relationship_type: 'Exemplar Thinker',
+        explanation: 'Explore the life, intimate meditations, and practical challenges of the Roman emperor who applied Stoic principles from the throne of the empire.'
+      }
     ]
   },
   {
@@ -52,9 +276,9 @@ export const curatedDiscoveries: Discovery[] = [
     everyday_example: 'Instead of staying in a miserable corporate career just because "that is what society or parents expected," the existentialist recognizes that staying is an active choice, takes responsibility, and dares to carve out their authentic vocation.',
     background_style: 'existential_shadow',
     key_people: [
-      { name: 'Jean-Paul Sartre', role: 'French Philosopher & Novelist', era: '1905–1980', quote: 'Man is condemned to be free; because once thrown into the world, he is responsible for everything he does.' },
-      { name: 'Simone de Beauvoir', role: 'French Philosopher & Feminist Theorist', era: '1908–1986', quote: 'Change your life today. Don\'t gamble on the future, act now, without delay.' },
-      { name: 'Friedrich Nietzsche', role: 'German Cultural Critic', era: '1844–1900', quote: 'He who has a why to live can bear almost any how.' }
+      { name: 'Jean-Paul Sartre', role: 'French Philosopher & Novelist', era: '1905-1980', quote: 'Man is condemned to be free; because once thrown into the world, he is responsible for everything he does.' },
+      { name: 'Simone de Beauvoir', role: 'French Philosopher & Feminist Theorist', era: '1908-1986', quote: 'Change your life today. Don\'t gamble on the future, act now, without delay.' },
+      { name: 'Friedrich Nietzsche', role: 'German Cultural Critic', era: '1844-1900', quote: 'He who has a why to live can bear almost any how.' }
     ],
     related_discoveries: [
       { id: 'absurdism', title: 'Absurdism', type: 'philosophy', reason: 'A direct sister philosophy addressing the clash between human yearning and a silent universe' },
@@ -63,6 +287,180 @@ export const curatedDiscoveries: Discovery[] = [
     contrasting_discoveries: [
       { id: 'determinism', title: 'Determinism', type: 'scientific_idea', reason: 'Determinism claims all human choices are predetermined by prior physical and psychological causes, leaving no room for radical existential free will.' },
       { id: 'nihilism', title: 'Nihilism', type: 'philosophy', reason: 'Nihilism stops at "nothing matters", while Existentialism insists that because nothing is pre-written, you must actively create meaning.' }
+    ],
+
+    reading_depth: {
+      quick_intro_word_count: 205,
+      deep_dive_word_count: 1420,
+      reading_time_minutes: 6
+    },
+
+    section_what_is_this: {
+      summary: 'Existentialism is a modern philosophical tradition holding that human existence precedes essence: we exist first in an unscripted universe, and our identity and meaning are created entirely through our choices.',
+      central_question: 'How should we live when no pre-made purpose, divine blueprint, or objective destiny exists for us?',
+      main_argument: 'Humans possess radical freedom. Because we are not predefined by nature or destiny, we bear complete, unavoidable responsibility for creating our values and our character.',
+      how_it_works: 'A manufactured tool like an scissors has its essence (purpose) designed before it is created. Humans, conversely, are thrown into existence with no preset function. Every action, commitment, and refusal defines who you become.',
+      introductory_example: 'Instead of staying in an unfulfilling career because "my parents expected it of me," an existentialist recognizes that staying is an active choice, ceases using society as an excuse, and assumes full authorship of their path.',
+      importance: 'Dismantles fatalism, passive victimhood, and social conformity, elevating personal accountability to an absolute ethical standard.',
+      misconceptions: [
+        'Pessimistic despair: Existentialism is not about giving up; it is an active philosophy of creative empowerment.',
+        'Total selfishness: Sartre argued that when choosing for yourself, you simultaneously choose an image of how humanity ought to live.',
+        'Denial of reality: Existentialists acknowledge biological and physical limitations (facticity), but emphasize freedom in how one responds to them.'
+      ],
+      questions_to_consider: [
+        'Where in your life are you currently claiming "I had no choice", when in reality you chose the easier path?',
+        'If no one were grading your life, what values would you deliberately choose to build?'
+      ]
+    },
+
+    section_origin_context: {
+      summary: 'Rooted in 19th-century critiques of industrial conformity, existentialism exploded into a global intellectual movement in post-WWII Paris.',
+      era_and_location: '19th Century (Denmark/Germany) -> 1940s-1950s (Paris, France)',
+      historical_circumstances: 'Two devastating World Wars shattered European faith in historical progress, state authority, and religious dogma, forcing a generation to confront raw human vulnerability and moral agency.',
+      motivating_problem: 'When traditional authorities and moral dogmas lose credibility, from where does moral authority and personal purpose originate?',
+      earlier_influences: [
+        'Soren Kierkegaard: The founder of Christian existentialism who emphasized subjective truth and the agonizing "leap of faith".',
+        'Friedrich Nietzsche: The death of God, the critique of herd mentality, and the imperative of self-creation.',
+        'Phenomenology (Husserl & Heidegger): The study of conscious experience and human "Being-in-the-world" (Dasein).'
+      ],
+      evolution_and_development: 'Diverged into Christian Existentialism (Kierkegaard, Gabriel Marcel) focusing on faith in an absurd world, and Atheistic Existentialism (Sartre, Beauvoir) arguing that without God, humans are entirely condemned to invent their own morality.',
+      historical_legacy: 'Profoundly shaped modern literature (Camus, Kafka), psychology (Viktor Frankl\'s Logotherapy), and feminist liberation theory (The Second Sex).'
+    },
+
+    section_core_principles: [
+      {
+        name: 'Existence Precedes Essence',
+        explanation: 'Humans exist first, encounter themselves in the world, and only afterward define themselves through their deeds.',
+        why_it_matters: 'Destroys the excuse that "I was just born this way" or "it was my nature to fail".',
+        reasoning: 'There is no human nature in the sense of a divine plan; a person is nothing other than what they make of themselves.',
+        example: 'A coward is not biologically condemned to cowardice; they are defined as a coward because they repeatedly choose cowardly actions.',
+        counter_case: 'Biological determinism: Genetic predispositions, neurological makeup, and extreme physical disabilities restrict human potential.',
+        common_misunderstanding: 'Believing essence can be chosen by mere daydreaming rather than concrete action.',
+        relation_to_other_principles: 'The core axiomatic premise supporting radical freedom.'
+      },
+      {
+        name: 'Radical Freedom & Condemnation to Choose',
+        explanation: 'We are completely free in every waking moment; even refusing to make a choice is itself a choice.',
+        why_it_matters: 'Eliminates all alibis for our moral and personal decisions.',
+        reasoning: 'Even under severe duress, an individual retains the freedom of internal consent, attitude, and moral stance.',
+        example: 'A soldier drafted into an unjust war cannot claim "I had no choice"; desertion, resistance, or obedience are all real choices, each carrying real consequences.',
+        counter_case: 'Sociological conditioning: Poverty, systemic oppression, and early childhood trauma dramatically narrow perceived choices.',
+        common_misunderstanding: 'Thinking freedom means omnipotence; existentialists distinguish between factual constraints (facticity) and our freedom of project.',
+        relation_to_other_principles: 'Produces the psychological phenomenon of existential angst.'
+      },
+      {
+        name: 'Bad Faith (Mauvaise Foi)',
+        explanation: 'The self-deception of pretending you are an inanimate object without free choice, conforming to social roles to avoid responsibility.',
+        why_it_matters: 'Unmasks the subtle ways people live inauthentic, robot-like lives.',
+        reasoning: 'Freedom creates anxiety; to escape anxiety, people pretend they are helpless victims of circumstance.',
+        example: 'Sartre\'s famous Parisian cafe waiter who performs his duties with exaggerated, mechanical perfection, pretending his entire identity is "a waiter" rather than a free conscious agent.',
+        counter_case: 'Can human consciousness ever be 100% transparent and free of unconscious psychological biases?',
+        common_misunderstanding: 'Confusing bad faith with lying to others; bad faith is primarily a lie told to oneself.',
+        relation_to_other_principles: 'The opposite of authenticity.'
+      },
+      {
+        name: 'Angst & The Vertigo of Possibility',
+        explanation: 'Existential dread arises not from fear of external danger, but from the dizzying realization of our own boundless freedom.',
+        why_it_matters: 'Validates that feelings of anxiety are often signs of awakening agency, not medical sickness.',
+        reasoning: 'Kierkegaard described angst as the dizziness of freedom when standing at the edge of an abyss—knowing nothing compels you to jump, and nothing compels you to stay.',
+        example: 'Standing on a high cliff and feeling terrified not because you might slip, but because you suddenly realize you have the physical freedom to throw yourself off.',
+        counter_case: 'Pathological anxiety: Chronic clinical panic disorders caused by neurochemical imbalance rather than philosophical insight.',
+        common_misunderstanding: 'Viewing angst as something to be medicated away rather than embraced as a portal to authentic living.',
+        relation_to_other_principles: 'The psychological cost of recognizing radical freedom.'
+      }
+    ],
+
+    section_key_thinkers: [
+      {
+        name: 'Jean-Paul Sartre',
+        link_id: 'existentialism',
+        era: '1905-1980',
+        role: 'Philosopher, Playwright & Novelist',
+        biographical_context: 'Refused the Nobel Prize in Literature; active member of the French Resistance and leader of left-wing post-war intellectuals.',
+        specific_contribution: 'Formulated the definitive philosophical doctrine of atheistic existentialism in Being and Nothingness.',
+        major_works_or_arguments: 'Being and Nothingness, Existentialism is a Humanism, No Exit.',
+        distinct_perspective: 'Radical insistence that consciousness is absolute freedom and that any denial of this freedom constitutes bad faith.',
+        quote: 'Man is condemned to be free; because once thrown into the world, he is responsible for everything he does.'
+      },
+      {
+        name: 'Simone de Beauvoir',
+        link_id: 'existentialism',
+        era: '1908-1986',
+        role: 'Philosopher & Feminist Pioneer',
+        biographical_context: 'Lifelong intellectual partner of Sartre; developed an ethics of ambiguity and grounded existentialism in political reality.',
+        specific_contribution: 'Applied existentialism to gender and power dynamics, proving gender identity is constructed rather than essential.',
+        major_works_or_arguments: 'The Second Sex, The Ethics of Ambiguity.',
+        distinct_perspective: 'More attuned than Sartre to how social oppression and economic dependence physically restrict the exercise of freedom.',
+        quote: 'One is not born, but rather becomes, a woman.'
+      },
+      {
+        name: 'Soren Kierkegaard',
+        link_id: 'existentialism',
+        era: '1813-1855',
+        role: 'Danish Theologian & Father of Existentialism',
+        biographical_context: 'Wrote under colorful pseudonyms in Copenhagen, rebelling against sterile church dogma and Hegelian system-building.',
+        specific_contribution: 'Articulated existential dread, the stages of life (aesthetic, ethical, religious), and subjective truth.',
+        major_works_or_arguments: 'Fear and Trembling, The Concept of Anxiety, Either/Or.',
+        distinct_perspective: 'Insisted that true individuality requires facing dread and taking an absurd "leap of faith" into personal relationship with God.',
+        quote: 'Life can only be understood backwards; but it must be lived forwards.'
+      }
+    ],
+
+    section_everyday_life: {
+      summary: 'Existentialism exposes the excuses we build into modern life and challenges us to own our decisions.',
+      scenarios: [
+        {
+          title: 'Trapped in a Prescribed Career Track',
+          context: 'You work in corporate finance because family pressure dictated that safe route, but you feel completely hollow inside.',
+          application_steps: [
+            'Confront bad faith: Admit honestly that staying is your own active choice to trade autonomy for financial safety.',
+            'Acknowledge radical freedom: Recognize that you are not legally or biologically forced to stay; the cage door is unlocked.',
+            'Accept responsibility: If you decide to transition careers, own the financial risk without blaming others if things get hard.',
+            'Live authentically: Align your daily labor with what you genuinely value, not what confers easy social prestige.'
+          ],
+          reflection: 'Authenticity is not easy or comfortable; it is the refusal to sleepwalk through someone else\'s script.'
+        }
+      ],
+      common_mistakes: [
+        'Believing freedom means you have no duties toward others.',
+        'Mistaking consumerist "self-expression" for genuine philosophical authenticity.'
+      ],
+      limitations: 'Existentialism sometimes underestimates the crushing weight of systemic poverty, war, and neurological disease on human decision-making.'
+    },
+
+    section_critical_perspectives: {
+      proponent_arguments: 'Proponents argue existentialism restores dignity and supreme agency to individuals in an era of corporate dehumanization and mass conformity.',
+      critic_arguments: 'Structuralist thinkers (like Michel Foucault and Claude Levi-Strauss) criticized existentialism for naive humanism, proving human choices are largely determined by subconscious language, culture, and power structures.',
+      limitations_and_objections: [
+        'Is a refugee fleeing famine really "condemned to be free" in the same way as an affluent Parisian intellectual sitting in a cafe?',
+        'If all values are created by humans, does existentialism lead to moral relativism where no action can be objectively condemned?'
+      ],
+      response_to_objections: 'Sartre answered that in willing one\'s own freedom, one must necessarily will the freedom of all other human beings, establishing a universal basis for human rights and solidarity.',
+      unresolved_debates: 'The ongoing clash between existential agency and modern neuroscientific determinism.'
+    },
+
+    section_connected_ideas: [
+      {
+        id: 'absurdism',
+        title: 'Absurdism',
+        type: 'philosophy',
+        relationship_type: 'Sister Philosophy',
+        explanation: 'Both reject pre-made divine purpose. But while Existentialists say "create your own meaning," Camus warns that inventing subjective meaning is just another comforting illusion; he urges living defiantly without needing meaning at all.'
+      },
+      {
+        id: 'stoicism',
+        title: 'Stoicism',
+        type: 'philosophy',
+        relationship_type: 'Ancient Counterpart in Agency',
+        explanation: 'Both demand fierce personal responsibility and focus on internal choice. But Stoics believe in an objective, rational cosmic nature to live by, whereas Existentialists reject all pre-existing human nature.'
+      },
+      {
+        id: 'nihilism',
+        title: 'Nihilism',
+        type: 'philosophy',
+        relationship_type: 'The Abyss to Overcome',
+        explanation: 'Nihilism stops at the realization that life has no objective meaning. Existentialism takes that realization as the starting line for radical self-creation.'
+      }
     ]
   },
   {

@@ -26,9 +26,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.phils.app.model.Discovery
-import com.phils.app.model.SeedData
 import com.phils.app.theme.PhilsTheme
 import com.phils.app.theme.getMoodTone
+
+fun getWhyReasonFor(discovery: Discovery): String {
+    return when (discovery.type.uppercase()) {
+        "PHILOSOPHY" -> "Curated because philosophical systems give you mental operating frameworks for life's toughest uncertainties."
+        "PHILOSOPHER" -> "Curated because studying the thinkers themselves illuminates how lived experience shapes radical original thought."
+        "PARADOX" -> "Curated because paradoxes break rigid assumptions and force intellectual humility."
+        "THOUGHT EXPERIMENT" -> "Curated because hypothetical scenarios isolate moral and scientific principles from everyday emotional bias."
+        "BIAS", "COGNITIVE BIAS" -> "Curated because noticing subconscious cognitive traps is the highest leverage way to upgrade your decision making."
+        else -> "Curated for your feed as a provocative idea worth contemplating."
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -69,7 +79,7 @@ fun WhySheet(
             Spacer(modifier = Modifier.height(14.dp))
 
             Text(
-                text = SeedData.whyReasonFor(discovery),
+                text = getWhyReasonFor(discovery),
                 fontFamily = FontFamily.SansSerif,
                 fontSize = 15.sp,
                 lineHeight = 22.sp,

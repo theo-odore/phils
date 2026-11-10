@@ -44,16 +44,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.phils.app.model.Discovery
-import com.phils.app.model.SeedData
 import com.phils.app.theme.PhilsTheme
 import com.phils.app.ui.components.MiniCard
+
+val defaultSearchSuggestions: List<String> = listOf(
+    "Stoicism", "Free Will", "Existentialism", "Consciousness",
+    "Ethics", "Paradox", "Time", "Logic", "Identity", "Knowledge"
+)
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SearchScreen(
     onOpenDiscovery: (String) -> Unit,
     onToggleSave: (String) -> Unit,
-    onSearch: (String) -> List<Discovery> = { SeedData.search(it) },
+    onSearch: (String) -> List<Discovery> = { emptyList() },
     modifier: Modifier = Modifier
 ) {
     val theme = PhilsTheme.colors
@@ -154,7 +158,7 @@ fun SearchScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                SeedData.searchSuggestions.forEach { suggestion ->
+                defaultSearchSuggestions.forEach { suggestion ->
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(999.dp))

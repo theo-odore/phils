@@ -48,5 +48,7 @@ Thumbs.db
 
 # Temporary
 phil-ui/
+.ua/
+graphify-out/
 temp/
 tmp/

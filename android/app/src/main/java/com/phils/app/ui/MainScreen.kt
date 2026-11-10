@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.phils.app.data.DiscoveryRepository
 import com.phils.app.model.Discovery
-import com.phils.app.model.SeedData
 import com.phils.app.theme.PhilsTheme
 import com.phils.app.ui.components.BottomBar
 import com.phils.app.ui.components.NavTab
@@ -72,9 +71,12 @@ fun MainScreen(
         }
     }
 
-    val allDiscoveries by repository.discoveriesWithSavedFlow.collectAsState(initial = SeedData.discoveries)
+    val allDiscoveries by repository.discoveriesWithSavedFlow.collectAsState(initial = emptyList())
     val savedDiscoveries by repository.savedDiscoveriesFlow.collectAsState(initial = emptyList())
     val historyDiscoveries by repository.historyDiscoveriesFlow.collectAsState(initial = emptyList())
+    val isFetching by repository.isFetching.collectAsState()
+    val errorMessage by repository.errorMessage.collectAsState()
+    val isCacheLoaded by repository.isCacheLoaded.collectAsState()
 
     // Toast message state
     var toastMessage by remember { mutableStateOf<String?>(null) }
@@ -138,6 +140,14 @@ fun MainScreen(
                         coroutineScope.launch {
                             repository.fetchMoreFeed(limit = 10)
                         }
+                    },
+                    isFetching = isFetching,
+                    errorMessage = errorMessage,
+                    isCacheLoaded = isCacheLoaded,
+                    onRetry = {
+                        coroutineScope.launch {
+                            repository.fetchMoreFeed(limit = 10)
+                        }
                     }
                 )
             }
@@ -185,7 +195,8 @@ fun MainScreen(
                     onBack = { detailStack.removeAt(detailStack.lastIndex) },
                     onOpenDiscovery = handleOpenDiscovery,
                     onToggleSave = handleToggleSave,
-                    isSaved = isSaved
+                    isSaved = isSaved,
+                    onLookupDiscovery = { repository.getDiscoveryById(it) }
                 )
             }
         }

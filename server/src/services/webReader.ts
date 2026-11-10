@@ -312,34 +312,168 @@ export function renderWebReaderHtml(discovery: Discovery): string {
         <p class="short-desc">${escapeHtml(discovery.short_description || '')}</p>
       </div>
 
-      ${discovery.detailed_description ? `
+      ${discovery.section_what_is_this ? `
+        ${discovery.section_what_is_this.central_question ? `
+          <div class="example-box" style="margin-bottom: 28px; border-left-color: var(--accent);">
+            <div style="font-family: monospace; font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 1px; margin-bottom: 6px;">CENTRAL QUESTION</div>
+            <p style="font-size: 17px; font-family: var(--font-serif); font-style: italic; color: var(--text-primary);">${escapeHtml(discovery.section_what_is_this.central_question)}</p>
+          </div>
+        ` : ''}
+
+        <h3 class="section-title">What is ${escapeHtml(discovery.title)}?</h3>
+        <p class="paragraph">${escapeHtml(discovery.section_what_is_this.summary)}</p>
+
+        ${discovery.section_what_is_this.how_it_works ? `
+          <h4 style="font-size: 16px; color: var(--text-primary); margin: 20px 0 8px 0; font-family: var(--font-serif);">How It Works</h4>
+          <p class="paragraph">${escapeHtml(discovery.section_what_is_this.how_it_works)}</p>
+        ` : ''}
+
+        ${discovery.section_what_is_this.introductory_example ? `
+          <div class="example-box">
+            <div style="font-family: monospace; font-size: 10.5px; font-weight: 700; color: var(--accent); margin-bottom: 4px;">INTRODUCTORY EXAMPLE</div>
+            <p>${escapeHtml(discovery.section_what_is_this.introductory_example)}</p>
+          </div>
+        ` : ''}
+
+        ${discovery.section_what_is_this.misconceptions && discovery.section_what_is_this.misconceptions.length > 0 ? `
+          <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px 20px; margin: 20px 0;">
+            <div style="font-family: monospace; font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 1px; margin-bottom: 8px;">COMMON MISCONCEPTIONS</div>
+            ${discovery.section_what_is_this.misconceptions.map(m => `
+              <div style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 6px;">✕ ${escapeHtml(m)}</div>
+            `).join('')}
+          </div>
+        ` : ''}
+      ` : (discovery.detailed_description ? `
         <h3 class="section-title">The Core Idea</h3>
         <p class="paragraph">${escapeHtml(discovery.detailed_description)}</p>
-      ` : ''}
+      ` : '')}
 
-      ${discovery.origin_context ? `
+      ${discovery.section_origin_context ? `
+        <h3 class="section-title">Origin & Historical Context</h3>
+        ${discovery.section_origin_context.era_and_location ? `
+          <div style="display: inline-block; font-family: monospace; font-size: 11px; background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: 999px; padding: 4px 12px; margin-bottom: 12px; color: var(--accent);">📍 ${escapeHtml(discovery.section_origin_context.era_and_location)}</div>
+        ` : ''}
+        <p class="paragraph">${escapeHtml(discovery.section_origin_context.summary)}</p>
+
+        ${discovery.section_origin_context.historical_circumstances ? `
+          <h4 style="font-size: 16px; color: var(--text-primary); margin: 18px 0 8px 0; font-family: var(--font-serif);">Historical Circumstances</h4>
+          <p class="paragraph">${escapeHtml(discovery.section_origin_context.historical_circumstances)}</p>
+        ` : ''}
+
+        ${discovery.section_origin_context.motivating_problem ? `
+          <div class="example-box">
+            <div style="font-family: monospace; font-size: 10.5px; font-weight: 700; color: var(--accent); margin-bottom: 4px;">THE MOTIVATING CRISIS</div>
+            <p>${escapeHtml(discovery.section_origin_context.motivating_problem)}</p>
+          </div>
+        ` : ''}
+
+        ${discovery.section_origin_context.historical_legacy ? `
+          <h4 style="font-size: 16px; color: var(--text-primary); margin: 18px 0 8px 0; font-family: var(--font-serif);">Legacy & Influence Today</h4>
+          <p class="paragraph">${escapeHtml(discovery.section_origin_context.historical_legacy)}</p>
+        ` : ''}
+      ` : (discovery.origin_context ? `
         <h3 class="section-title">Historical Origin & Context</h3>
         <p class="paragraph">${escapeHtml(discovery.origin_context)}</p>
-      ` : ''}
+      ` : '')}
 
-      ${discovery.core_principles && discovery.core_principles.length > 0 ? `
+      ${discovery.section_core_principles && discovery.section_core_principles.length > 0 ? `
+        <h3 class="section-title">Core Principles</h3>
+        <div class="principles-list">
+          ${discovery.section_core_principles.map((p, idx) => `
+            <div class="principle-item" style="flex-direction: column; gap: 8px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="principle-number">${idx + 1}</span>
+                <strong style="font-size: 16px; font-family: var(--font-serif); color: var(--text-primary);">${escapeHtml(p.name)}</strong>
+              </div>
+              <p class="principle-text" style="margin-top: 4px;">${escapeHtml(p.explanation)}</p>
+              ${p.reasoning ? `<div style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;"><strong>Reasoning:</strong> ${escapeHtml(p.reasoning)}</div>` : ''}
+              ${p.example ? `<div style="background: rgba(229,169,60,0.06); padding: 8px 12px; border-radius: 8px; font-size: 13px; color: var(--text-primary); margin-top: 4px;"><strong>Example:</strong> ${escapeHtml(p.example)}</div>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      ` : (discovery.core_principles && discovery.core_principles.length > 0 ? `
         <h3 class="section-title">Core Principles</h3>
         <div class="principles-list">
           ${principlesHtml}
         </div>
+      ` : '')}
+
+      ${discovery.section_critical_perspectives ? `
+        <h3 class="section-title">Critical Perspectives & Debates</h3>
+        <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 20px; margin: 16px 0;">
+          ${discovery.section_critical_perspectives.proponent_arguments ? `
+            <div style="margin-bottom: 16px;">
+              <div style="font-family: monospace; font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 1px; margin-bottom: 4px;">WHAT PROPONENTS ARGUE</div>
+              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">${escapeHtml(discovery.section_critical_perspectives.proponent_arguments)}</p>
+            </div>
+          ` : ''}
+          ${discovery.section_critical_perspectives.critic_arguments ? `
+            <div style="border-top: 1px solid var(--card-border); padding-top: 14px;">
+              <div style="font-family: monospace; font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 4px;">WHAT CRITICS ARGUE</div>
+              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">${escapeHtml(discovery.section_critical_perspectives.critic_arguments)}</p>
+            </div>
+          ` : ''}
+        </div>
       ` : ''}
 
-      ${discovery.everyday_example ? `
+      ${discovery.section_key_thinkers && discovery.section_key_thinkers.length > 0 ? `
+        <h3 class="section-title">Key Thinkers & Figures</h3>
+        <div class="people-grid">
+          ${discovery.section_key_thinkers.map(t => `
+            <div class="person-card">
+              <div class="person-header">
+                <strong class="person-name">${escapeHtml(t.name)}</strong>
+                ${t.era ? `<span class="person-era">${escapeHtml(t.era)}</span>` : ''}
+              </div>
+              ${t.role ? `<div class="person-role">${escapeHtml(t.role)}</div>` : ''}
+              ${t.biographical_context ? `<div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">${escapeHtml(t.biographical_context)}</div>` : ''}
+              ${t.specific_contribution ? `<div style="font-size: 12.5px; color: var(--text-primary); margin-bottom: 8px;"><strong>Contribution:</strong> ${escapeHtml(t.specific_contribution)}</div>` : ''}
+              ${t.quote ? `<blockquote class="person-quote">"${escapeHtml(t.quote)}"</blockquote>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      ` : (discovery.key_people && discovery.key_people.length > 0 ? `
+        <h3 class="section-title">Key Thinkers & Figures</h3>
+        <div class="people-grid">
+          ${keyPeopleHtml}
+        </div>
+      ` : '')}
+
+      ${discovery.section_everyday_life ? `
+        <h3 class="section-title">In Everyday Life</h3>
+        <p class="paragraph">${escapeHtml(discovery.section_everyday_life.summary)}</p>
+        ${(discovery.section_everyday_life.scenarios || []).map(sc => `
+          <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 18px; margin: 14px 0;">
+            <strong style="font-size: 15.5px; font-family: var(--font-serif); color: var(--text-primary); display: block; margin-bottom: 6px;">${escapeHtml(sc.title)}</strong>
+            <p style="font-size: 13.5px; color: var(--text-secondary); font-style: italic; margin-bottom: 12px;">${escapeHtml(sc.context)}</p>
+            ${(sc.application_steps || []).map((step, sIdx) => `
+              <div style="display: flex; gap: 8px; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px;">
+                <span style="font-family: monospace; color: var(--accent); font-weight: 700;">${sIdx + 1}.</span>
+                <span>${escapeHtml(step)}</span>
+              </div>
+            `).join('')}
+          </div>
+        `).join('')}
+      ` : (discovery.everyday_example ? `
         <h3 class="section-title">In Everyday Life</h3>
         <div class="example-box">
           <p>"${escapeHtml(discovery.everyday_example)}"</p>
         </div>
-      ` : ''}
+      ` : '')}
 
-      ${discovery.key_people && discovery.key_people.length > 0 ? `
-        <h3 class="section-title">Key Thinkers & Figures</h3>
-        <div class="people-grid">
-          ${keyPeopleHtml}
+      ${discovery.section_connected_ideas && discovery.section_connected_ideas.length > 0 ? `
+        <h3 class="section-title">Connected Ideas</h3>
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px;">
+          ${discovery.section_connected_ideas.map(ci => `
+            <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <span style="font-family: monospace; font-size: 10.5px; color: var(--accent); letter-spacing: 1px;">${escapeHtml(ci.type)}</span>
+                ${ci.relationship_type ? `<span style="font-size: 11px; background: rgba(229,169,60,0.1); color: var(--accent); padding: 2px 8px; border-radius: 999px;">${escapeHtml(ci.relationship_type)}</span>` : ''}
+              </div>
+              <strong style="font-size: 16px; font-family: var(--font-serif); color: var(--text-primary); display: block; margin-bottom: 4px;">${escapeHtml(ci.title)}</strong>
+              <p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.5;">${escapeHtml(ci.explanation)}</p>
+            </div>
+          `).join('')}
         </div>
       ` : ''}
     </main>
