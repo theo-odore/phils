@@ -122,3 +122,22 @@ When mobile devices disconnect from the home Wi-Fi and switch to cellular data (
 * The app works smoothly on 4G/5G cellular data with zero manual configuration on the phone.
 * No open inbound ports or port forwarding required on the home router.
 * Preserves high-speed local LAN connectivity when back on home Wi-Fi.
+
+
+---
+
+## ADR 7: Pruning Dead Code, Speculative Synthesizers, and Redundant DTOs (Ponytail)
+
+### Context
+An audit for over-engineering revealed a 376-line NVIDIA NIM synthetic LLM generator and uncalled endpoints never invoked by client apps, along with 10 duplicate DTO classes and a 140-line manual mapper reproducing domain models.
+
+### Decision
+1. Delete 
+vidiaNimGenerator.ts and remove /api/v1/feed/generate from Express.
+2. Share domain models directly in Retrofit DTOs using Moshi @Json(name = ...) annotations and default field initializers.
+3. Replace stateful multi-threaded failover in NetworkClient.kt with a lean, stateless OkHttp interceptor.
+
+### Consequences
+* Reduced repository size by over 620 net lines.
+* Eliminated double-maintenance of parallel data classes.
+* Guaranteed backward-compatible cache deserialization without JsonDataException.

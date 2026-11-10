@@ -73,3 +73,13 @@ adb -s RZCX60GHR8A install -r --user 0 "app\build\outputs\apk\debug\app-debug.ap
 # Stop tunnel on homeserver
 ssh homeserver "docker stop phils-tunnel && docker rm phils-tunnel"
 ```
+
+### Ponytail Over-Engineering Pruning Rollback
+* **Commit**: `5837a31`
+To revert the ponytail simplifications:
+```powershell
+git revert 5837a31
+npm --prefix server run build
+cd android; .\gradlew.bat assembleDebug
+```
+

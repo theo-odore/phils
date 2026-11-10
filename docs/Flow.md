@@ -56,8 +56,17 @@ This document details the execution flow path and mutations applied to transform
 ### 8. PWA Web Subproject (`web/`) [REMOVED]
 * **Status**: Deprecated & removed per user request. Directory `web/` deleted, and PWA convenience scripts removed from `package.json`.
 
-### 9. Phils Product Showcase Website
-* **Target**: [`website/index.html`](file:///D:/projects/phils/website/index.html)
+### 10. Codebase Simplification & Dead Code Pruning (Ponytail Refactor)
+* **Targets**:
+  * [`server/src/services/nvidiaNimGenerator.ts`](file:///D:/projects/phils/server/src/services/nvidiaNimGenerator.ts): Deleted speculative 376-line NVIDIA NIM LLM generator and 15 duplicate procedural concepts.
+  * [`server/src/index.ts`](file:///D:/projects/phils/server/src/index.ts): Removed uncalled `/api/v1/feed/generate` POST route.
+  * [`server/src/db/store.ts`](file:///D:/projects/phils/server/src/db/store.ts): Removed `generateMore` method and dynamic synthesis fallback loop; simplified feed pipeline.
+  * [`android/app/src/main/java/com/phils/app/data/api/PhilsApiService.kt`](file:///D:/projects/phils/android/app/src/main/java/com/phils/app/data/api/PhilsApiService.kt): Removed unused `generateBatch` Retrofit declaration.
+  * [`android/app/src/main/java/com/phils/app/data/api/NetworkModels.kt`](file:///D:/projects/phils/android/app/src/main/java/com/phils/app/data/api/NetworkModels.kt): Deleted 10 duplicate DTO classes (`Server*Dto`) and ~140 lines of manual mapping by sharing annotated domain models.
+  * [`android/app/src/main/java/com/phils/app/model/Discovery.kt`](file:///D:/projects/phils/android/app/src/main/java/com/phils/app/model/Discovery.kt): Unified Moshi `@Json(name = ...)` annotations and added sensible default initializers for safe deserialization of legacy caches.
+  * [`android/app/src/main/java/com/phils/app/data/api/NetworkClient.kt`](file:///D:/projects/phils/android/app/src/main/java/com/phils/app/data/api/NetworkClient.kt): Replaced heavy 70-line stateful interceptor with lean 20-line OkHttp `FailoverInterceptor`.
+  * [`android/app/src/test/java/com/phils/app/ApiFirstArchitectureTest.kt`](file:///D:/projects/phils/android/app/src/test/java/com/phils/app/ApiFirstArchitectureTest.kt): Added unit tests for minimal JSON payload parsing with defaults and null safety.
+
   * **Additions**: Standalone marketing and showcase landing page designed under `/impeccable` (Persuade mode).
   * **Features**: Dynamic Sól/Máni dual theme toggle, interactive 3D phone stage simulation, 10-palette chromatic spectrum switcher, dialectic recommendation engine score telemetry, and direct links to the Web PWA and GitHub repo.
 * **Target**: [`package.json`](file:///D:/projects/phils/package.json)

@@ -28,7 +28,6 @@ graph TD
         Store["DataStore"]
         WebReader["SSR Web Reader (/d/:id)"]
         SeedDB["Curated Corpus (discoveriesData.ts)"]
-        NIM["NVIDIA NIM Generator"]
     end
 
     Feed -->|Taps Card / Explore Idea| NavScaffold
@@ -41,7 +40,6 @@ graph TD
     NetClient --> API
     API --> Store
     Store --> SeedDB
-    Store -.-> NIM
     API --> WebReader
 ```
 
