@@ -39,7 +39,7 @@ fun CardStack(
     if (discoveries.isEmpty()) return
 
     LaunchedEffect(currentIndex, discoveries.size) {
-        if (discoveries.isNotEmpty() && currentIndex >= discoveries.size - 4) {
+        if (discoveries.isNotEmpty() && currentIndex >= discoveries.size - 6) {
             onLoadMore()
         }
     }
@@ -56,9 +56,9 @@ fun CardStack(
     val thresholdPx = with(density) { 95.dp.toPx() }
     val throwDistancePx = with(density) { 460.dp.toPx() }
 
-    val currentCard = discoveries[currentIndex % discoveries.size]
-    val nextCard = discoveries[(currentIndex + 1) % discoveries.size]
-    val thirdCard = discoveries[(currentIndex + 2) % discoveries.size]
+    val currentCard = discoveries.getOrNull(currentIndex) ?: discoveries.last()
+    val nextCard = discoveries.getOrNull(currentIndex + 1)
+    val thirdCard = discoveries.getOrNull(currentIndex + 2)
 
     Box(
         modifier = modifier
@@ -67,73 +67,77 @@ fun CardStack(
         contentAlignment = Alignment.Center
     ) {
         // Slot 2: Background third card
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .graphicsLayer {
-                    val currentX = if (isAnimating) animOffsetX.value else dragOffsetX
-                    val progress = (abs(currentX) / throwDistancePx).coerceIn(0f, 1f)
+        if (thirdCard != null) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .graphicsLayer {
+                        val currentX = if (isAnimating) animOffsetX.value else dragOffsetX
+                        val progress = (abs(currentX) / throwDistancePx).coerceIn(0f, 1f)
 
-                    // Interpolate scale from 0.88 towards 0.94
-                    val currentScale = 0.88f + (0.94f - 0.88f) * progress
-                    scaleX = currentScale
-                    scaleY = currentScale
+                        // Interpolate scale from 0.88 towards 0.94
+                        val currentScale = 0.88f + (0.94f - 0.88f) * progress
+                        scaleX = currentScale
+                        scaleY = currentScale
 
-                    // Interpolate translation towards Slot 1 position
-                    val startX = -30.dp.toPx()
-                    val targetX = 34.dp.toPx()
-                    translationX = startX + (targetX - startX) * progress
+                        // Interpolate translation towards Slot 1 position
+                        val startX = -30.dp.toPx()
+                        val targetX = 34.dp.toPx()
+                        translationX = startX + (targetX - startX) * progress
 
-                    val startY = 48.dp.toPx()
-                    val targetY = 24.dp.toPx()
-                    translationY = startY + (targetY - startY) * progress
+                        val startY = 48.dp.toPx()
+                        val targetY = 24.dp.toPx()
+                        translationY = startY + (targetY - startY) * progress
 
-                    // Interpolate rotation and alpha towards Slot 1
-                    rotationZ = -5.5f + (4.5f - (-5.5f)) * progress
-                    alpha = 0.85f + (0.95f - 0.85f) * progress
-                }
-        ) {
-            DiscoveryCard(
-                discovery = thirdCard,
-                onExplore = {},
-                onToggleSave = {},
-                onShowWhy = {},
-                interactive = false
-            )
+                        // Interpolate rotation and alpha towards Slot 1
+                        rotationZ = -5.5f + (4.5f - (-5.5f)) * progress
+                        alpha = 0.85f + (0.95f - 0.85f) * progress
+                    }
+            ) {
+                DiscoveryCard(
+                    discovery = thirdCard,
+                    onExplore = {},
+                    onToggleSave = {},
+                    onShowWhy = {},
+                    interactive = false
+                )
+            }
         }
 
         // Slot 1: Middle second card
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .graphicsLayer {
-                    val currentX = if (isAnimating) animOffsetX.value else dragOffsetX
-                    val progress = (abs(currentX) / throwDistancePx).coerceIn(0f, 1f)
+        if (nextCard != null) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .graphicsLayer {
+                        val currentX = if (isAnimating) animOffsetX.value else dragOffsetX
+                        val progress = (abs(currentX) / throwDistancePx).coerceIn(0f, 1f)
 
-                    // Interpolate scale from 0.94 towards 1.0 (Slot 0 size)
-                    val currentScale = 0.94f + (1.0f - 0.94f) * progress
-                    scaleX = currentScale
-                    scaleY = currentScale
+                        // Interpolate scale from 0.94 towards 1.0 (Slot 0 size)
+                        val currentScale = 0.94f + (1.0f - 0.94f) * progress
+                        scaleX = currentScale
+                        scaleY = currentScale
 
-                    // Interpolate translation towards Slot 0 center
-                    val startX = 34.dp.toPx()
-                    translationX = startX * (1f - progress)
+                        // Interpolate translation towards Slot 0 center
+                        val startX = 34.dp.toPx()
+                        translationX = startX * (1f - progress)
 
-                    val startY = 24.dp.toPx()
-                    translationY = startY * (1f - progress)
+                        val startY = 24.dp.toPx()
+                        translationY = startY * (1f - progress)
 
-                    // Interpolate rotation towards Slot 0 resting angle (-2.5f)
-                    rotationZ = 4.5f + (-2.5f - 4.5f) * progress
-                    alpha = 0.95f + (1.0f - 0.95f) * progress
-                }
-        ) {
-            DiscoveryCard(
-                discovery = nextCard,
-                onExplore = {},
-                onToggleSave = {},
-                onShowWhy = {},
-                interactive = false
-            )
+                        // Interpolate rotation towards Slot 0 resting angle (-2.5f)
+                        rotationZ = 4.5f + (-2.5f - 4.5f) * progress
+                        alpha = 0.95f + (1.0f - 0.95f) * progress
+                    }
+            ) {
+                DiscoveryCard(
+                    discovery = nextCard,
+                    onExplore = {},
+                    onToggleSave = {},
+                    onShowWhy = {},
+                    interactive = false
+                )
+            }
         }
 
         // Slot 0: Front interactive card
@@ -167,7 +171,11 @@ fun CardStack(
                                             stiffness = Spring.StiffnessMedium
                                         )
                                     )
-                                    onIndexChange((currentIndex + 1) % discoveries.size)
+                                    if (currentIndex + 1 < discoveries.size) {
+                                        onIndexChange(currentIndex + 1)
+                                    } else {
+                                        onLoadMore()
+                                    }
                                     dragOffsetX = 0f
                                     animOffsetX.snapTo(0f)
                                     isAnimating = false

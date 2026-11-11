@@ -91,3 +91,17 @@ This document details the execution flow path and mutations applied to transform
   * **Mutations**: Upgraded `ServerDiscoveryDto.toDomain()` to automatically synthesize rich structured deep-dive sections (`richWhatIsThis`, `richOriginContext`, `corePrinciplesRich`, `keyThinkersRich`, `everydayLifeRich`, `criticalPerspectives`, `connectedIdeasRich`, `readingDepth`) from raw discovery attributes for any card omitting dedicated `section_*` payloads.
 * **Target**: [`android/app/src/main/java/com/phils/app/ui/detail/DetailScreen.kt`](file:///D:/projects/phils/android/app/src/main/java/com/phils/app/ui/detail/DetailScreen.kt)
   * **Mutations**: Removed `if (hasRichContent)` gating around the reading depth selector, enabling both `Quick Overview` and `Deep Dive` modes unconditionally for all 31 cards in the corpus. Tested and confirmed on physical device `RZCX60GHR8A`.
+
+### 13. Initial Card Randomization on Startup
+* **Target**: [`android/app/src/main/java/com/phils/app/data/DiscoveryRepository.kt`](file:///D:/projects/phils/android/app/src/main/java/com/phils/app/data/DiscoveryRepository.kt) & [`server/src/services/recommendationEngine.ts`](file:///D:/projects/phils/server/src/services/recommendationEngine.ts)
+  * **Mutations**: Applied shuffle upon cache hydration and bundled asset merging in `DiscoveryRepository.kt`. Shuffled unseen pool and randomized candidate selection in `RecommendationEngine.ts`. Verified cold starts open to varied cards on `RZCX60GHR8A`.
+
+### 14. Infinite Procedural Feed Synthesis & Non-Repeating Linear Deck
+* **Target**: [`server/src/services/proceduralGenerator.ts`](file:///D:/projects/phils/server/src/services/proceduralGenerator.ts)
+  * **Mutations**: Created dynamic procedural generation service with 35+ rich philosophical blueprints (`MASSIVE_DISCOVERY_CATALOG`) and on-the-fly combinatoric dialectic synthesis (`generateBatch`).
+* **Target**: [`server/src/db/store.ts`](file:///D:/projects/phils/server/src/db/store.ts)
+  * **Mutations**: Pre-seeded in-memory store with all 66+ blueprints. Updated `getFeed()` with session caching and linear forward pagination (`userFeed.slice(idx + 1)`), eliminating circular wrap-around. Dynamically synthesizes fresh cards whenever remaining candidates fall below `limit` and stores them in `this.discoveries`.
+* **Target**: [`android/app/src/main/java/com/phils/app/ui/feed/CardStack.kt`](file:///D:/projects/phils/android/app/src/main/java/com/phils/app/ui/feed/CardStack.kt)
+  * **Mutations**: Replaced all modulo index calculations (`% discoveries.size`) with linear bounds checking. Guarded Slot 1 and Slot 2 with null checks (`nextCard != null`, `thirdCard != null`). Advanced index linearly (`if (currentIndex + 1 < discoveries.size) onIndexChange(currentIndex + 1)`). Increased pre-fetch threshold to `currentIndex >= discoveries.size - 6`.
+* **Target**: [`android/app/src/main/assets/default_discoveries.json`](file:///D:/projects/phils/android/app/src/main/assets/default_discoveries.json)
+  * **Mutations**: Updated offline assets to include 66 complete discovery blueprints. Tested and verified on physical device `RZCX60GHR8A`.

@@ -84,3 +84,49 @@ Every time the application was launched, the discovery card stack deterministica
 3. **Verification**:
    - Unit tests: 23/23 tests passing (`ApiFirstArchitectureTest.kt`).
    - Device testing: Performed multiple cold starts on `RZCX60GHR8A` via `am force-stop` and verified fresh random openers (*Utilitarianism*, *Hedonic Adaptation*).
+
+---
+
+# Bug Record: Finite Feed Depletion & Reappearing Duplicate Cards
+
+## Bug Summary
+Users reported that swiping through the card stack eventually exhausted all discoveries, and identical cards began reappearing multiple times during swipe sessions.
+
+## Root Causes
+1. **Modulo Stack Indexing (`CardStack.kt`)**:
+   - The UI stack used `discoveries[currentIndex % discoveries.size]` and `onIndexChange((currentIndex + 1) % discoveries.size)`.
+   - When the user reached the end of the loaded discoveries list, the index wrapped back to `0`, re-displaying cards that had already been swiped away.
+2. **Server Circular Pagination & Client Deduplication Deadlock**:
+   - In [`server/src/db/store.ts`](file:///D:/projects/phils/server/src/db/store.ts), cursored feed requests performed a circular slice: `feedSlice = [...fullFeed.slice(idx + 1), ...fullFeed.slice(0, idx + 1)]`.
+   - Once the client reached the end of the fixed 31 curated discoveries, the server re-sent the earlier cards.
+   - The Android client ([`DiscoveryRepository.kt`](file:///D:/projects/phils/android/app/src/main/java/com/phils/app/data/DiscoveryRepository.kt)) deduplicated incoming items with `!currentIds.contains(it.id)`, dropping all returned cards.
+   - Consequently, 0 new cards were appended, permanently locking the deck.
+
+## Resolution
+1. **Procedural Idea Synthesis & Catalog Seeding**:
+   - Created [`server/src/services/proceduralGenerator.ts`](file:///D:/projects/phils/server/src/services/proceduralGenerator.ts) with 35+ rich philosophical blueprints (`MASSIVE_DISCOVERY_CATALOG`) and a dynamic dialectic synthesis engine.
+   - Pre-seeded [`server/src/db/store.ts`](file:///D:/projects/phils/server/src/db/store.ts) with all 66+ blueprints.
+   - Implemented dynamic procedural synthesis on cursored feed requests whenever remaining candidates fall below `limit`. Synthesized discoveries are permanently cached in `this.discoveries` so their detail views and SSR web reader routes (`/d/:id`) remain functional.
+2. **Non-Wrapping Linear Pagination**:
+   - Slicing in `getFeed()` strictly advances forward (`userFeed.slice(idx + 1)`), eliminating circular wrap-around.
+   - Caches feed order per user session to ensure stable forward pagination without duplicate items.
+3. **Linear UI Navigation & Safe Card Stack Slots**:
+   - In [`CardStack.kt`](file:///D:/projects/phils/android/app/src/main/java/com/phils/app/ui/feed/CardStack.kt), replaced modulo arithmetic with linear bounds:
+     - `val currentCard = discoveries.getOrNull(currentIndex) ?: discoveries.last()`
+     - `val nextCard = discoveries.getOrNull(currentIndex + 1)`
+     - `val thirdCard = discoveries.getOrNull(currentIndex + 2)`
+   - Slots 1 and 2 are conditionally rendered only when subsequent cards exist.
+   - Advancing index strictly checks bounds: `if (currentIndex + 1 < discoveries.size) onIndexChange(currentIndex + 1) else onLoadMore()`.
+   - Increased pre-fetch threshold in `LaunchedEffect` to `currentIndex >= discoveries.size - 6` for smooth infinite scrolling.
+4. **Offline Asset Expansion**:
+   - Updated `android/app/src/main/assets/default_discoveries.json` to 66 rich discoveries, doubling the local offline corpus.
+
+## Verification
+- Unit test suite: `./gradlew testDebugUnitTest` passed (22/22 unit tests).
+- Server build: TypeScript build (`npm --prefix server run build`) exited 0.
+- Docker container `phils-api` rebuilt and deployed on `homeserver:3010`.
+- Pagination testing: Verified with Node test script that 3 consecutive pages of 50 items return 0 overlap.
+- Physical device verification on Samsung `RZCX60GHR8A`:
+  - Verified Logcat: `Merged 56 missing bundled discoveries into deck (total: 66)`.
+  - Verified network feed fetch: `Persisted 80 discoveries to DataStore cache`.
+  - Swiped through cards, verified zero duplicate cards, and verified progressive reader depth toggle.

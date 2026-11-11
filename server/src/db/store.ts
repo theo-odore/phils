@@ -1,16 +1,25 @@
 import { Discovery, UserProfile, DiscoveryType } from '../types';
 import { curatedDiscoveries } from './discoveriesData';
 import { RecommendationEngine } from '../services/recommendationEngine';
+import { proceduralGenerator } from '../services/proceduralGenerator';
 
 export class DataStore {
   private discoveries: Map<string, Discovery> = new Map();
   private userSaved: Map<string, Set<string>> = new Map();
   private userViews: Map<string, Array<{ discoveryId: string; viewedAt: Date; durationMs?: number }>> = new Map();
+  private userFeedCache: Map<string, Discovery[]> = new Map();
 
   constructor() {
     // Populate in-memory map from curated data
     for (const item of curatedDiscoveries) {
       this.discoveries.set(item.id, { ...item, status: 'published' });
+    }
+
+    // Populate from massive philosophical catalog blueprints
+    for (const item of proceduralGenerator.getCatalogDiscoveries()) {
+      if (!this.discoveries.has(item.id)) {
+        this.discoveries.set(item.id, item);
+      }
     }
   }
 
@@ -34,22 +43,51 @@ export class DataStore {
     const userViews = this.userViews.get(userId) || [];
     const savedIds = this.userSaved.get(userId) || new Set();
 
-    const fullFeed = RecommendationEngine.generateFeed({
-      userId,
-      viewHistory: userViews,
-      savedIds,
-      allDiscoveries: all,
-    }, all.length);
+    let userFeed = this.userFeedCache.get(userId);
 
-    let feedSlice = fullFeed;
+    // Initial feed generation if not cached or cold request
+    if (!userFeed || (!cursor && userFeed.length === 0)) {
+      userFeed = RecommendationEngine.generateFeed({
+        userId,
+        viewHistory: userViews,
+        savedIds,
+        allDiscoveries: all,
+      }, all.length);
+      this.userFeedCache.set(userId, userFeed);
+    }
+
+    let candidates: Discovery[] = [];
+
     if (cursor) {
-      const idx = fullFeed.findIndex(d => d.id === cursor);
+      const idx = userFeed.findIndex(d => d.id === cursor);
       if (idx !== -1) {
-        feedSlice = [...fullFeed.slice(idx + 1), ...fullFeed.slice(0, idx + 1)];
+        // Linear forward progression only - NEVER wrap around to 0
+        candidates = userFeed.slice(idx + 1);
+      } else {
+        // Cursor not found in cached feed (e.g. server restart or client offline item)
+        const cursorExcluded = userFeed.filter(d => d.id !== cursor);
+        candidates = cursorExcluded;
+      }
+    } else {
+      candidates = [...userFeed];
+    }
+
+    // Infinite procedural synthesis: if remaining candidates fall below requested limit,
+    // generate authentic philosophical discoveries on the fly
+    if (candidates.length < limit) {
+      const needed = Math.max(limit - candidates.length, 30);
+      const existingIds = new Set(Array.from(this.discoveries.keys()));
+      userFeed.forEach(d => existingIds.add(d.id));
+
+      const synthesized = proceduralGenerator.generateBatch(needed, existingIds);
+      for (const synth of synthesized) {
+        this.discoveries.set(synth.id, synth);
+        userFeed.push(synth);
+        candidates.push(synth);
       }
     }
 
-    const paged = feedSlice.slice(0, limit);
+    const paged = candidates.slice(0, limit);
 
     return {
       discoveries: paged,

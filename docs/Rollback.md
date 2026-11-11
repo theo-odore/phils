@@ -103,5 +103,18 @@ cd android; .\gradlew.bat assembleDebug
 adb -s RZCX60GHR8A install -r --user 0 "app\build\outputs\apk\debug\app-debug.apk"
 ```
 
+### Infinite Procedural Feed & Non-Repeating Stack Rollback
+* **Commit**: `[Current Head]`
+To revert infinite procedural feed generation and linear stack navigation:
+```powershell
+git checkout -- server/src/db/store.ts
+git checkout -- android/app/src/main/java/com/phils/app/ui/feed/CardStack.kt
+git checkout -- android/app/src/main/assets/default_discoveries.json
+Remove-Item -Force "server/src/services/proceduralGenerator.ts"
+npm --prefix server run build
+cd android; .\gradlew.bat assembleDebug
+adb -s RZCX60GHR8A install -r --user 0 "app\build\outputs\apk\debug\app-debug.apk"
+```
+
 
 

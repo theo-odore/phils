@@ -160,3 +160,31 @@ vidiaNimGenerator.ts and remove /api/v1/feed/generate from Express.
 * All 31 discoveries are immediately available in the card deck offline and online.
 * Every discovery provides consistent, rich, multi-tiered reading depth.
 * Zero regressions in offline caching, local DataStore persistence, or unit test performance.
+
+---
+
+## ADR 9: Infinite Procedural Discovery Synthesis & Linear Deck Navigation
+
+### Context
+Users swiping through the card stack encountered two major failure modes:
+1. The feed abruptly terminated once 31 cards had been viewed, because the server circular slice re-sent seen items that client deduplication rejected.
+2. The UI stack wrapped around via modulo indexing (`currentIndex % discoveries.size`), causing previously swiped cards to re-appear in the deck.
+
+### Decision
+1. **Procedural Idea Synthesis (`proceduralGenerator.ts`)**:
+   - Introduce an authentic dialectic synthesis engine that expands beyond the curated 31 discoveries with 35+ rich blueprints (`MASSIVE_DISCOVERY_CATALOG`) and on-the-fly combinatoric synthesis.
+   - On cursor-based feed requests, if available candidates fall below `limit`, dynamically synthesize fresh discoveries, permanently registering them in `DataStore.discoveries` so their endpoints (`/api/v1/discoveries/:id`, `/d/:id`) work seamlessly.
+2. **Strict Linear Forward Pagination (`store.ts`)**:
+   - Eliminate circular wrap-around (`slice(0, idx + 1)`). Paginate strictly forward through the cached user feed.
+3. **Bounded Linear UI Stack Navigation (`CardStack.kt`)**:
+   - Remove modulo indexing (`% discoveries.size`).
+   - Safely query `currentCard`, `nextCard`, and `thirdCard` via `getOrNull()`, rendering background slots conditionally.
+   - Advance index linearly: `if (currentIndex + 1 < discoveries.size) onIndexChange(currentIndex + 1) else onLoadMore()`.
+   - Pre-fetch next batches when `currentIndex >= discoveries.size - 6`.
+4. **Offline Corpus Expansion**:
+   - Expand `default_discoveries.json` from 31 to 66 rich discoveries, guaranteeing a deep deck even when offline.
+
+### Consequences
+* True infinite serendipitous discovery feed: cards never run out and never repeat.
+* No out-of-bounds crashes or blank cards when reaching stack boundaries.
+* Permanent endpoint URLs for all procedural discoveries.
