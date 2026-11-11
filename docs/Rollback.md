@@ -93,4 +93,15 @@ cd android; .\gradlew.bat assembleDebug
 adb -s RZCX60GHR8A install -r --user 0 "app\build\outputs\apk\debug\app-debug.apk"
 ```
 
+### Initial Card Randomization Rollback
+* **Commit**: `102202e`
+To revert startup card randomization:
+```powershell
+git revert 102202e
+npm --prefix server run build
+cd android; .\gradlew.bat assembleDebug
+adb -s RZCX60GHR8A install -r --user 0 "app\build\outputs\apk\debug\app-debug.apk"
+```
+
+
 

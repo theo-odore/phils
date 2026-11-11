@@ -61,3 +61,26 @@ In the **Quick Overview** reading tab of [`DetailScreen.kt`](file:///D:/projects
 - Device verification on `RZCX60GHR8A`:
   - Verified Logcat: `Merged 21 missing bundled discoveries into deck (total: 31)`.
   - Tested cards (Absurdism, Taoism, Stoicism): UI hierarchy and live screencaps confirmed `[ Quick Overview | Deep Dive ]` rendered with full multi-section content and clean chip wrapping.
+
+---
+
+# Bug Record: Fixed Initial Card (Stoicism) on App Launch
+
+## Bug Summary
+Every time the application was launched, the discovery card stack deterministically opened to the exact same card (*Stoicism*), eliminating curiosity and serendipity for returning users.
+
+## Root Cause
+1. In `default_discoveries.json` and `curatedDiscoveries`, *Stoicism* was placed at array index 0.
+2. In `DiscoveryRepository.kt`, both DataStore cache hydration and default asset seeding populated `_dynamicDiscoveries.value` without shuffling.
+3. In `RecommendationEngine.generateFeed()`, candidates in the `unseen` pool were iterated in static array index order without randomizing tied scores, making *Stoicism* the deterministic first pick.
+4. `MainScreen.kt` defaulted `currentDiscoverIndex` to 0, which always resolved to index 0 (*Stoicism*).
+
+## Resolution
+1. **Client Startup Randomization**:
+   - In [`DiscoveryRepository.kt`](file:///D:/projects/phils/android/app/src/main/java/com/phils/app/data/DiscoveryRepository.kt), applied `.shuffled()` when loading cached discoveries from DataStore and when seeding from bundled assets on app startup.
+   - Added `shuffleDeck()` to re-randomize the in-memory deck dynamically.
+2. **Server Serendipity Optimization**:
+   - In [`RecommendationEngine.ts`](file:///D:/projects/phils/server/src/services/recommendationEngine.ts), randomized the unseen discovery pool and randomly sampled among highest-scoring candidates across alternating categories, preserving anti-repetition while eliminating deterministic starting cards.
+3. **Verification**:
+   - Unit tests: 23/23 tests passing (`ApiFirstArchitectureTest.kt`).
+   - Device testing: Performed multiple cold starts on `RZCX60GHR8A` via `am force-stop` and verified fresh random openers (*Utilitarianism*, *Hedonic Adaptation*).
