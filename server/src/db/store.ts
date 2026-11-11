@@ -29,21 +29,31 @@ export class DataStore {
     };
   }
 
-  public async getFeed(userId: string = 'default_user', limit: number = 15, cursor?: string): Promise<{ discoveries: Discovery[]; next_cursor: string | null; has_more: boolean }> {
+  public async getFeed(userId: string = 'default_user', limit: number = 50, cursor?: string): Promise<{ discoveries: Discovery[]; next_cursor: string | null; has_more: boolean }> {
     const all = Array.from(this.discoveries.values());
     const userViews = this.userViews.get(userId) || [];
     const savedIds = this.userSaved.get(userId) || new Set();
 
-    let feed = RecommendationEngine.generateFeed({
+    const fullFeed = RecommendationEngine.generateFeed({
       userId,
       viewHistory: userViews,
       savedIds,
       allDiscoveries: all,
-    }, limit);
+    }, all.length);
+
+    let feedSlice = fullFeed;
+    if (cursor) {
+      const idx = fullFeed.findIndex(d => d.id === cursor);
+      if (idx !== -1) {
+        feedSlice = [...fullFeed.slice(idx + 1), ...fullFeed.slice(0, idx + 1)];
+      }
+    }
+
+    const paged = feedSlice.slice(0, limit);
 
     return {
-      discoveries: feed,
-      next_cursor: feed.length > 0 ? feed[feed.length - 1].id : null,
+      discoveries: paged,
+      next_cursor: paged.length > 0 ? paged[paged.length - 1].id : null,
       has_more: true,
     };
   }

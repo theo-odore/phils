@@ -95,7 +95,6 @@ fun DetailScreen(
     val scrollState = rememberScrollState()
 
     val detail = discovery.detail
-    val hasRichContent = detail.richWhatIsThis != null || detail.corePrinciplesRich.isNotEmpty()
 
     var depthMode by rememberSaveable { mutableStateOf(ReadingDepthMode.DEEP_DIVE) }
 
@@ -224,42 +223,40 @@ fun DetailScreen(
             // ----------------------------------------------------
             // Progressive Reading Depth Selector
             // ----------------------------------------------------
-            if (hasRichContent) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(theme.surface)
-                        .border(1.dp, theme.line, RoundedCornerShape(12.dp))
-                        .padding(4.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    DepthTabButton(
-                        title = "Quick Overview",
-                        subtitle = "~2 min read",
-                        icon = Icons.Filled.Lightbulb,
-                        selected = depthMode == ReadingDepthMode.QUICK_READ,
-                        accentColor = moodTone.accent,
-                        onClick = { depthMode = ReadingDepthMode.QUICK_READ },
-                        modifier = Modifier.weight(1f)
-                    )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(theme.surface)
+                    .border(1.dp, theme.line, RoundedCornerShape(12.dp))
+                    .padding(4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                DepthTabButton(
+                    title = "Quick Overview",
+                    subtitle = "~2 min read",
+                    icon = Icons.Filled.Lightbulb,
+                    selected = depthMode == ReadingDepthMode.QUICK_READ,
+                    accentColor = moodTone.accent,
+                    onClick = { depthMode = ReadingDepthMode.QUICK_READ },
+                    modifier = Modifier.weight(1f)
+                )
 
-                    Spacer(modifier = Modifier.width(6.dp))
+                Spacer(modifier = Modifier.width(6.dp))
 
-                    DepthTabButton(
-                        title = "Deep Dive",
-                        subtitle = detail.readingDepth?.readingTimeMinutes?.let { "~$it min read" } ?: "~6 min read",
-                        icon = Icons.AutoMirrored.Filled.MenuBook,
-                        selected = depthMode == ReadingDepthMode.DEEP_DIVE,
-                        accentColor = moodTone.accent,
-                        onClick = { depthMode = ReadingDepthMode.DEEP_DIVE },
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(24.dp))
+                DepthTabButton(
+                    title = "Deep Dive",
+                    subtitle = detail.readingDepth?.readingTimeMinutes?.let { "~$it min read" } ?: "~6 min read",
+                    icon = Icons.AutoMirrored.Filled.MenuBook,
+                    selected = depthMode == ReadingDepthMode.DEEP_DIVE,
+                    accentColor = moodTone.accent,
+                    onClick = { depthMode = ReadingDepthMode.DEEP_DIVE },
+                    modifier = Modifier.weight(1f)
+                )
             }
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             // ----------------------------------------------------
             // Glowing Quote Box
@@ -298,7 +295,7 @@ fun DetailScreen(
             // ====================================================
             // LEVEL 2: QUICK OVERVIEW MODE
             // ====================================================
-            if (hasRichContent && depthMode == ReadingDepthMode.QUICK_READ) {
+            if (depthMode == ReadingDepthMode.QUICK_READ) {
                 QuickOverviewContent(
                     discovery = discovery,
                     moodToneAccent = moodTone.accent,

@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
         deepLinkedDiscoveryId.value = extractDiscoveryId(intent)
 
         val prefs = PreferencesManager(applicationContext)
-        val repository = DiscoveryRepository(prefs)
+        val repository = DiscoveryRepository(prefs, applicationContext)
 
         setContent {
             val systemDark = isSystemInDarkTheme()

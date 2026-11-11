@@ -117,11 +117,6 @@ fun MainScreen(
         detailStack.removeAt(detailStack.lastIndex)
     }
 
-    // Background prefetch from server on launch if connected
-    LaunchedEffect(Unit) {
-        repository.fetchMoreFeed(limit = 6)
-    }
-
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -138,7 +133,7 @@ fun MainScreen(
                     onToggleSave = handleToggleSave,
                     onLoadMore = {
                         coroutineScope.launch {
-                            repository.fetchMoreFeed(limit = 10)
+                            repository.fetchMoreFeed(limit = 50)
                         }
                     },
                     isFetching = isFetching,
@@ -146,7 +141,7 @@ fun MainScreen(
                     isCacheLoaded = isCacheLoaded,
                     onRetry = {
                         coroutineScope.launch {
-                            repository.fetchMoreFeed(limit = 10)
+                            repository.fetchMoreFeed(limit = 50)
                         }
                     }
                 )

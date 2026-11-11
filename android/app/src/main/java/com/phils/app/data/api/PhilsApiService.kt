@@ -7,7 +7,7 @@ interface PhilsApiService {
 
     @GET("api/v1/feed")
     suspend fun getFeed(
-        @Query("limit") limit: Int = 10,
+        @Query("limit") limit: Int = 50,
         @Query("cursor") cursor: String? = null
     ): FeedApiResponse
 }

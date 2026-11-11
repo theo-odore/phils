@@ -160,7 +160,12 @@ class ApiFirstArchitectureTest {
         assertEquals("Wisdom begins in wonder.", domain.detail.quote)
         assertTrue(domain.detail.corePrinciplesRich.isEmpty())
         assertTrue(domain.detail.keyThinkersRich.isEmpty())
-        assertEquals(null, domain.detail.richWhatIsThis)
+        assertNotNull(domain.detail.richWhatIsThis)
+        assertNotNull(domain.detail.richOriginContext)
+        assertNotNull(domain.detail.everydayLifeRich)
+        assertNotNull(domain.detail.criticalPerspectives)
+        assertNotNull(domain.detail.readingDepth)
+        assertTrue(domain.detail.richWhatIsThis?.centralQuestion?.isNotEmpty() == true)
     }
 
     @Test

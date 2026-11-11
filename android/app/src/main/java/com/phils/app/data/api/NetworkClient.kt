@@ -16,6 +16,7 @@ object NetworkClient {
     val CANDIDATE_URLS = listOf(
         "https://advice-parliamentary-revenues-cloth.trycloudflare.com/",
         "http://192.168.0.106:3010/",
+        "http://100.108.115.4:3010/",
         "http://10.0.2.2:3010/"
     )
 

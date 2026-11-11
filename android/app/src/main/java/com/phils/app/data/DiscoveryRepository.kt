@@ -1,5 +1,6 @@
 package com.phils.app.data
 
+import android.content.Context
 import android.util.Log
 import com.phils.app.data.api.NetworkClient
 import com.phils.app.data.api.toDomain
@@ -19,6 +20,7 @@ import kotlinx.coroutines.withContext
 
 class DiscoveryRepository(
     private val prefs: PreferencesManager,
+    private val context: Context? = null,
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 ) {
     companion object {
@@ -58,9 +60,24 @@ class DiscoveryRepository(
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to load cached discoveries", e)
             } finally {
+                // Ensure all bundled curated discoveries are present in the deck
+                val defaults = DefaultDiscoveries.load(context)
+                if (_dynamicDiscoveries.value.isEmpty()) {
+                    if (defaults.isNotEmpty()) {
+                        _dynamicDiscoveries.value = defaults
+                        Log.d(TAG, "Seeded ${_dynamicDiscoveries.value.size} bundled discoveries from assets")
+                    }
+                } else if (defaults.isNotEmpty() && _dynamicDiscoveries.value.size < defaults.size) {
+                    val existingIds = _dynamicDiscoveries.value.map { it.id }.toSet()
+                    val missing = defaults.filter { !existingIds.contains(it.id) }
+                    if (missing.isNotEmpty()) {
+                        _dynamicDiscoveries.value = _dynamicDiscoveries.value + missing
+                        Log.d(TAG, "Merged ${missing.size} missing bundled discoveries into deck (total: ${_dynamicDiscoveries.value.size})")
+                    }
+                }
                 _isCacheLoaded.value = true
-                // Fetch latest feed from API
-                fetchMoreFeed(limit = 10)
+                // Fetch latest feed from API (limit=50 to fetch entire curated corpus)
+                fetchMoreFeed(limit = 50)
             }
         }
     }
@@ -122,7 +139,7 @@ class DiscoveryRepository(
 
     fun retry() {
         scope.launch {
-            fetchMoreFeed(limit = 10)
+            fetchMoreFeed(limit = 50)
         }
     }
 
@@ -130,12 +147,13 @@ class DiscoveryRepository(
      * Attempts to fetch more discoveries from server API.
      * Appends unique incoming discoveries and updates local DataStore cache.
      */
-    suspend fun fetchMoreFeed(limit: Int = 10): Int = withContext(Dispatchers.IO) {
+    suspend fun fetchMoreFeed(limit: Int = 50): Int = withContext(Dispatchers.IO) {
         if (_isFetching.value) return@withContext 0
         _isFetching.value = true
         try {
-            Log.d(TAG, "Fetching discoveries from Phils API (limit=$limit)...")
-            val response = NetworkClient.api.getFeed(limit = limit)
+            val cursor = _dynamicDiscoveries.value.lastOrNull()?.id
+            Log.d(TAG, "Fetching discoveries from Phils API (limit=$limit, cursor=$cursor)...")
+            val response = NetworkClient.api.getFeed(limit = limit, cursor = cursor)
             if (response.success && response.data != null) {
                 val incoming = response.data.discoveries.map { it.toDomain() }
                 if (incoming.isNotEmpty()) {

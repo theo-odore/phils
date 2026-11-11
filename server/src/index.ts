@@ -30,7 +30,7 @@ app.get('/health', (_req: Request, res: Response) => {
 app.get('/api/v1/feed', async (req: Request, res: Response) => {
   try {
     const userId = getUserId(req);
-    const limit = parseInt(req.query.limit as string) || 15;
+    const limit = parseInt(req.query.limit as string) || 50;
     const cursor = req.query.cursor as string | undefined;
 
     const feed = await store.getFeed(userId, limit, cursor);
