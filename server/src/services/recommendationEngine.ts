@@ -85,7 +85,9 @@ export class RecommendationEngine {
 
     // 4. Unseen discoveries across all distinct types for novelty & diversity
     const unseen = allDiscoveries.filter(d => !viewedIdsSet.has(d.id) && !usedIds.has(d.id));
-    for (const d of unseen) {
+    // Randomize unseen pool so feed doesn't statically start with Stoicism
+    const shuffledUnseen = [...unseen].sort(() => Math.random() - 0.5);
+    for (const d of shuffledUnseen) {
       usedIds.add(d.id);
       candidates.push({
         discovery: d,
@@ -95,7 +97,8 @@ export class RecommendationEngine {
     }
 
     // 5. If candidates pool is smaller than requested limit, add remaining discoveries with cycled reason
-    for (const d of allDiscoveries) {
+    const shuffledRemaining = [...allDiscoveries].sort(() => Math.random() - 0.5);
+    for (const d of shuffledRemaining) {
       if (!usedIds.has(d.id)) {
         usedIds.add(d.id);
         candidates.push({
@@ -113,13 +116,22 @@ export class RecommendationEngine {
     let lastType: DiscoveryType | null = null;
 
     while (remainingPool.length > 0 && finalFeed.length < limit) {
-      // Find the highest-scored candidate with a different type than `lastType`
-      let bestIndex = remainingPool.findIndex(c => c.discovery.type !== lastType);
-      if (bestIndex === -1) {
-        bestIndex = 0; // Fallback if all remaining are same type
+      // Find candidates with a different type than `lastType`
+      let candidateIndices = remainingPool
+        .map((c, i) => (c.discovery.type !== lastType ? i : -1))
+        .filter(i => i !== -1);
+
+      if (candidateIndices.length === 0) {
+        // Fallback if all remaining are same type
+        candidateIndices = remainingPool.map((_, i) => i);
       }
 
-      const [selected] = remainingPool.splice(bestIndex, 1);
+      // Pick randomly among highest-scoring candidates for serendipity
+      const maxScore = Math.max(...candidateIndices.map(i => remainingPool[i].score));
+      const topIndices = candidateIndices.filter(i => remainingPool[i].score === maxScore);
+      const selectedIndex = topIndices[Math.floor(Math.random() * topIndices.length)];
+
+      const [selected] = remainingPool.splice(selectedIndex, 1);
       lastType = selected.discovery.type;
 
       finalFeed.push({

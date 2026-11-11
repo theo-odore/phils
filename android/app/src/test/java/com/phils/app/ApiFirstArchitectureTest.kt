@@ -180,4 +180,25 @@ class ApiFirstArchitectureTest {
         assertEquals("stone", parsed?.mood)
         assertEquals("PHILOSOPHY", parsed?.type)
     }
+
+    @Test
+    fun testDeckRandomization_shufflesItemsUniformly() {
+        val items = (1..30).map { i ->
+            Discovery(
+                id = "idea-$i",
+                title = "Idea $i",
+                type = "PHILOSOPHY",
+                mood = "stone",
+                hook = "Hook $i",
+                short = "Short $i",
+                detail = DiscoveryDetail(whatIsThis = "Test $i")
+            )
+        }
+        val shuffled1 = items.shuffled()
+        val shuffled2 = items.shuffled()
+        // With 30 items, the chance of two independent shuffles matching the original exactly is 1 / 30! (~3.7e-33)
+        assertEquals(items.size, shuffled1.size)
+        assertEquals(items.toSet(), shuffled1.toSet())
+        assertTrue(items != shuffled1 || items != shuffled2)
+    }
 }

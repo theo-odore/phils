@@ -53,8 +53,8 @@ class DiscoveryRepository(
                 if (json.isNotBlank()) {
                     val cached = moshiAdapter.fromJson(json)
                     if (!cached.isNullOrEmpty()) {
-                        _dynamicDiscoveries.value = cached
-                        Log.d(TAG, "Loaded ${cached.size} cached discoveries from local DataStore")
+                        _dynamicDiscoveries.value = cached.shuffled()
+                        Log.d(TAG, "Loaded ${cached.size} cached discoveries from local DataStore (randomized)")
                     }
                 }
             } catch (e: Exception) {
@@ -64,14 +64,14 @@ class DiscoveryRepository(
                 val defaults = DefaultDiscoveries.load(context)
                 if (_dynamicDiscoveries.value.isEmpty()) {
                     if (defaults.isNotEmpty()) {
-                        _dynamicDiscoveries.value = defaults
-                        Log.d(TAG, "Seeded ${_dynamicDiscoveries.value.size} bundled discoveries from assets")
+                        _dynamicDiscoveries.value = defaults.shuffled()
+                        Log.d(TAG, "Seeded ${_dynamicDiscoveries.value.size} bundled discoveries from assets (randomized)")
                     }
                 } else if (defaults.isNotEmpty() && _dynamicDiscoveries.value.size < defaults.size) {
                     val existingIds = _dynamicDiscoveries.value.map { it.id }.toSet()
                     val missing = defaults.filter { !existingIds.contains(it.id) }
                     if (missing.isNotEmpty()) {
-                        _dynamicDiscoveries.value = _dynamicDiscoveries.value + missing
+                        _dynamicDiscoveries.value = (_dynamicDiscoveries.value + missing).shuffled()
                         Log.d(TAG, "Merged ${missing.size} missing bundled discoveries into deck (total: ${_dynamicDiscoveries.value.size})")
                     }
                 }
@@ -144,6 +144,15 @@ class DiscoveryRepository(
     }
 
     /**
+     * Reshuffles the in-memory discovery deck so cards appear in a fresh random sequence.
+     */
+    fun shuffleDeck() {
+        if (_dynamicDiscoveries.value.isNotEmpty()) {
+            _dynamicDiscoveries.value = _dynamicDiscoveries.value.shuffled()
+        }
+    }
+
+    /**
      * Attempts to fetch more discoveries from server API.
      * Appends unique incoming discoveries and updates local DataStore cache.
      */
@@ -165,7 +174,11 @@ class DiscoveryRepository(
                     }
 
                     if (newUnique.isNotEmpty()) {
-                        val updated = _dynamicDiscoveries.value + newUnique
+                        val updated = if (_dynamicDiscoveries.value.isEmpty()) {
+                            newUnique.shuffled()
+                        } else {
+                            _dynamicDiscoveries.value + newUnique.shuffled()
+                        }
                         _dynamicDiscoveries.value = updated
 
                         // Persist to local dynamic cache
