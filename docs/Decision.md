@@ -141,3 +141,22 @@ vidiaNimGenerator.ts and remove /api/v1/feed/generate from Express.
 * Reduced repository size by over 620 net lines.
 * Eliminated double-maintenance of parallel data classes.
 * Guaranteed backward-compatible cache deserialization without JsonDataException.
+
+---
+
+## ADR 8: Universal Deep-Dive Synthesis & Full Corpus Pagination
+
+### Context
+1. Feed pagination previously locked after 10 discoveries because client requests omitted cursors while requesting small limits (`limit = 10`), causing the server to return identical elements that local deduplication discarded.
+2. In the detail screen, deep-dive exploration was arbitrarily hidden for 29 out of 31 cards because rich sections (`section_*`) existed only for 2 hardcoded items in the server database.
+
+### Decision
+1. **Server Feed Cursor Rotation**: Upgrade `store.ts` `getFeed` to locate the cursor in the corpus and return a rotated forward slice, and elevate default API limits to 50 discoveries.
+2. **Deterministic Domain Synthesizer**: Enhance `ServerDiscoveryDto.toDomain()` in `NetworkModels.kt` to synthesize rich deep-dive sections from raw discovery attributes (`whatIsThis`, `origin`, `coreIdeas`, `keyPeople`, `example`, `quote`, `related`) whenever raw `section_*` payloads are null.
+3. **Bundled Asset Seeding**: Ship all 31 curated discoveries inside `assets/default_discoveries.json` loaded at startup via `DefaultDiscoveries.load(context)`, ensuring zero-network cold-start resilience without tripping JVM 65,535-byte constant pool limits.
+4. **Unconditional Depth Selector**: Remove `hasRichContent` gating in `DetailScreen.kt` so every philosophical discovery in the library offers both a fast 2-minute overview and a 6-minute deep dive.
+
+### Consequences
+* All 31 discoveries are immediately available in the card deck offline and online.
+* Every discovery provides consistent, rich, multi-tiered reading depth.
+* Zero regressions in offline caching, local DataStore persistence, or unit test performance.

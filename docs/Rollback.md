@@ -83,3 +83,14 @@ npm --prefix server run build
 cd android; .\gradlew.bat assembleDebug
 ```
 
+### Full Corpus Uncapping & Deep Dive Synthesis Rollback
+* **Commit**: `7080fb0`
+To revert the feed pagination uncapping and deep-dive synthesizers:
+```powershell
+git revert 7080fb0
+npm --prefix server run build
+cd android; .\gradlew.bat assembleDebug
+adb -s RZCX60GHR8A install -r --user 0 "app\build\outputs\apk\debug\app-debug.apk"
+```
+
+
